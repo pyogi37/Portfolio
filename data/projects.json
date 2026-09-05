@@ -1,0 +1,489 @@
+{
+  "tiers": {
+    "featured": "Featured products: full narrative case studies.",
+    "technical": "Technical projects: shipped systems from professional work.",
+    "experiments": "Experiments: smaller explorations, prototypes and learning projects. Status labels are honest; nothing here is presented as shipped unless it is."
+  },
+  "projects": [
+    {
+      "id": "project:readtrail",
+      "tier": "featured",
+      "name": "readTrail",
+      "status": "working-mvp",
+      "statusLabel": "Working MVP, built in public",
+      "tagline": "A privacy-first Chrome reading companion that remembers exactly where you stopped reading.",
+      "idea": "readTrail helps people read long, text-heavy material in their browser without losing their place, their momentum, or the ideas they want to return to.",
+      "problem": "Dense text makes it easy to lose the current line, forget where you stopped, or abandon unfinished reading because returning takes too much effort. Most of that reading already happens in a browser, on a laptop or desktop.",
+      "question": "How can a browser help people continue reading without turning their attention into another data stream?",
+      "corePromise": [
+        "Follow the text while actively reading.",
+        "Stop without worrying about losing the exact reading position.",
+        "Return later and continue with minimal effort."
+      ],
+      "principles": [
+        {
+          "title": "Reading comes first",
+          "text": "Quiet and lightweight. It supports attention without becoming another interface the reader has to manage."
+        },
+        {
+          "title": "The browser is the natural home",
+          "text": "Built into the environment where the reading already happens, not a separate reading app."
+        },
+        {
+          "title": "Use is intentional",
+          "text": "Opt-in per page. No reading state is collected before the reader activates it."
+        },
+        {
+          "title": "Memory should be trustworthy",
+          "text": "When it says it remembers a position, the reader can rely on it. Saved state survives looking elsewhere."
+        },
+        {
+          "title": "Privacy is part of the product",
+          "text": "Reading history reveals sensitive interests. Collect the minimum, store locally by default, make saving explicit."
+        },
+        {
+          "title": "Grow from position to understanding",
+          "text": "Exact position is the foundation. Knowledge capture is a future layer, not an excuse to weaken the initial experience."
+        }
+      ],
+      "notList": [
+        "A decorative cursor effect",
+        "An automatic surveillance log of browsing activity",
+        "A read-it-later dumping ground with no sense of position",
+        "A productivity dashboard that judges how much someone reads",
+        "An AI summarizer by default"
+      ],
+      "coreFlow": [
+        {
+          "step": "Activate",
+          "text": "Turn readTrail on for this exact page from the popup. The UI warns that page clicks will be reserved for reading lock."
+        },
+        {
+          "step": "Follow",
+          "text": "A light, translucent guide tracks the current readable line as you move."
+        },
+        {
+          "step": "Pause",
+          "text": "A single click freezes the marker on a line, anchored to the text so it stays attached while scrolling. Click again to resume."
+        },
+        {
+          "step": "Save for later",
+          "text": "An explicit action in the popup. One durable resume point per exact URL. Unsaved progress stays temporary."
+        },
+        {
+          "step": "Close Chrome",
+          "text": "Temporary state expires with the session. Saved checkpoints survive a restart."
+        },
+        {
+          "step": "Continue reading",
+          "text": "Reading Space lists saved pages. Continue reading opens the page, activates reading lock and restores the saved position."
+        }
+      ],
+      "states": [
+        {
+          "name": "Following",
+          "text": "Light, translucent guide. Responsive but quiet, respects reduced motion."
+        },
+        {
+          "name": "Paused",
+          "text": "Stronger fixed treatment for the temporary checkpoint, aligned to the visual centre of the line."
+        },
+        {
+          "name": "Saved",
+          "text": "Warm-gold treatment for a deliberate saved checkpoint. Distinguishable without relying on colour alone."
+        }
+      ],
+      "decisions": [
+        {
+          "decision": "Opt-in per page, dormant by default",
+          "tradeoff": "Less convenient than always-on, but a dormant page creates no canvas, pointer listener, anchor lookup or reading-state write. Privacy is enforced structurally, not by policy."
+        },
+        {
+          "decision": "Active readTrail is an explicit reading lock",
+          "tradeoff": "Primary clicks pause or resume instead of activating links and buttons. Scrolling and text selection stay available. Reading loses some page interactivity, but the pause gesture works even on linked text."
+        },
+        {
+          "decision": "One automatic position, many intentional bookmarks",
+          "tradeoff": "Keeps the mental model simple: the trail remembers where you stopped; you decide what is worth marking. Bookmarks are deferred to a later sprint."
+        },
+        {
+          "decision": "Permanent saving is a separate decision",
+          "tradeoff": "Temporary progress never silently becomes history. Saving is an explicit 'Save for later' action; the popup shows when temporary progress is newer than the saved point."
+        },
+        {
+          "decision": "Turning off hides, never deletes",
+          "tradeoff": "Readers can leave and come back without fear. Session anchors persist even when the UI is off."
+        },
+        {
+          "decision": "Store only what restores a position",
+          "tradeoff": "No passage text, page content, selections, analytics identifiers or browsing log. Title and URL become durable only because the reader explicitly saved that page."
+        },
+        {
+          "decision": "Document planned work separately from shipped work",
+          "tradeoff": "The README's roadmap is explicitly 'planned work, not completed claims'. Slower-looking, but honest."
+        }
+      ],
+      "architecture": {
+        "stack": [
+          "Chrome Extension (Manifest V3)",
+          "Plain JavaScript, HTML, CSS",
+          "Canvas overlay for the trail",
+          "chrome.storage.session for temporary state",
+          "chrome.storage.local for preferences and saved pages",
+          "Vitest + JSDOM (128 behavioral tests)"
+        ],
+        "permissions": [
+          "storage",
+          "activeTab"
+        ],
+        "modules": [
+          {
+            "name": "background/service-worker.js",
+            "role": "Owns extension state and validates every runtime message and stored record at the trust boundary. Handles persist, list, remove, clear and continue for saved resume points."
+          },
+          {
+            "name": "content/position.js",
+            "role": "Position detection: finds the readable line and builds a DOM anchor (path, index, offset) plus viewport offset, scrollY and scroll ratio."
+          },
+          {
+            "name": "content/renderer.js",
+            "role": "Canvas rendering of following, paused and saved trail states with configurable style, colour, size, opacity and highlighting."
+          },
+          {
+            "name": "content/content.js",
+            "role": "Page lifecycle and interaction: activation, reading lock, click and double-click handling, restoration."
+          },
+          {
+            "name": "popup/",
+            "role": "Current-page controls: activate, Save for later, Update saved position, open Reading Space."
+          },
+          {
+            "name": "options/",
+            "role": "Global appearance preferences."
+          },
+          {
+            "name": "reading-space/",
+            "role": "Extension-owned page listing saved pages with Continue reading, Remove and Clear all."
+          }
+        ],
+        "dataModel": "readtrail.saved.v1:<exactUrl> = { version, title, position: { anchor, viewportOffset, scrollY, scrollRatio, savedAt }, savedAt }",
+        "keyIdeas": [
+          "Temporary state and durable state live in different storage areas, behind the same validated message boundary.",
+          "Saving snapshots the active content script's in-memory position, never the URL-keyed shared session record, because two tabs can share the same URL.",
+          "Save messages must be tab-bound and their sender URL must match the saved URL; incognito, oversized and malformed input is rejected.",
+          "Anchor validation caps depth, index and offset so malformed local data fails safely."
+        ]
+      },
+      "whereAIFits": "Nowhere yet, deliberately. The product vision lists an AI summarizer as something readTrail is not by default, and the active sprint names knowledge graphs, recommendations and summaries as non-goals. The directional 'knowledge' layer (helping readers see what a page contributed to what they already know) is undecided in interaction model and data model, and is only allowed to arrive once reliable reading memory exists.",
+      "process": "Built with a small, review-led agent workflow: Priyanshu owns product vision and resolves product questions; a lead engineering agent converts outcomes into sprint scope, delegates bounded tasks and reviews every diff; a bounded worker agent implements one task at a time and cannot commit, change scope or edit the vision. Sprint documents carry goals, non-goals, acceptance criteria and a manual Chrome verification record.",
+      "shipped": [
+        "Visual reading guide following the current line",
+        "Anchored paused marker that stays attached while scrolling",
+        "Configurable trail style, colour, size, opacity and highlighting",
+        "Explicit per-page activation with reading-lock warning",
+        "Explicit Save for later, one durable resume point per exact URL",
+        "Private Reading Space with Continue reading, Remove and Clear all",
+        "Session restoration to the exact position on unchanged pages",
+        "Local-only settings and data: no account, analytics or page-text collection",
+        "128 automated behavioral tests"
+      ],
+      "roadmap": [
+        "More resilient restoration when a page's structure changes significantly",
+        "Optional save prompt when closing a tab with unsaved progress",
+        "Multiple intentional bookmarks per page",
+        "Reflection: preserving selected passages, reactions or questions when explicitly chosen",
+        "Knowledge connections built on top of reliable reading memory (directional, undecided)"
+      ],
+      "openQuestions": [
+        "What is the simplest activation gesture that feels native to the browser?",
+        "How precise must restoration be when a page changes between visits?",
+        "When does an unfinished item become completed?",
+        "What does 'contributed to my knowledge' mean from the reader's point of view?"
+      ],
+      "whatItShows": [
+        "Product thinking: decisions, non-goals and open questions are written down and separated",
+        "UX judgment: three visually distinct states, reduced-motion and keyboard support",
+        "System design: trust boundaries, storage separation, fail-safe validation",
+        "Curiosity: a real problem from his own reading habit",
+        "Thinking beyond implementation: privacy as architecture, not a checkbox"
+      ],
+      "screenshots": [
+        {
+          "src": "/readtrail/reading-guide-training.png",
+          "alt": "readTrail reading guide highlighting the current passage on an arXiv article",
+          "caption": "Following the current line on a long arXiv page"
+        },
+        {
+          "src": "/readtrail/reading-guide-results.png",
+          "alt": "readTrail reading guide moved farther down the same arXiv article",
+          "caption": "Further down the same article"
+        },
+        {
+          "src": "/readtrail/appearance-settings.png",
+          "alt": "readTrail appearance settings",
+          "caption": "Trail style, colour, size, opacity and highlighting controls"
+        },
+        {
+          "src": "/readtrail/reading-space.png",
+          "alt": "readTrail Reading Space showing a saved article with Continue reading and Remove actions",
+          "caption": "Reading Space: saved pages, ready to continue"
+        }
+      ],
+      "links": {
+        "github": "https://github.com/pyogi37/readtrail"
+      },
+      "technologies": [
+        "JavaScript",
+        "Chrome Extension",
+        "Manifest V3",
+        "Canvas API",
+        "chrome.storage",
+        "Vitest"
+      ],
+      "dimensions": [
+        "builder",
+        "product"
+      ]
+    },
+    {
+      "id": "project:priyanshu-os",
+      "tier": "featured",
+      "name": "Priyanshu OS / AI Voice Portfolio",
+      "status": "in-progress",
+      "statusLabel": "In progress: you are using it",
+      "tagline": "A portfolio you talk to. An AI agent grounded in structured profile data that can answer, navigate and reason about fit.",
+      "idea": "Replace the static resume with an agent that answers questions about Priyanshu's background, navigates this site, surfaces relevant work, and analyses a pasted job description against his actual experience.",
+      "problem": "Resumes flatten a non-linear path into bullet points. Recruiters and hiring managers have specific questions, and a static page cannot answer them or admit what it does not know.",
+      "principles": [
+        {
+          "title": "Grounded, not generative",
+          "text": "Every answer derives from /data/*.json. The agent is instructed to say when something is not in the data rather than fill the gap."
+        },
+        {
+          "title": "Gaps are a feature",
+          "text": "The relevance mode reports missing experience explicitly. A match list without gaps is not trustworthy."
+        },
+        {
+          "title": "Actions over prose",
+          "text": "The agent can navigate the page and highlight dimensions through tool calls, so an answer is also a demonstration."
+        }
+      ],
+      "architecture": {
+        "stack": [
+          "Next.js (App Router) + TypeScript",
+          "Tailwind CSS",
+          "Provider-agnostic LLM layer (OpenAI-compatible chat format, default Gemini free tier; works with OpenCode Zen, Groq, OpenRouter, Ollama)",
+          "Structured JSON output for UI actions (navigate, highlight dimensions, open project)",
+          "Web Speech API for voice input and output (MVP)",
+          "d3-force for the knowledge graph"
+        ],
+        "modules": [
+          {
+            "name": "/data/*.json",
+            "role": "Single source of truth: profile, education, experience, projects, interests, knowledge graph."
+          },
+          {
+            "name": "/api/chat",
+            "role": "Builds a grounded system prompt from the dataset, runs a tool-use loop, returns text plus UI actions."
+          },
+          {
+            "name": "/api/relevance",
+            "role": "Structured JSON output: strong matches, transferable experience, gaps, relevant projects, interview questions. Each match cites a dataset id."
+          },
+          {
+            "name": "Agent UI",
+            "role": "Chat panel with suggested prompts, voice toggle, and action execution against the page."
+          }
+        ],
+        "keyIdeas": [
+          "The dataset is small enough to fit in context, so retrieval is full-context injection today; the layer is isolated so it can move to embeddings if the corpus grows.",
+          "Pasted job descriptions are untrusted input: they are wrapped as data and the system prompt forbids following instructions inside them.",
+          "Tool results are validated against known section and project ids before the UI acts on them.",
+          "No vendor SDK: one fetch-based client, so the model can be swapped by changing an env var. Free-tier rate limits are handled with clear fallback messages."
+        ]
+      },
+      "whereAIFits": "Central. This is a tool-using agent with grounding, structured outputs and explicit gap reporting. Its limits are also documented: no persistent memory, browser-native voice quality, and dependence on free-tier model rate limits.",
+      "links": {},
+      "technologies": [
+        "Next.js",
+        "TypeScript",
+        "Gemini / OpenAI-compatible LLM API",
+        "Structured outputs",
+        "Web Speech API",
+        "d3-force"
+      ],
+      "dimensions": [
+        "builder",
+        "agents",
+        "product"
+      ]
+    },
+    {
+      "id": "project:solutioning-os",
+      "tier": "technical",
+      "name": "AI-native solutioning operating system",
+      "status": "shipped-internal",
+      "statusLabel": "Shipped internally at HawkVision",
+      "tagline": "Claude + Obsidian system that automated company, process and operations research for enterprise CV proposals.",
+      "problem": "Each proposal and Solution Architecture Spec started with a multi-day manual research cycle.",
+      "outcome": "Proposal first drafts in 5-10 minutes; Solution Architecture Spec first drafts in under 5 minutes; customer and market intelligence auto-routed into a shared knowledge vault.",
+      "technologies": [
+        "Claude",
+        "Obsidian",
+        "Research automation",
+        "Knowledge management"
+      ],
+      "experienceRef": "exp:hawkvision-solutions",
+      "dimensions": [
+        "agents",
+        "business",
+        "customer"
+      ]
+    },
+    {
+      "id": "project:workos",
+      "tier": "technical",
+      "name": "WorkOS",
+      "status": "shipped",
+      "statusLabel": "Shipped at Project Dark Horse",
+      "tagline": "An agentic enterprise operating system unifying role-based access, onboarding and cross-tool integrations.",
+      "outcome": "One of two products shipped by a 5-engineer team from an ambiguous early-stage vision.",
+      "technologies": [
+        "Google Calendar API",
+        "Jira integration",
+        "Role-based access",
+        "Agentic workflows"
+      ],
+      "experienceRef": "exp:project-dark-horse",
+      "dimensions": [
+        "builder",
+        "agents",
+        "product"
+      ]
+    },
+    {
+      "id": "project:hazo",
+      "tier": "technical",
+      "name": "Hazo",
+      "status": "shipped",
+      "statusLabel": "Shipped at Project Dark Horse",
+      "tagline": "Mobile product with a NestJS backend, React Native frontend and AWS infrastructure.",
+      "outcome": "Led the team building it; directed roadmap and delivery cadence for 30% faster time-to-market.",
+      "technologies": [
+        "NestJS",
+        "React Native",
+        "AWS"
+      ],
+      "experienceRef": "exp:project-dark-horse",
+      "dimensions": [
+        "builder",
+        "product"
+      ]
+    },
+    {
+      "id": "project:instipe",
+      "tier": "technical",
+      "name": "Instipe",
+      "status": "shipped",
+      "statusLabel": "Shipped at Edviron",
+      "tagline": "NestJS/GraphQL payment system for educational institutions processing 50+ lakh INR/month.",
+      "outcome": "MongoDB pipeline optimisation cut query execution time up to 90%; one GraphQL query went from 10+ seconds to under 100ms with caching and AWS Lambda.",
+      "technologies": [
+        "NestJS",
+        "GraphQL",
+        "MongoDB",
+        "AWS Lambda"
+      ],
+      "experienceRef": "exp:edviron",
+      "dimensions": [
+        "builder"
+      ]
+    },
+    {
+      "id": "project:highway-poc",
+      "tier": "technical",
+      "name": "Highway-safety Computer Vision PoC",
+      "status": "signed-off",
+      "statusLabel": "PoC signed off, scaling",
+      "tagline": "10-camera highway-safety PoC across a 165km corridor, carried to sign-off and now scaling toward 100+ cameras.",
+      "outcome": "Owned discovery, feasibility, camera placement, architecture and deployment planning.",
+      "technologies": [
+        "Computer Vision",
+        "Camera placement strategy",
+        "Edge deployment",
+        "Solution Architecture Spec"
+      ],
+      "experienceRef": "exp:hawkvision-solutions",
+      "dimensions": [
+        "customer",
+        "agents"
+      ]
+    },
+    {
+      "id": "project:agentic-rag",
+      "tier": "experiments",
+      "name": "Agentic RAG experiments",
+      "status": "exploring",
+      "statusLabel": "Exploring",
+      "tagline": "LangGraph, vector databases, memory, tools and structured workflows.",
+      "technologies": [
+        "LangGraph",
+        "Vector DB",
+        "Tool use"
+      ],
+      "dimensions": [
+        "agents"
+      ]
+    },
+    {
+      "id": "project:voice-audio",
+      "tier": "experiments",
+      "name": "Voice and audio experiments",
+      "status": "exploring",
+      "statusLabel": "Exploring",
+      "tagline": "Transcription, synthesis, conversation and signal analysis. The voice layer of this portfolio is the first concrete piece.",
+      "technologies": [
+        "Speech AI",
+        "Web Speech API",
+        "Audio processing"
+      ],
+      "dimensions": [
+        "agents"
+      ]
+    },
+    {
+      "id": "project:edgevision-lite",
+      "tier": "experiments",
+      "name": "EdgeVision Lite",
+      "status": "planned",
+      "statusLabel": "Planned",
+      "tagline": "A real-time computer-vision system: video streams, detection, tracking, rules, events, APIs and a local dashboard. Bringing the CV solutioning experience back into hands-on code.",
+      "technologies": [
+        "YOLO",
+        "Tracking",
+        "RTSP",
+        "Edge inference"
+      ],
+      "dimensions": [
+        "agents",
+        "builder"
+      ]
+    },
+    {
+      "id": "project:anpr",
+      "tier": "experiments",
+      "name": "ANPR video pipeline",
+      "status": "planned",
+      "statusLabel": "Planned",
+      "tagline": "Video processing with timestamped detections and structured exports.",
+      "technologies": [
+        "Computer Vision",
+        "Python"
+      ],
+      "dimensions": [
+        "agents",
+        "builder"
+      ]
+    }
+  ]
+}

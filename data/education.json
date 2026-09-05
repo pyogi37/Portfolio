@@ -1,0 +1,46 @@
+{
+  "formal": [
+    {
+      "id": "edu:du",
+      "institution": "University of Delhi",
+      "degree": "B.A. Humanities (Economics & Political Science)",
+      "period": "2019 – 2022",
+      "themes": ["Analytical thinking", "Incentives", "Institutions", "Human systems", "Why people and organizations behave the way they do"]
+    }
+  ],
+  "selfDirected": [
+    {
+      "id": "edu:coding-ninjas",
+      "institution": "Coding Ninjas",
+      "program": "Full Stack Web Development, Job Bootcamp",
+      "period": "2022 – 2023",
+      "themes": ["JavaScript / TypeScript", "Frontend", "Backend", "Databases"]
+    },
+    {
+      "id": "edu:self",
+      "institution": "Self-directed, through projects and professional work",
+      "program": "Ongoing",
+      "period": "2023 – present",
+      "themes": ["Cloud (AWS, Azure, Terraform)", "System design", "Computer vision solutioning", "Edge deployments", "LLMs", "Agents", "RAG", "Voice systems"]
+    }
+  ],
+  "journey": [
+    {"step": "Economics + Political Science", "detail": "University of Delhi, 2019 – 2022", "kind": "humanities"},
+    {"step": "Curiosity about technology", "detail": "Wanting to build things, not only analyse them", "kind": "humanities"},
+    {"step": "Learning to code", "detail": "Coding Ninjas full-stack bootcamp, 2022 – 2023", "kind": "self"},
+    {"step": "Full-stack development", "detail": "SDE Intern at Edviron: NestJS, GraphQL, MongoDB, AWS Lambda", "kind": "self"},
+    {"step": "Building real software", "detail": "Led a 5-engineer team shipping Hazo and WorkOS at Project Dark Horse", "kind": "self"},
+    {"step": "Applied AI / Computer Vision", "detail": "Software Developer at HawkVision AI: dashboards, APIs, CV pipeline integrations", "kind": "self"},
+    {"step": "Enterprise AI systems", "detail": "Global Solutions Head: 50+ CV opportunities, 12 concurrent PoCs, 7 countries", "kind": "self"},
+    {"step": "Agents + RAG + Voice", "detail": "readTrail, this AI portfolio, and ongoing experiments", "kind": "self"}
+  ],
+  "storyView": [
+    {"title": "Studied human systems", "subtitle": "Economics + Political Science", "ref": "edu:du"},
+    {"title": "Learned to build software", "subtitle": "Self-taught engineering", "ref": "edu:coding-ninjas"},
+    {"title": "Started building products", "subtitle": "Frontend + backend + systems", "ref": "exp:edviron"},
+    {"title": "Went deep into real-world AI", "subtitle": "Computer vision + edge deployments", "ref": "exp:hawkvision-dev"},
+    {"title": "Ended up sitting with customers", "subtitle": "Solutioning + deployments", "ref": "exp:hawkvision-solutions"},
+    {"title": "Learned the commercial side", "subtitle": "Enterprise + GTM + global solutions", "ref": "exp:hawkvision-solutions"},
+    {"title": "Came back toward building", "subtitle": "Agents + RAG + Voice + AI-native products", "ref": "project:readtrail"}
+  ]
+}

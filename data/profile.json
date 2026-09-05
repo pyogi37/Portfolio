@@ -1,0 +1,105 @@
+{
+  "name": "Priyanshu Yogi",
+  "handle": "pyogi37",
+  "location": "Jaipur, India",
+  "headline": "Customer-facing AI builder | FDE, AI solutions & full-stack product engineering",
+  "titles": ["Forward Deployed Engineer", "AI Solutions Engineer", "Solutions Architect", "Full-stack Product Engineer"],
+  "hero": {
+    "headline": "Don't read my resume. Talk to it.",
+    "subtext": "Economics and political science, then self-taught software engineering, enterprise AI products, a lot of time with customers, and now agents, RAG and voice. Ask my AI about any of it.",
+    "motif": "Human systems → software systems → intelligent systems"
+  },
+  "brandIdea": "I like understanding systems, then building them.",
+  "summary": "Forward-deployed engineer with a full-stack foundation, owning technical solutioning end-to-end, from customer discovery through architecture, PoC delivery, and production deployment, across 50+ enterprise AI and Computer Vision opportunities in seven countries. Translates ambiguous operational problems into deployable systems, working directly with engineering and commercial stakeholders to close the gap between customer need and shipped solution.",
+  "philosophy": "The best technical solution is not merely the most sophisticated one. It is the one that survives contact with users, infrastructure, commercial constraints, and deployment reality.",
+  "positioning": {
+    "theme": "A non-linear path into technology",
+    "oneLiner": "I learned to think about human systems first, then taught myself how to build technical systems.",
+    "currentDirection": "Deliberately moving closer to hands-on building again, while keeping the customer and commercial understanding gained through solutioning and sales roles.",
+    "targetRoles": ["Forward Deployed Engineer", "AI Engineer", "AI Solutions Engineer", "Applied AI Engineer", "Product Engineer", "Customer Engineer", "Solutions Architect", "Technical Product roles"],
+    "lookingFor": "Building technically difficult products that solve real user problems, at the intersection of engineering, customers and product."
+  },
+  "currentlyBuilding": [
+    "readTrail, a privacy-first Chrome reading companion (working MVP, built in public)",
+    "This portfolio: a voice-capable AI agent grounded in structured profile data",
+    "Experiments around AI agents, tool use, RAG and voice interfaces"
+  ],
+  "skills": {
+    "solutioning": ["Forward-Deployed Engineering", "Enterprise AI Solutioning", "Customer Discovery", "PoCs", "AI Feasibility", "Deployment Architecture", "System Design", "RFP/RFI Responses", "Stakeholder Workshops", "Product Feedback Loops"],
+    "engineering": ["TypeScript", "JavaScript", "Python", "Node.js", "NestJS", "React", "React Native", "FastAPI", "PostgreSQL", "MongoDB", "AWS", "Azure", "Terraform", "Docker", "GraphQL", "REST APIs", "Chrome Extensions (Manifest V3)", "Vitest"],
+    "ai": ["Computer Vision solutioning", "Edge deployments", "LLM-assisted internal tooling (Claude + Obsidian)", "Agentic workflows (learning and building)", "RAG (learning and building)", "Voice interfaces (learning and building)"]
+  },
+  "contact": {
+    "email": "pyogi37@gmail.com",
+    "github": "https://github.com/pyogi37"
+  },
+  "dimensions": [
+    {
+      "id": "builder",
+      "label": "Builder",
+      "items": ["Software engineering", "Frontend", "Backend", "Integrations", "System architecture", "AI products"],
+      "evidence": [
+        {"text": "Built frontend dashboards, backend APIs and Computer Vision pipeline integrations on HawkVision's core engineering team; used Terraform for deployment pipelines.", "ref": "exp:hawkvision-dev"},
+        {"text": "Built Instipe, a NestJS/GraphQL payment system for educational institutions processing 50+ lakh INR/month; cut a GraphQL query from 10+ seconds to under 100ms.", "ref": "exp:edviron"},
+        {"text": "Led a 5-engineer team shipping Hazo (NestJS, React Native, AWS) and WorkOS.", "ref": "exp:project-dark-horse"},
+        {"text": "readTrail: a Manifest V3 Chrome extension with a canvas reading trail, validated service-worker messaging and 128 behavioral tests.", "ref": "project:readtrail"}
+      ]
+    },
+    {
+      "id": "agents",
+      "label": "Agents",
+      "items": ["Applied AI", "Computer vision", "Edge AI", "LLMs", "RAG", "Voice", "Agentic workflows"],
+      "evidence": [
+        {"text": "Solutioned 50+ enterprise Computer Vision opportunities, including AI feasibility assessment and camera placement strategy.", "ref": "exp:hawkvision-solutions"},
+        {"text": "Designed an internal AI-native solutioning operating system (Claude + Obsidian) that cut proposal first drafts from days to 5-10 minutes.", "ref": "project:solutioning-os"},
+        {"text": "Led WorkOS, an agentic enterprise operating system unifying role-based access, onboarding and cross-tool integrations.", "ref": "exp:project-dark-horse"},
+        {"text": "Building this portfolio's voice agent with tool calling grounded in structured data.", "ref": "project:priyanshu-os"}
+      ]
+    },
+    {
+      "id": "customer",
+      "label": "Customer",
+      "items": ["Discovery", "Deployments", "Solution architecture", "PoCs", "Enterprise integrations", "Messy real-world requirements"],
+      "evidence": [
+        {"text": "Owned discovery, feasibility, architecture and deployment planning for 12 concurrent enterprise PoCs, authoring every Solution Architecture Specification.", "ref": "exp:hawkvision-solutions"},
+        {"text": "Fixed a failed on-site Raspberry Pi + relay automation deployment by redrawing the wiring on customer premises.", "ref": "exp:hawkvision-solutions"},
+        {"text": "Carried a 10-camera highway-safety PoC across a 165km corridor to sign-off.", "ref": "exp:hawkvision-solutions"}
+      ]
+    },
+    {
+      "id": "product",
+      "label": "Product",
+      "items": ["0→1 products", "UX thinking", "Technical tradeoffs", "Feature definition", "Turning ideas into working systems"],
+      "evidence": [
+        {"text": "Translated an ambiguous early-stage vision into two shipped products at Project Dark Horse, directing roadmap and delivery cadence.", "ref": "exp:project-dark-horse"},
+        {"text": "readTrail's product vision separates decisions made, open questions and non-goals, and documents planned work separately from shipped work.", "ref": "project:readtrail"},
+        {"text": "Turned field feedback from customer workshops and site visits into roadmap decisions at HawkVision.", "ref": "exp:hawkvision-solutions"}
+      ]
+    },
+    {
+      "id": "business",
+      "label": "Business",
+      "items": ["Enterprise sales exposure", "Solutioning", "Market understanding", "Working with leadership", "Commercial understanding"],
+      "evidence": [
+        {"text": "Built HawkVision's India sales pipeline from scratch and defined India pricing strategy and commercial proposals.", "ref": "exp:hawkvision-solutions"},
+        {"text": "Authored 10+ RFI/RFP responses across automotive, fabrication, construction, oil & gas and energy, each scoped at 1,000+ cameras.", "ref": "exp:hawkvision-solutions"},
+        {"text": "Supported the CEO on international business development and partnerships.", "ref": "exp:hawkvision-solutions"}
+      ]
+    },
+    {
+      "id": "humanities",
+      "label": "Humanities / Systems thinking",
+      "items": ["Economics", "Political science", "Institutions", "Incentives", "Human behaviour", "How technology interacts with organizations"],
+      "evidence": [
+        {"text": "B.A. in Economics and Political Science from the University of Delhi: analytical thinking, incentives, institutions, human systems.", "ref": "edu:du"},
+        {"text": "Customer discovery and solutioning work depends on reading how organizations actually behave, not only what the RFP says.", "ref": "exp:hawkvision-solutions"}
+      ]
+    }
+  ],
+  "faq": [
+    {"q": "Is he primarily technical or business?", "a": "He's moved across both. He started by building software, later worked directly on enterprise AI deployments, and eventually took broader solutioning and business responsibility. He's now deliberately moving closer to building again, while keeping the customer exposure.", "dimensions": ["builder", "customer", "business"]},
+    {"q": "How did he get into coding without a CS degree?", "a": "He studied Economics and Political Science at Delhi University (2019 to 2022), then did the Coding Ninjas Full Stack Web Development job bootcamp (2022 to 2023), and learned the rest through projects and professional work: an SDE internship at Edviron, leading a small team at Project Dark Horse, and engineering at HawkVision.", "dimensions": ["humanities", "builder"]},
+    {"q": "What connects economics and engineering for him?", "a": "Both are about systems: incentives, constraints, and how parts interact. Economics and political science taught him to think about human systems and institutions; engineering gave him the tools to build technical systems. Solutioning work sits right between the two.", "dimensions": ["humanities", "builder", "customer"]},
+    {"q": "What is he building right now?", "a": "readTrail, a privacy-first Chrome reading companion that is a working MVP, and this portfolio, a voice-capable AI agent grounded in structured profile data. Alongside that he is experimenting with agents, RAG and voice.", "dimensions": ["builder", "agents", "product"]}
+  ]
+}

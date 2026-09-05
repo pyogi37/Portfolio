@@ -1,0 +1,26 @@
+{
+  "offDutyLine": "When I'm not building something, there's a decent chance I'm reading, planning a trek, taking photos, cooking, or going too deep into another random subject.",
+  "offDuty": [
+    {"emoji": "📚", "label": "Reading"},
+    {"emoji": "📷", "label": "Photography"},
+    {"emoji": "🥾", "label": "Trekking"},
+    {"emoji": "🎸", "label": "Rock / grunge"},
+    {"emoji": "🎤", "label": "Karaoke"},
+    {"emoji": "🍳", "label": "Cooking"}
+  ],
+  "rabbitHoles": [
+    {"id": "ai", "label": "AI", "kind": "work", "note": "Mostly interested in systems that can actually do things, not just generate text."},
+    {"id": "backend", "label": "Backend engineering", "kind": "work", "note": "I like understanding what happens beneath the interface."},
+    {"id": "system-design", "label": "System design", "kind": "work", "note": "Where the tradeoffs live."},
+    {"id": "economics", "label": "Economics", "kind": "curious", "note": "How incentives shape systems."},
+    {"id": "political-science", "label": "Political science", "kind": "curious", "note": "Institutions, and why they behave the way they do."},
+    {"id": "investing", "label": "Investing", "kind": "curious", "note": "Incentives again, with a scoreboard."},
+    {"id": "travel", "label": "Travel", "kind": "curious", "note": "The kind involving mountains is usually better."},
+    {"id": "photography", "label": "Photography", "kind": "curious", "note": "Another excuse to obsess over composition and details."},
+    {"id": "reading", "label": "Reading", "kind": "curious", "note": "Long-form, ideally. readTrail exists partly because of this."},
+    {"id": "fitness", "label": "Fitness", "kind": "curious", "note": "Mostly in service of the trekking."},
+    {"id": "cooking", "label": "Cooking", "kind": "curious", "note": "A system with fast feedback loops."},
+    {"id": "productivity", "label": "Productivity", "kind": "curious", "note": "Tools, notes, and the occasional over-engineered Obsidian vault."},
+    {"id": "music", "label": "Rock / grunge", "kind": "curious", "note": "And karaoke, when the room allows it."}
+  ]
+}

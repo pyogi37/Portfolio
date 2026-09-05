@@ -1,0 +1,90 @@
+{
+  "roles": [
+    {
+      "id": "exp:hawkvision-solutions",
+      "role": "Global Solutions Head & Head of India Sales",
+      "organization": "HawkVision AI",
+      "location": "Jaipur, India",
+      "period": "Jun 2025 – Aug 2026",
+      "start": "2025-06",
+      "end": "2026-08",
+      "context": "Enterprise Computer Vision company. Moved from the core engineering team into owning technical solutioning end-to-end, then into India sales and global solutions.",
+      "workedOn": [
+        "Led end-to-end technical solutioning across 50+ enterprise Computer Vision opportunities in 7 countries (Europe, Middle East, APAC), spanning manufacturing, construction, infrastructure, highways, warehousing, logistics and airports.",
+        "Owned discovery, AI feasibility assessment, camera placement strategy, system architecture and deployment planning for 12 concurrent enterprise PoCs, authoring every Solution Architecture Specification and running customer workshops and site visits to turn field feedback into roadmap decisions.",
+        "Diagnosed and resolved a failed on-site automation deployment (Raspberry Pi + relay kit) by identifying incorrect circuit diagrams and redrawing the correct wiring on customer premises, restoring functionality without a return visit.",
+        "Grew one live deployment from a 2-camera demo to 10 cameras in production with a 30-camera expansion proposed, and carried a 10-camera highway-safety PoC across a 165km corridor to sign-off, now scaling toward 100+ camera coverage.",
+        "Authored 10+ RFI/RFP responses across automotive, fabrication, construction, oil & gas and energy, each scoped at 1,000+ camera enterprise deployments.",
+        "Built the India sales pipeline from scratch, defined India pricing strategy and commercial proposals (typical deal ₹10–15L; largest active opportunity scaling from 20 to 200+ cameras), and supported the CEO on international business development and partnerships.",
+        "Designed and built an internal AI-native solutioning operating system (Claude + Obsidian) that automated company, process and operations research, cutting proposal turnaround from a multi-day manual research cycle to a 5-10 minute first draft, and Solution Architecture Spec first drafts to under 5 minutes, with customer and market intelligence auto-routed into a shared knowledge vault."
+      ],
+      "learned": "How enterprise AI actually gets bought and deployed: feasibility before features, site reality over slide decks, and the commercial constraints that decide whether a technically sound solution ships.",
+      "technologies": ["Computer Vision solutioning", "Edge deployments", "Raspberry Pi", "Solution Architecture Specs", "RFP/RFI", "Claude", "Obsidian"],
+      "relatedProjects": ["project:solutioning-os"],
+      "dimensions": ["customer", "business", "agents", "product"]
+    },
+    {
+      "id": "exp:hawkvision-dev",
+      "role": "Software Developer",
+      "organization": "HawkVision AI",
+      "location": "Jaipur, India",
+      "period": "Mar 2025 – Jun 2025",
+      "start": "2025-03",
+      "end": "2025-06",
+      "context": "Joined during the early product-building stage on the core engineering team.",
+      "workedOn": [
+        "Built frontend dashboards, backend APIs and Computer Vision pipeline integrations on the core engineering team.",
+        "Used Terraform to streamline deployment pipelines. This was the technical foundation behind the move into global solutions leadership."
+      ],
+      "learned": "What a CV product looks like from the inside: pipelines, integrations, and the infrastructure that has to hold up at a customer site.",
+      "technologies": ["React", "Node.js", "Computer Vision pipelines", "Terraform", "Cloud deployment"],
+      "relatedProjects": [],
+      "dimensions": ["builder", "agents"]
+    },
+    {
+      "id": "exp:project-dark-horse",
+      "role": "Entrepreneur in Residence",
+      "organization": "Project Dark Horse",
+      "location": "Bangalore, India",
+      "period": "Jun 2024 – Mar 2025",
+      "start": "2024-06",
+      "end": "2025-03",
+      "context": "Early-stage venture building. Took an ambiguous vision and a small team and turned it into shipped products.",
+      "workedOn": [
+        "Led a 5-engineer team building Hazo (NestJS backend, React Native frontend, AWS) and WorkOS, an agentic enterprise operating system unifying role-based access, onboarding and cross-tool integrations (Google Calendar, Jira).",
+        "Translated an ambiguous, early-stage vision into two shipped products, directing roadmap and delivery cadence for 30% faster time-to-market."
+      ],
+      "learned": "0→1 product work: scoping, delivery cadence, and making tradeoffs when the vision is still moving.",
+      "technologies": ["NestJS", "React Native", "AWS", "Google Calendar API", "Jira integration"],
+      "relatedProjects": ["project:hazo", "project:workos"],
+      "dimensions": ["builder", "product", "agents"]
+    },
+    {
+      "id": "exp:edviron",
+      "role": "SDE Intern",
+      "organization": "Edviron",
+      "location": "Remote",
+      "period": "Nov 2023 – May 2024",
+      "start": "2023-11",
+      "end": "2024-05",
+      "context": "Fintech for educational institutions. First professional engineering role after the bootcamp.",
+      "workedOn": [
+        "Built Instipe, a NestJS/GraphQL payment system for educational institutions processing 50+ lakh INR/month, optimizing MongoDB pipelines to cut query execution time up to 90%.",
+        "Cut a GraphQL query's response time from 10+ seconds to under 100ms using caching strategies and AWS Lambda serverless compute.",
+        "Built a microservice handling admin operations, managing trustees and customer accounts."
+      ],
+      "learned": "Backend fundamentals under real load: query performance, caching, serverless tradeoffs, and money-handling systems where correctness matters.",
+      "technologies": ["NestJS", "GraphQL", "MongoDB", "AWS Lambda", "Microservices"],
+      "relatedProjects": ["project:instipe"],
+      "dimensions": ["builder"]
+    }
+  ],
+  "careerStory": [
+    {"phase": "Humanities", "text": "Studied Economics and Political Science at the University of Delhi. Developed an interest in understanding systems, incentives, institutions and why people or organizations behave the way they do.", "refs": ["edu:du"]},
+    {"phase": "Self-taught engineering", "text": "Moved into technology through self-learning: a full-stack bootcamp, then projects and professional work rather than a traditional CS degree.", "refs": ["edu:coding-ninjas"]},
+    {"phase": "Building", "text": "Started working on software products: a payment system at Edviron, then leading a small team shipping Hazo and WorkOS at Project Dark Horse.", "refs": ["exp:edviron", "exp:project-dark-horse"]},
+    {"phase": "HawkVision", "text": "Joined early on the small product/engineering team. Built parts of the product, worked on deployments, moved closer to customers, and eventually took on solution architecture, solutioning and broader business responsibility.", "refs": ["exp:hawkvision-dev", "exp:hawkvision-solutions"]},
+    {"phase": "AI-native products", "text": "Now increasingly building around AI agents, RAG, voice interfaces, multimodal systems, intelligent workflows and tool-using AI.", "refs": ["project:readtrail", "project:priyanshu-os"]},
+    {"phase": "What comes next", "text": "Building technically difficult products that solve real user problems. Roles like Forward Deployed Engineer, AI Engineer, AI Solutions Engineer, Product Engineer, Customer Engineer and technical product roles.", "refs": []}
+  ]
+}
