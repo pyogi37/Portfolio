@@ -14,6 +14,7 @@ const HATCH_ANGLES = [0, 30, 60, 90, 120, 150];
 export function Tracks() {
   const { highlighted, setHighlighted, ask } = useAgent();
   const [active, setActive] = useState<string>("builder");
+  const [hot, setHot] = useState<string | null>(null); // the region under the pointer
   const reduce = useReducedMotion();
   useEffect(() => {
     if (highlighted.length) setActive(highlighted[0]);
@@ -53,10 +54,41 @@ export function Tracks() {
             const cx = Math.cos(a) * R;
             const cy = Math.sin(a) * R;
             const on = d.id === active || highlighted.includes(d.id);
+            const isHot = d.id === hot;
             return (
-              <g key={d.id} onClick={() => { setActive(d.id); setHighlighted([]); }} className="cursor-pointer" tabIndex={0} role="button" aria-label={d.label} onKeyDown={(e) => e.key === "Enter" && setActive(d.id)}>
-                <circle cx={cx} cy={cy} r={r} fill={on ? `url(#hatch-${d.id})` : "transparent"} fillOpacity={on ? 0.55 : 0} stroke="var(--ink)" strokeOpacity={on ? 0.9 : 0.45} strokeWidth={on ? 1.6 : 1} style={{ transition: "all .3s ease" }} />
-                <text x={Math.cos(a) * (R + r + 18)} y={Math.sin(a) * (R + r + 18)} textAnchor="middle" dominantBaseline="middle" fontSize="13" fontFamily="var(--font-serif)" fontStyle="italic" fill={on ? "var(--ink)" : "var(--ink-2)"} style={{ pointerEvents: "none" }}>
+              <g
+                key={d.id}
+                onClick={() => { setActive(d.id); setHighlighted([]); }}
+                className="cursor-pointer"
+                tabIndex={0}
+                role="button"
+                aria-label={d.label}
+                aria-pressed={d.id === active}
+                onMouseEnter={() => setHot(d.id)}
+                onMouseLeave={() => setHot((h) => (h === d.id ? null : h))}
+                onFocus={() => setHot(d.id)}
+                onBlur={() => setHot((h) => (h === d.id ? null : h))}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " " || e.key === "Spacebar") {
+                    e.preventDefault();
+                    setActive(d.id);
+                    setHighlighted([]);
+                  }
+                }}
+              >
+                {/* the pointer gets a preview of the selection: the hatch at a whisper, the ring inked */}
+                <circle
+                  cx={cx}
+                  cy={cy}
+                  r={r}
+                  fill={on || isHot ? `url(#hatch-${d.id})` : "transparent"}
+                  fillOpacity={on ? 0.55 : isHot ? 0.2 : 0}
+                  stroke={isHot && !on ? "var(--curve-a)" : "var(--ink)"}
+                  strokeOpacity={on ? 0.9 : isHot ? 0.85 : 0.45}
+                  strokeWidth={on ? 1.6 : isHot ? 1.4 : 1}
+                  style={{ transition: "all .3s ease" }}
+                />
+                <text x={Math.cos(a) * (R + r + 18)} y={Math.sin(a) * (R + r + 18)} textAnchor="middle" dominantBaseline="middle" fontSize="13" fontFamily="var(--font-serif)" fontStyle="italic" fill={on || isHot ? "var(--ink)" : "var(--ink-2)"}>
                   {d.label.split(" / ")[0]}
                 </text>
               </g>

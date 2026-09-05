@@ -26,6 +26,7 @@ export function Graph() {
   const [, force] = useState(0);
   const [selected, setSelected] = useState<string | null>("hawkvision");
   const [filter, setFilter] = useState<string | null>(null);
+  const [hot, setHot] = useState<string | null>(null); // the node under the pointer or focus
   const simRef = useRef<ReturnType<typeof forceSimulation<N>> | null>(null);
 
   const nodes = useMemo<N[]>(() => data.knowledge.nodes.map((n) => ({ ...n })), []);
@@ -135,6 +136,7 @@ export function Graph() {
               if (n.x == null) return null;
               const isSel = sel?.id === n.id;
               const isNb = selNeighbors.has(n.id);
+              const isHot = hot === n.id;
               const dim = !visible(n);
               const r = n.type === "experience" || n.type === "project" ? 10 : n.type === "education" ? 8 : 6;
               return (
@@ -145,10 +147,34 @@ export function Graph() {
                   className="cursor-grab active:cursor-grabbing"
                   onPointerDown={(e) => onDown(e, n)}
                   onClick={() => setSelected(n.id)}
+                  onPointerEnter={() => setHot(n.id)}
+                  onPointerLeave={() => setHot((h) => (h === n.id ? null : h))}
+                  onFocus={() => setHot(n.id)}
+                  onBlur={() => setHot((h) => (h === n.id ? null : h))}
+                  tabIndex={dim ? -1 : 0}
+                  role="button"
+                  aria-label={`${n.label}, ${data.knowledge.nodeTypes[n.type as keyof typeof data.knowledge.nodeTypes]}`}
+                  aria-pressed={isSel}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " " || e.key === "Spacebar") {
+                      e.preventDefault();
+                      setSelected(n.id);
+                    }
+                  }}
                 >
-                  <circle r={r + 8} fill="transparent" />
-                  <circle r={isSel ? r + 3 : r} fill={TYPE_HOLLOW[n.type] && !isSel ? "var(--paper)" : TYPE_COLOR[n.type]} stroke={isSel ? "var(--curve-a)" : TYPE_COLOR[n.type]} strokeWidth={isSel ? 2.5 : 1.6} />
-                  <text y={r + 14} textAnchor="middle" fontSize={11} fill={isSel || isNb ? "var(--ink)" : "var(--ink-2)"} fontFamily="var(--font-sans)" style={{ pointerEvents: "none" }}>
+                  <circle r={r + 10} fill="transparent" />
+                  {/* the ring answers the pointer before the click commits, as it does on Fig. 1 */}
+                  <circle
+                    r={r + 7}
+                    fill="none"
+                    stroke="var(--curve-a)"
+                    strokeWidth={1}
+                    strokeDasharray="2 3"
+                    opacity={isHot && !isSel ? 0.8 : 0}
+                    style={{ transition: "opacity .2s ease" }}
+                  />
+                  <circle r={isSel ? r + 3 : isHot ? r + 1.5 : r} fill={TYPE_HOLLOW[n.type] && !isSel ? "var(--paper)" : TYPE_COLOR[n.type]} stroke={isSel ? "var(--curve-a)" : TYPE_COLOR[n.type]} strokeWidth={isSel ? 2.5 : 1.6} style={{ transition: "r .2s ease" }} />
+                  <text y={r + 14} textAnchor="middle" fontSize={11} fill={isSel || isNb || isHot ? "var(--ink)" : "var(--ink-2)"} fontFamily="var(--font-sans)" style={{ pointerEvents: "none" }}>
                     {n.label}
                   </text>
                 </g>

@@ -27,6 +27,7 @@ export function Experience() {
       n={3}
       title="Four roles, three companies, one direction."
       lede="Backend under real load, then 0→1 product leadership, then inside an enterprise computer-vision company from engineering to global solutions. HawkVision is the deepest chapter, not the only one."
+      interaction="Click any row to open what that role actually involved."
     >
       {/* time axis: a fixed label gutter on the left, the span drawn to its right. Nothing truncates. */}
       <div className="select-none">
@@ -47,7 +48,7 @@ export function Experience() {
               <li key={r.id}>
                 <button
                   onClick={() => setOpenId(r.id)}
-                  className={`grid w-full items-center gap-2 py-2.5 text-left transition md:grid-cols-[230px_1fr] ${on ? "" : "hover:bg-paper-2/60"}`}
+                  className={`group grid w-full items-center gap-2 py-2.5 text-left transition md:grid-cols-[230px_1fr] ${on ? "" : "hover:bg-paper-2/60"}`}
                   aria-pressed={on}
                   aria-label={`${r.role}, ${r.organization}, ${r.period}`}
                 >
@@ -58,7 +59,7 @@ export function Experience() {
                   <span className="relative block h-5">
                     <span className="absolute inset-y-0 left-0 right-0 top-1/2 h-px bg-rule" />
                     <motion.span
-                      className={`absolute top-0 h-5 origin-left rounded-sm border transition-colors ${on ? "border-ink bg-ink" : "border-ink/60 bg-paper"}`}
+                      className={`absolute top-0 h-5 origin-left rounded-sm border transition-colors ${on ? "border-ink bg-ink" : "border-ink/60 bg-paper group-hover:border-curve-a"}`}
                       style={{ left: `${l}%`, width: `${w}%` }}
                       initial={{ scaleX: reduce ? 1 : 0 }}
                       whileInView={{ scaleX: 1 }}

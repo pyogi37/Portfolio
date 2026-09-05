@@ -14,6 +14,7 @@ export function Figure({
   lede,
   children,
   aside,
+  interaction,
 }: {
   id: string;
   n: number;
@@ -22,6 +23,8 @@ export function Figure({
   lede?: React.ReactNode;
   children: React.ReactNode;
   aside?: React.ReactNode;
+  /** One line, in the figure's own voice, saying that the marks below answer the pointer. */
+  interaction?: React.ReactNode;
 }) {
   return (
     <section id={id} className="figure scroll-mt-20" aria-labelledby={`${id}-title`}>
@@ -38,7 +41,12 @@ export function Figure({
         </div>
         {aside && <div className="text-[15px] text-ink-2 md:max-w-xs md:text-right">{aside}</div>}
       </Reveal>
-      <Reveal className="mt-10" delay={0.1}>{children}</Reveal>
+      {interaction && (
+        <Reveal delay={0.05}>
+          <p className="fig-hint mt-3 text-[13.5px]">{interaction}</p>
+        </Reveal>
+      )}
+      <Reveal className={interaction ? "mt-6" : "mt-10"} delay={0.1}>{children}</Reveal>
     </section>
   );
 }

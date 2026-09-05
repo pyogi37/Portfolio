@@ -106,6 +106,8 @@ a { text-underline-offset: 0.18em; text-decoration-thickness: 1px; }
 .sheet { @apply mx-auto w-full max-w-6xl px-5 sm:px-8; }
 .figure { @apply mx-auto w-full max-w-6xl px-5 py-20 sm:px-8 sm:py-28; }
 .fig-label { font-family: var(--font-serif); font-style: italic; color: var(--ink-2); }
+/* The line that tells the reader a figure's marks answer the pointer. Same voice as the label, one weight quieter. */
+.fig-hint { font-family: var(--font-serif); font-style: italic; color: var(--ink-3); }
 .h-display {
   font-family: var(--font-serif);
   font-weight: 400;

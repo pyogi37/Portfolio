@@ -65,6 +65,7 @@ export function RabbitHoles() {
           Not a skills list. <span className="text-curve-a">Solid</span> points are things he works on; <span className="text-curve-b">hollow</span> points are things he is curious about. Positions are a self-portrait, not data. Drag them if you disagree.
         </>
       }
+      interaction="Hover or tab to any point to read the note behind it."
     >
       <div ref={ref} className="plate relative overflow-hidden rounded-sm" style={{ height: size.h }}>
         <svg width={size.w} height={size.h} className="absolute inset-0 touch-none select-none" onPointerMove={onMove} onPointerUp={onUp} onPointerLeave={onUp}>
@@ -77,8 +78,10 @@ export function RabbitHoles() {
             const work = it.kind === "work";
             const isHover = hover === p.id;
             return (
-              <g key={p.id} transform={`translate(${p.x},${p.y})`} className="cursor-grab active:cursor-grabbing" onPointerDown={(e) => onDown(e, p.id)} onPointerEnter={() => setHover(p.id)} onPointerLeave={() => setHover(null)} onClick={() => setHover(p.id)} tabIndex={0} onFocus={() => setHover(p.id)} onBlur={() => setHover(null)} role="button" aria-label={`${it.label}: ${it.note}`}>
-                <circle r={18} fill="transparent" />
+              <g key={p.id} transform={`translate(${p.x},${p.y})`} className="cursor-grab active:cursor-grabbing" onPointerDown={(e) => onDown(e, p.id)} onPointerEnter={() => setHover(p.id)} onPointerLeave={() => setHover(null)} onClick={() => setHover(p.id)} tabIndex={0} onFocus={() => setHover(p.id)} onBlur={() => setHover(null)} role="button" aria-label={`${it.label}: ${it.note}`} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " " || e.key === "Spacebar") { e.preventDefault(); setHover(p.id); } }}>
+                <circle r={26} fill="transparent" />
+                {/* same ring as Fig. 1 and the graph: the mark answers the pointer */}
+                <circle r={13} fill="none" stroke={work ? "var(--curve-a)" : "var(--curve-b)"} strokeWidth={1} strokeDasharray="2 3" opacity={isHover ? 0.75 : 0} style={{ transition: "opacity .2s ease" }} />
                 <circle r={isHover ? 7 : 5.5} fill={work ? "var(--curve-a)" : "var(--paper)"} stroke={work ? "var(--curve-a)" : "var(--curve-b)"} strokeWidth={1.8} />
                 <text y={-12} textAnchor="middle" fontSize={13} fontFamily="var(--font-serif)" fontStyle="italic" fill={isHover ? "var(--ink)" : "var(--ink-2)"} style={{ pointerEvents: "none" }}>
                   {it.label}
