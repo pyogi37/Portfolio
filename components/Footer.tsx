@@ -17,6 +17,11 @@ export function Footer() {
             <a href={contact.github} target="_blank" rel="noreferrer" className="btn-line">
               <IGithub /> GitHub
             </a>
+            {contact.sourceRepo && (
+              <a href={contact.sourceRepo} target="_blank" rel="noreferrer" className="btn-line">
+                <IGithub /> Source of this sheet
+              </a>
+            )}
             <button onClick={() => window.dispatchEvent(new Event("open-off-duty"))} className="btn-line">
               Off duty
             </button>
