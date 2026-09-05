@@ -244,7 +244,7 @@ Flat by default, with depth expressed as paper over grid. A plate is `paper` at 
 
 Drafting geometry. Corners are square or barely eased: `rounded-sm` (4px) on plates, buttons, chips, textarea, and image frames; `0` on fields, ledgers, hatched regions, and the panel; `rounded-full` only on the floating "Talk to it" pill and graph legend dots; 8px on the scrollbar thumb. Borders are 1px hairlines in `rule`, promoted to 1px `ink` when they carry meaning (the underline of a field, the head of a ledger, the note separator, the panel edge, the footer top).
 
-Drawn forms follow figure conventions: axes are 1.2px `ink` lines with open arrowheads; the curve is a 2.4px `curve-a` Catmull-Rom path; points are 5px circles (7px selected) filled `paper` with a 2px `curve-a` stroke, filled solid when selected; leader lines are 0.8 to 1px dashed (`2 3` or `3 3`) in `ink-3` or `ink-2`; regions are 1px `ink` circles filled with a 7px hatch pattern rotated in 30 degree steps; time spans are 20px tall `rounded-sm` bars, `ink` when selected and hollow `paper` with a 60% ink border otherwise. Graph nodes are 6/8/10px by type, hollow for technology and domain.
+Drawn forms follow figure conventions: axes are 1.2px `ink` lines with open arrowheads; the curve is a 2.4px `curve-a` Catmull-Rom path; points are 5px circles (6.5px hovered, 7px selected) filled `paper` with a 2px `curve-a` stroke, filled solid when selected; an interactive point carries a 1px `curve-a` dashed ring (`2 3`) at r12, shown at 0.4 opacity on the first and last points once the figure settles and at 0.8 on the point under the pointer, over a transparent r34 hit target sized for the narrowest render; leader lines are 0.8 to 1px dashed (`2 3` or `3 3`) in `ink-3` or `ink-2`; regions are 1px `ink` circles filled with a 7px hatch pattern rotated in 30 degree steps; time spans are 20px tall `rounded-sm` bars, `ink` when selected and hollow `paper` with a 60% ink border otherwise. Graph nodes are 6/8/10px by type, hollow for technology and domain.
 
 ## Components
 
@@ -298,7 +298,7 @@ The agent is a fixed right-hand column with a 1px `ink` left edge on solid `pape
 - **Do** draw controls with hairlines: 1px `rule` at rest, 1px `ink` when the line carries meaning (a field's baseline, a ledger head).
 - **Do** keep type weight at 400 and build hierarchy from size, italic, and `ink` / `ink-2` / `ink-3`.
 - **Do** set data numbers (years, periods, counts) in JetBrains Mono with `tabular-nums`.
-- **Do** animate with the one grammar: `draw` for strokes (2.2s, `cubic-bezier(0.16, 1, 0.3, 1)`), `fade-up` for notes (0.7s, 6px), `flash` once for AI highlights; honour `prefers-reduced-motion`.
+- **Do** animate with the one grammar: `draw` for strokes (2.2s, `cubic-bezier(0.16, 1, 0.3, 1)`; Fig. 1's curve draws at 3.4s because it is the focal sequence and is read, not glanced at), `fade-up` for notes (0.7s, 6px), `flash` once for AI highlights; honour `prefers-reduced-motion`.
 - **Do** restack ledgers and fixed-gutter grids below 768px so nothing truncates; hide SVG labels on small screens and replace them with numbered points and a legend line.
 - **Do** keep inline SVG icons single-stroke at 1.6 width, 18px, `currentColor`.
 

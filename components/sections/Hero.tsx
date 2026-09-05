@@ -24,6 +24,25 @@ const PTS: { x: number; y: number; side: "above" | "below"; anchor?: "start" | "
 const px = (x: number) => PAD.l + x * (W - PAD.l - PAD.r);
 const py = (y: number) => H - PAD.b - y * (H - PAD.t - PAD.b);
 
+/*
+ * The focal sequence, drawn slowly enough to be read as drafting rather than as a transition.
+ * Points land as the curve reaches them; the two endpoints are ringed once the figure settles,
+ * because the span from the first point to the last is the argument the figure is making.
+ */
+const SEQ = {
+  axisY: 0.9,
+  axisX: 1.05,
+  curveDur: 3.4,
+  curveDelay: 0.5,
+  point: (i: number) => 0.62 + i * 0.5,
+  markerDur: 0.8,
+  markerDelay: 1.9,
+  plateDur: 0.8,
+  plateDelay: 2.5,
+  leaderReady: 2800,
+  settle: 4100,
+};
+
 function smoothPath(pts: { x: number; y: number }[]) {
   const p = pts.map((q) => ({ x: px(q.x), y: py(q.y) }));
   let d = `M ${p[0].x} ${p[0].y}`;
@@ -51,10 +70,14 @@ const NOTES = [
   "readTrail is a working MVP. This site is an agent grounded in structured data. The experiments are labelled as experiments.",
 ];
 
+/** The first and last points: where the path started and where it is now. */
+const ENDS = [0, PTS.length - 1];
+
 export function Hero() {
   const { ask } = useAgent();
   const steps = data.education.storyView;
-  const [sel, setSel] = useState<number>(6);
+  const [sel, setSel] = useState<number>(6); // committed by click or the note controls
+  const [hot, setHot] = useState<number | null>(null); // previewed by hover or keyboard focus
   const [q, setQ] = useState("");
   const reduce = useReducedMotion();
   const T = reduce ? 0 : 1; // time scale for the focal sequence
@@ -63,8 +86,17 @@ export function Hero() {
   const svgRef = useRef<SVGSVGElement>(null);
   const [leader, setLeader] = useState<{ x1: number; y1: number; x2: number; y2: number } | null>(null);
   const [ready, setReady] = useState(false); // the leader only appears once the plate has landed
+  const [settled, setSettled] = useState(false); // the draw has finished; ring the endpoints
 
-  // The callout is an annotation: a leader runs from the plate's edge to the selected point.
+  // Hovering previews a point; the click stays committed underneath.
+  const shown = hot ?? sel;
+
+  useEffect(() => {
+    const t = setTimeout(() => setSettled(true), reduce ? 0 : SEQ.settle);
+    return () => clearTimeout(t);
+  }, [reduce]);
+
+  // The callout is an annotation: a leader runs from the plate's edge to the shown point.
   useEffect(() => {
     const update = () => {
       const wrap = wrapRef.current, plate = plateRef.current, svg = svgRef.current;
@@ -73,7 +105,7 @@ export function Hero() {
       const pr = plate.getBoundingClientRect();
       const ctm = svg.getScreenCTM();
       if (!ctm) return;
-      const pt = new DOMPoint(px(PTS[sel].x), py(PTS[sel].y)).matrixTransform(ctm);
+      const pt = new DOMPoint(px(PTS[shown].x), py(PTS[shown].y)).matrixTransform(ctm);
       const x2 = pt.x - wr.left, y2 = pt.y - wr.top;
       // start from the plate edge nearest the point
       const cx = Math.min(Math.max(x2, pr.left - wr.left), pr.right - wr.left);
@@ -83,13 +115,28 @@ export function Hero() {
     update();
     window.addEventListener("resize", update);
     const t = setTimeout(update, 900);
-    const r = setTimeout(() => setReady(true), reduce ? 0 : 2300);
+    const r = setTimeout(() => setReady(true), reduce ? 0 : SEQ.leaderReady);
     return () => { window.removeEventListener("resize", update); clearTimeout(t); clearTimeout(r); };
-  }, [sel, reduce]);
+  }, [shown, reduce]);
 
   const d = smoothPath(PTS);
-  const cur = steps[sel];
+  const cur = steps[shown];
   const ref = resolveRef(cur.ref);
+
+  const step = (delta: number) => setSel((s) => Math.min(steps.length - 1, Math.max(0, s + delta)));
+
+  const onPointKey = (e: React.KeyboardEvent, i: number) => {
+    if (e.key === "Enter" || e.key === " " || e.key === "Spacebar") {
+      e.preventDefault();
+      setSel(i);
+    } else if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+      e.preventDefault();
+      setSel(Math.min(steps.length - 1, i + 1));
+    } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+      e.preventDefault();
+      setSel(Math.max(0, i - 1));
+    }
+  };
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -103,8 +150,8 @@ export function Hero() {
       <div ref={wrapRef} className="relative flex flex-col-reverse md:block">
         <svg ref={svgRef} viewBox={`0 0 ${W} ${H}`} className="mx-auto w-full md:max-h-[76vh]" role="img" aria-label="Figure 1. Priyanshu's career plotted as a curve: systems understood against systems built.">
           {/* axes */}
-          <motion.line x1={PAD.l} y1={H - PAD.b} x2={PAD.l} y2={PAD.t - 10} stroke="var(--ink)" strokeWidth={1.2} initial={{ pathLength: reduce ? 1 : 0 }} animate={{ pathLength: 1 }} transition={{ duration: 0.6 * T, ease: EASE }} />
-          <motion.line x1={PAD.l} y1={H - PAD.b} x2={W - PAD.r + 10} y2={H - PAD.b} stroke="var(--ink)" strokeWidth={1.2} initial={{ pathLength: reduce ? 1 : 0 }} animate={{ pathLength: 1 }} transition={{ duration: 0.7 * T, ease: EASE }} />
+          <motion.line x1={PAD.l} y1={H - PAD.b} x2={PAD.l} y2={PAD.t - 10} stroke="var(--ink)" strokeWidth={1.2} initial={{ pathLength: reduce ? 1 : 0 }} animate={{ pathLength: 1 }} transition={{ duration: SEQ.axisY * T, ease: EASE }} />
+          <motion.line x1={PAD.l} y1={H - PAD.b} x2={W - PAD.r + 10} y2={H - PAD.b} stroke="var(--ink)" strokeWidth={1.2} initial={{ pathLength: reduce ? 1 : 0 }} animate={{ pathLength: 1 }} transition={{ duration: SEQ.axisX * T, ease: EASE }} />
           <path d={`M ${PAD.l - 5} ${PAD.t - 2} L ${PAD.l} ${PAD.t - 12} L ${PAD.l + 5} ${PAD.t - 2}`} fill="none" stroke="var(--ink)" strokeWidth={1.2} />
           <path d={`M ${W - PAD.r + 2} ${H - PAD.b - 5} L ${W - PAD.r + 12} ${H - PAD.b} L ${W - PAD.r + 2} ${H - PAD.b + 5}`} fill="none" stroke="var(--ink)" strokeWidth={1.2} />
           <text className="hidden sm:block" transform={`translate(${PAD.l - 14} ${(PAD.t + H - PAD.b) / 2}) rotate(-90)`} textAnchor="middle" fill="var(--ink-2)" fontSize={15} fontStyle="italic" fontFamily="var(--font-serif)">
@@ -129,7 +176,24 @@ export function Hero() {
           ))}
 
           {/* the curve */}
-          <motion.path d={d} fill="none" stroke="var(--curve-a)" strokeWidth={2.4} strokeLinecap="round" initial={{ pathLength: reduce ? 1 : 0, opacity: 1 }} animate={{ pathLength: 1 }} transition={{ duration: 2.2 * T, ease: EASE, delay: 0.4 * T }} />
+          <motion.path d={d} fill="none" stroke="var(--curve-a)" strokeWidth={2.4} strokeLinecap="round" initial={{ pathLength: reduce ? 1 : 0, opacity: 1 }} animate={{ pathLength: 1 }} transition={{ duration: SEQ.curveDur * T, ease: EASE, delay: SEQ.curveDelay * T }} />
+
+          {/* the figure says how to read it, once it has finished drawing itself */}
+          <motion.text
+            className="hidden sm:block"
+            x={px(0.63)}
+            y={py(0.09)}
+            textAnchor="start"
+            fill="var(--ink-3)"
+            fontSize={13.5}
+            fontStyle="italic"
+            fontFamily="var(--font-serif)"
+            initial={{ opacity: reduce ? 1 : 0 }}
+            animate={{ opacity: settled ? 1 : 0 }}
+            transition={{ duration: 0.7, ease: EASE }}
+          >
+            hover or click any point
+          </motion.text>
 
           {/* points with leader lines */}
           {PTS.map((p, i) => {
@@ -137,34 +201,64 @@ export function Hero() {
             const cy = py(p.y);
             const up = p.side === "above";
             const ly = up ? cy - 46 : Math.min(cy + 46, H - PAD.b - 20);
-            const active = i === sel;
+            const active = i === shown;
+            const isHot = i === hot;
+            const isEnd = ENDS.includes(i);
             const s = steps[i];
             const anchor = p.anchor ?? "middle";
             const tx = anchor === "start" ? cx + 10 : anchor === "end" ? cx + 6 : cx;
+            // one ring, two jobs: it marks the endpoints once settled, and answers the pointer
+            const ringOpacity = isHot ? 0.8 : isEnd && settled ? 0.4 : 0;
             return (
               <motion.g
                 key={i}
                 className="cursor-pointer"
                 initial={reduce ? { opacity: 1 } : { opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ duration: 0.5, delay: (0.55 + i * 0.26) * T, ease: EASE }}
+                transition={{ duration: 0.5, delay: SEQ.point(i) * T, ease: EASE }}
                 onClick={() => setSel(i)}
+                onMouseEnter={() => setHot(i)}
+                onMouseLeave={() => setHot((h) => (h === i ? null : h))}
+                onFocus={() => setHot(i)}
+                onBlur={() => setHot((h) => (h === i ? null : h))}
                 tabIndex={0}
                 role="button"
                 aria-label={`${s.title}: ${s.subtitle}`}
-                onKeyDown={(e) => e.key === "Enter" && setSel(i)}
-                whileHover={reduce ? undefined : { scale: 1.02 }}
-                style={{ transformOrigin: `${cx}px ${cy}px` }}
+                aria-pressed={i === sel}
+                onKeyDown={(e) => onPointKey(e, i)}
               >
+                {/* the target is the size of a finger, not the size of the dot; it scales with the
+                    figure, so it is sized for the narrowest render rather than the widest */}
+                <circle cx={cx} cy={cy} r={34} fill="transparent" />
                 <line className="hidden sm:block" x1={cx} y1={cy} x2={cx} y2={ly + (up ? 12 : -12)} stroke="var(--ink-3)" strokeWidth={0.8} strokeDasharray="2 3" />
-                <motion.circle cx={cx} cy={cy} fill={active ? "var(--curve-a)" : "var(--paper)"} stroke="var(--curve-a)" strokeWidth={2} initial={{ r: reduce ? 5 : 0 }} animate={{ r: active ? 7 : 5 }} transition={{ type: "spring", stiffness: 380, damping: 18, delay: reduce ? 0 : (0.55 + i * 0.26) * T }} />
-                <text className="hidden sm:block" x={tx} y={ly + (up ? -2 : 8)} textAnchor={anchor} fill={active ? "var(--ink)" : "var(--ink-2)"} fontSize={14} fontFamily="var(--font-serif)" fontStyle="italic">
+                <motion.circle
+                  cx={cx}
+                  cy={cy}
+                  fill="none"
+                  stroke="var(--curve-a)"
+                  strokeWidth={1}
+                  strokeDasharray="2 3"
+                  initial={false}
+                  animate={{ opacity: ringOpacity, r: isHot ? 14 : 12 }}
+                  transition={{ duration: 0.32, ease: EASE }}
+                />
+                <motion.circle
+                  cx={cx}
+                  cy={cy}
+                  fill={active ? "var(--curve-a)" : "var(--paper)"}
+                  stroke="var(--curve-a)"
+                  strokeWidth={2}
+                  initial={{ r: reduce ? 5 : 0 }}
+                  animate={{ r: active ? 7 : isHot ? 6.5 : 5 }}
+                  transition={{ type: "spring", stiffness: 380, damping: 18, delay: reduce ? 0 : SEQ.point(i) * T }}
+                />
+                <text className="hidden sm:block" x={tx} y={ly + (up ? -2 : 8)} textAnchor={anchor} fill={active || isHot ? "var(--ink)" : "var(--ink-2)"} fontSize={14} fontFamily="var(--font-serif)" fontStyle="italic">
                   {s.title}
                 </text>
-                <text className="hidden sm:block" x={tx} y={ly + (up ? 14 : 24)} textAnchor={anchor} fill="var(--ink-3)" fontSize={11.5} fontFamily="var(--font-sans)">
+                <text className="hidden sm:block" x={tx} y={ly + (up ? 14 : 24)} textAnchor={anchor} fill={active || isHot ? "var(--ink-2)" : "var(--ink-3)"} fontSize={11.5} fontFamily="var(--font-sans)">
                   {s.subtitle}
                 </text>
-                <text className="sm:hidden" x={cx} y={up ? cy - 16 : cy + 30} textAnchor="middle" fill="var(--ink)" fontSize={24} fontFamily="var(--font-serif)" fontStyle="italic">
+                <text className="sm:hidden" x={cx} y={up ? cy - 16 : cy + 30} textAnchor="middle" fill={active ? "var(--ink)" : "var(--ink-2)"} fontSize={24} fontFamily="var(--font-serif)" fontStyle="italic">
                   {i + 1}
                 </text>
               </motion.g>
@@ -192,8 +286,8 @@ export function Hero() {
           </svg>
         )}
 
-        {/* The thesis sits on the figure: headline, offer, and the ask input, in the empty top-left of the plot. */}
-        <div className="md:absolute md:left-[10%] md:top-[6%] md:w-[40%]">
+        {/* The thesis sits in the empty upper-left of the plot, clear of the curve at every width. */}
+        <div className="md:absolute md:left-[7%] md:top-[3%] md:w-[37%] md:max-w-[420px]">
           <h1 className="h-display text-[clamp(2.2rem,1rem+3vw,3.9rem)]">
             Don&apos;t read my resume.
             <br />
@@ -204,7 +298,7 @@ export function Hero() {
                 style={{ top: "38%", height: "50%" }}
                 initial={{ scaleX: reduce ? 1 : 0 }}
                 animate={{ scaleX: 1 }}
-                transition={{ duration: 0.7 * T, ease: EASE, delay: 1.1 * T }}
+                transition={{ duration: SEQ.markerDur * T, ease: EASE, delay: SEQ.markerDelay * T }}
               />
               <span className="relative">Talk to it.</span>
             </span>
@@ -212,10 +306,10 @@ export function Hero() {
           <motion.form
             ref={plateRef}
             onSubmit={submit}
-            className="plate mt-4 rounded-sm p-3 shadow-[var(--shadow)]"
+            className="plate mt-3 rounded-sm p-3 shadow-[var(--shadow)]"
             initial={reduce ? { opacity: 0 } : { opacity: 0, y: 8, filter: "blur(4px)" }}
             animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            transition={{ duration: 0.7, ease: EASE, delay: 1.5 * T }}
+            transition={{ duration: SEQ.plateDur, ease: EASE, delay: SEQ.plateDelay * T }}
           >
             <div className="flex items-center gap-1 border-b border-ink transition-colors focus-within:border-curve-a">
               <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Ask about any point on this curve" className="min-w-0 flex-1 bg-transparent py-1.5 text-[15px] outline-none placeholder:text-ink-3 focus-visible:outline-none" aria-label="Ask Priyanshu AI" />
@@ -239,7 +333,7 @@ export function Hero() {
         <div>
           <p className="fig-label text-[15px]">Fig. 1 · {data.profile.name}, {data.profile.location}. Notes.</p>
           <p className="mt-2 max-w-[44ch] text-[16px] leading-relaxed">{data.profile.hero.subtext}</p>
-          <p className="mt-3 max-w-[44ch] text-[15px] leading-relaxed text-ink-2">Seven turning points, not seven job titles. Click any point on the curve and the note updates. The dip is real: building fell while he learned the commercial side, and the last point is the correction.</p>
+          <p className="mt-3 max-w-[44ch] text-[15px] leading-relaxed text-ink-2">Seven turning points, not seven job titles. Hover or click any point on the curve and the note updates. The ringed points are the first and the last: the dip between them is real, building fell while he learned the commercial side, and the last point is the correction.</p>
           <div className="mt-5 flex flex-wrap gap-2">
             <button onClick={() => void ask("Give me the 90-second version of his career.")} className="btn-ink">
               <IMic /> Talk to it
@@ -252,17 +346,17 @@ export function Hero() {
         <aside className="plate relative overflow-hidden rounded-sm p-5" aria-live="polite">
           <AnimatePresence mode="wait" initial={false}>
             <motion.div
-              key={sel}
+              key={shown}
               initial={reduce ? { opacity: 0 } : { opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
               exit={reduce ? { opacity: 0 } : { opacity: 0, y: -4 }}
               transition={{ duration: 0.28, ease: EASE }}
             >
               <h2 className="font-serif text-2xl">
-                {cur.title} <span className="fig-label text-[0.6em]">· note {sel + 1} of {steps.length}</span>
+                {cur.title} <span className="fig-label text-[0.6em]">· note {shown + 1} of {steps.length}</span>
               </h2>
               <div className="text-[14px] text-ink-2">{cur.subtitle}</div>
-              <p className="mt-2 text-[15px] leading-relaxed text-ink-2">{NOTES[sel]}</p>
+              <p className="mt-2 text-[15px] leading-relaxed text-ink-2">{NOTES[shown]}</p>
             </motion.div>
           </AnimatePresence>
           <div className="mt-4 flex items-center justify-between">
@@ -270,10 +364,10 @@ export function Hero() {
               Evidence: {ref.label}
             </Link>
             <div className="flex gap-1">
-              <button onClick={() => setSel(Math.max(0, sel - 1))} disabled={sel === 0} className="chip disabled:opacity-30" aria-label="Previous point">
+              <button onClick={() => step(-1)} disabled={sel === 0} className="chip disabled:opacity-30" aria-label="Previous point">
                 <IArrow className="rotate-180" width={14} height={14} />
               </button>
-              <button onClick={() => setSel(Math.min(steps.length - 1, sel + 1))} disabled={sel === steps.length - 1} className="chip disabled:opacity-30" aria-label="Next point">
+              <button onClick={() => step(1)} disabled={sel === steps.length - 1} className="chip disabled:opacity-30" aria-label="Next point">
                 <IArrow width={14} height={14} />
               </button>
             </div>
