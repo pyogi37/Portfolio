@@ -5,6 +5,8 @@ import Link from "next/link";
 import { data, resolveRef } from "@/lib/data";
 import { useAgent } from "@/components/agent/AgentProvider";
 import { IArrow, IMic, ISend } from "@/components/Icons";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { EASE } from "@/components/motion/Reveal";
 
 /* Fig. 1: the career as a plotted function. x = systems understood, y = systems built. */
 const W = 1000;
@@ -54,12 +56,13 @@ export function Hero() {
   const steps = data.education.storyView;
   const [sel, setSel] = useState<number>(6);
   const [q, setQ] = useState("");
-  const pathRef = useRef<SVGPathElement>(null);
-  const [len, setLen] = useState(2000);
+  const reduce = useReducedMotion();
+  const T = reduce ? 0 : 1; // time scale for the focal sequence
   const wrapRef = useRef<HTMLDivElement>(null);
   const plateRef = useRef<HTMLFormElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   const [leader, setLeader] = useState<{ x1: number; y1: number; x2: number; y2: number } | null>(null);
+  const [ready, setReady] = useState(false); // the leader only appears once the plate has landed
 
   // The callout is an annotation: a leader runs from the plate's edge to the selected point.
   useEffect(() => {
@@ -80,12 +83,9 @@ export function Hero() {
     update();
     window.addEventListener("resize", update);
     const t = setTimeout(update, 900);
-    return () => { window.removeEventListener("resize", update); clearTimeout(t); };
-  }, [sel]);
-
-  useEffect(() => {
-    if (pathRef.current) setLen(pathRef.current.getTotalLength());
-  }, []);
+    const r = setTimeout(() => setReady(true), reduce ? 0 : 2300);
+    return () => { window.removeEventListener("resize", update); clearTimeout(t); clearTimeout(r); };
+  }, [sel, reduce]);
 
   const d = smoothPath(PTS);
   const cur = steps[sel];
@@ -103,8 +103,8 @@ export function Hero() {
       <div ref={wrapRef} className="relative flex flex-col-reverse md:block">
         <svg ref={svgRef} viewBox={`0 0 ${W} ${H}`} className="mx-auto w-full md:max-h-[76vh]" role="img" aria-label="Figure 1. Priyanshu's career plotted as a curve: systems understood against systems built.">
           {/* axes */}
-          <line x1={PAD.l} y1={PAD.t - 10} x2={PAD.l} y2={H - PAD.b} stroke="var(--ink)" strokeWidth={1.2} />
-          <line x1={PAD.l} y1={H - PAD.b} x2={W - PAD.r + 10} y2={H - PAD.b} stroke="var(--ink)" strokeWidth={1.2} />
+          <motion.line x1={PAD.l} y1={H - PAD.b} x2={PAD.l} y2={PAD.t - 10} stroke="var(--ink)" strokeWidth={1.2} initial={{ pathLength: reduce ? 1 : 0 }} animate={{ pathLength: 1 }} transition={{ duration: 0.6 * T, ease: EASE }} />
+          <motion.line x1={PAD.l} y1={H - PAD.b} x2={W - PAD.r + 10} y2={H - PAD.b} stroke="var(--ink)" strokeWidth={1.2} initial={{ pathLength: reduce ? 1 : 0 }} animate={{ pathLength: 1 }} transition={{ duration: 0.7 * T, ease: EASE }} />
           <path d={`M ${PAD.l - 5} ${PAD.t - 2} L ${PAD.l} ${PAD.t - 12} L ${PAD.l + 5} ${PAD.t - 2}`} fill="none" stroke="var(--ink)" strokeWidth={1.2} />
           <path d={`M ${W - PAD.r + 2} ${H - PAD.b - 5} L ${W - PAD.r + 12} ${H - PAD.b} L ${W - PAD.r + 2} ${H - PAD.b + 5}`} fill="none" stroke="var(--ink)" strokeWidth={1.2} />
           <text className="hidden sm:block" transform={`translate(${PAD.l - 14} ${(PAD.t + H - PAD.b) / 2}) rotate(-90)`} textAnchor="middle" fill="var(--ink-2)" fontSize={15} fontStyle="italic" fontFamily="var(--font-serif)">
@@ -129,7 +129,7 @@ export function Hero() {
           ))}
 
           {/* the curve */}
-          <path ref={pathRef} d={d} fill="none" stroke="var(--curve-a)" strokeWidth={2.4} className="draw" style={{ ["--len" as string]: len }} />
+          <motion.path d={d} fill="none" stroke="var(--curve-a)" strokeWidth={2.4} strokeLinecap="round" initial={{ pathLength: reduce ? 1 : 0, opacity: 1 }} animate={{ pathLength: 1 }} transition={{ duration: 2.2 * T, ease: EASE, delay: 0.4 * T }} />
 
           {/* points with leader lines */}
           {PTS.map((p, i) => {
@@ -142,9 +142,22 @@ export function Hero() {
             const anchor = p.anchor ?? "middle";
             const tx = anchor === "start" ? cx + 10 : anchor === "end" ? cx + 6 : cx;
             return (
-              <g key={i} className="cursor-pointer fade-up" style={{ animationDelay: `${0.35 + i * 0.22}s` }} onClick={() => setSel(i)} tabIndex={0} role="button" aria-label={`${s.title}: ${s.subtitle}`} onKeyDown={(e) => e.key === "Enter" && setSel(i)}>
+              <motion.g
+                key={i}
+                className="cursor-pointer"
+                initial={reduce ? { opacity: 1 } : { opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5, delay: (0.55 + i * 0.26) * T, ease: EASE }}
+                onClick={() => setSel(i)}
+                tabIndex={0}
+                role="button"
+                aria-label={`${s.title}: ${s.subtitle}`}
+                onKeyDown={(e) => e.key === "Enter" && setSel(i)}
+                whileHover={reduce ? undefined : { scale: 1.02 }}
+                style={{ transformOrigin: `${cx}px ${cy}px` }}
+              >
                 <line className="hidden sm:block" x1={cx} y1={cy} x2={cx} y2={ly + (up ? 12 : -12)} stroke="var(--ink-3)" strokeWidth={0.8} strokeDasharray="2 3" />
-                <circle cx={cx} cy={cy} r={active ? 7 : 5} fill={active ? "var(--curve-a)" : "var(--paper)"} stroke="var(--curve-a)" strokeWidth={2} />
+                <motion.circle cx={cx} cy={cy} fill={active ? "var(--curve-a)" : "var(--paper)"} stroke="var(--curve-a)" strokeWidth={2} initial={{ r: reduce ? 5 : 0 }} animate={{ r: active ? 7 : 5 }} transition={{ type: "spring", stiffness: 380, damping: 18, delay: reduce ? 0 : (0.55 + i * 0.26) * T }} />
                 <text className="hidden sm:block" x={tx} y={ly + (up ? -2 : 8)} textAnchor={anchor} fill={active ? "var(--ink)" : "var(--ink-2)"} fontSize={14} fontFamily="var(--font-serif)" fontStyle="italic">
                   {s.title}
                 </text>
@@ -154,7 +167,7 @@ export function Hero() {
                 <text className="sm:hidden" x={cx} y={up ? cy - 16 : cy + 30} textAnchor="middle" fill="var(--ink)" fontSize={24} fontFamily="var(--font-serif)" fontStyle="italic">
                   {i + 1}
                 </text>
-              </g>
+              </motion.g>
             );
           })}
         </svg>
@@ -165,10 +178,17 @@ export function Hero() {
           </span>
         </p>
 
-        {leader && (
+        {leader && ready && (
           <svg className="pointer-events-none absolute inset-0 hidden h-full w-full md:block" aria-hidden>
-            <line x1={leader.x1} y1={leader.y1} x2={leader.x2} y2={leader.y2} stroke="var(--ink-2)" strokeWidth={1} strokeDasharray="3 3" />
-            <circle cx={leader.x1} cy={leader.y1} r={2.5} fill="var(--ink-2)" />
+            <motion.line
+              stroke="var(--ink-2)"
+              strokeWidth={1}
+              strokeDasharray="3 3"
+              initial={{ x1: leader.x1, y1: leader.y1, x2: leader.x1, y2: leader.y1 }}
+              animate={{ x1: leader.x1, y1: leader.y1, x2: leader.x2, y2: leader.y2 }}
+              transition={{ type: "spring", stiffness: 120, damping: 20, delay: reduce ? 0 : 0.2 }}
+            />
+            <motion.circle r={2.5} fill="var(--ink-2)" animate={{ cx: leader.x1, cy: leader.y1 }} transition={{ type: "spring", stiffness: 120, damping: 20 }} />
           </svg>
         )}
 
@@ -177,11 +197,28 @@ export function Hero() {
           <h1 className="h-display text-[clamp(2.2rem,1rem+3vw,3.9rem)]">
             Don&apos;t read my resume.
             <br />
-            <span className="mark">Talk to it.</span>
+            <span className="relative inline-block">
+              <motion.span
+                aria-hidden
+                className="absolute inset-0 -mx-[0.15em] origin-left bg-marker"
+                style={{ top: "38%", height: "50%" }}
+                initial={{ scaleX: reduce ? 1 : 0 }}
+                animate={{ scaleX: 1 }}
+                transition={{ duration: 0.7 * T, ease: EASE, delay: 1.1 * T }}
+              />
+              <span className="relative">Talk to it.</span>
+            </span>
           </h1>
-          <form ref={plateRef} onSubmit={submit} className="plate fade-up mt-4 rounded-sm p-3 shadow-[var(--shadow)]" style={{ animationDelay: "0.6s" }}>
-            <div className="flex items-center gap-1 border-b border-ink">
-              <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Ask about any point on this curve" className="min-w-0 flex-1 bg-transparent py-1.5 text-[15px] outline-none placeholder:text-ink-3" aria-label="Ask Priyanshu AI" />
+          <motion.form
+            ref={plateRef}
+            onSubmit={submit}
+            className="plate mt-4 rounded-sm p-3 shadow-[var(--shadow)]"
+            initial={reduce ? { opacity: 0 } : { opacity: 0, y: 8, filter: "blur(4px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            transition={{ duration: 0.7, ease: EASE, delay: 1.5 * T }}
+          >
+            <div className="flex items-center gap-1 border-b border-ink transition-colors focus-within:border-curve-a">
+              <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Ask about any point on this curve" className="min-w-0 flex-1 bg-transparent py-1.5 text-[15px] outline-none placeholder:text-ink-3 focus-visible:outline-none" aria-label="Ask Priyanshu AI" />
               <button type="submit" className="p-1.5 text-ink hover:text-curve-a" aria-label="Ask">
                 <ISend />
               </button>
@@ -193,7 +230,7 @@ export function Hero() {
                 </button>
               ))}
             </div>
-          </form>
+          </motion.form>
         </div>
       </div>
 
@@ -212,12 +249,22 @@ export function Hero() {
             </a>
           </div>
         </div>
-        <aside className="plate rounded-sm p-5" aria-live="polite">
-          <h2 className="font-serif text-2xl">
-            {cur.title} <span className="fig-label text-[0.6em]">· note {sel + 1} of {steps.length}</span>
-          </h2>
-          <div className="text-[14px] text-ink-2">{cur.subtitle}</div>
-          <p className="mt-2 text-[15px] leading-relaxed text-ink-2">{NOTES[sel]}</p>
+        <aside className="plate relative overflow-hidden rounded-sm p-5" aria-live="polite">
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.div
+              key={sel}
+              initial={reduce ? { opacity: 0 } : { opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={reduce ? { opacity: 0 } : { opacity: 0, y: -4 }}
+              transition={{ duration: 0.28, ease: EASE }}
+            >
+              <h2 className="font-serif text-2xl">
+                {cur.title} <span className="fig-label text-[0.6em]">· note {sel + 1} of {steps.length}</span>
+              </h2>
+              <div className="text-[14px] text-ink-2">{cur.subtitle}</div>
+              <p className="mt-2 text-[15px] leading-relaxed text-ink-2">{NOTES[sel]}</p>
+            </motion.div>
+          </AnimatePresence>
           <div className="mt-4 flex items-center justify-between">
             <Link href={ref.href} className="text-[14px] text-curve-b hover:underline">
               Evidence: {ref.label}

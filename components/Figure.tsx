@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { resolveRef } from "@/lib/data";
+import { Reveal, DrawnRule } from "@/components/motion/Reveal";
 
 /**
  * Every section of the site is a numbered figure or table on the sheet.
@@ -24,7 +25,8 @@ export function Figure({
 }) {
   return (
     <section id={id} className="figure scroll-mt-20" aria-labelledby={`${id}-title`}>
-      <header className="grid gap-4 md:grid-cols-[1fr_auto] md:items-end">
+      <DrawnRule className="mb-8" />
+      <Reveal as="header" className="grid gap-4 md:grid-cols-[1fr_auto] md:items-end">
         <div>
           <h2 id={`${id}-title`} className="h-fig">
             <span className="fig-label mr-3 text-[0.55em] align-middle">
@@ -35,8 +37,8 @@ export function Figure({
           {lede && <p className="lede">{lede}</p>}
         </div>
         {aside && <div className="text-[15px] text-ink-2 md:max-w-xs md:text-right">{aside}</div>}
-      </header>
-      <div className="mt-10">{children}</div>
+      </Reveal>
+      <Reveal className="mt-10" delay={0.1}>{children}</Reveal>
     </section>
   );
 }

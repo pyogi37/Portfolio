@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useAgent } from "./agent/AgentProvider";
 import { useTheme } from "./ThemeProvider";
 import { IMoon, ISun } from "./Icons";
+import { AnimatePresence, motion } from "motion/react";
 
 const LINKS = [
   ["/#how-i-got-here", "Education"],
@@ -37,7 +38,11 @@ export function Nav() {
             aria-label={theme === "sheet" ? "Switch to the chalkboard rendition" : "Switch to the paper rendition"}
             title={theme === "sheet" ? "Board" : "Sheet"}
           >
-            {theme === "sheet" ? <IMoon /> : <ISun />}
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.span key={theme} className="inline-flex" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }} transition={{ duration: 0.25 }}>
+                {theme === "sheet" ? <IMoon /> : <ISun />}
+              </motion.span>
+            </AnimatePresence>
             <span className="ml-1.5 hidden sm:inline">{theme === "sheet" ? "board" : "sheet"}</span>
           </button>
           <button onClick={() => setOpen(true)} className="btn-ink !py-1.5 text-[14px]">

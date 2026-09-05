@@ -5,6 +5,8 @@ import Link from "next/link";
 import { dimensions, resolveRef } from "@/lib/data";
 import { useAgent } from "@/components/agent/AgentProvider";
 import { Figure } from "@/components/Figure";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { EASE, listVariants, itemVariants } from "@/components/motion/Reveal";
 
 /* Fig. 2: six overlapping regions drawn as ink rings with hatching, the way a textbook draws overlapping sets. */
 const HATCH_ANGLES = [0, 30, 60, 90, 120, 150];
@@ -12,6 +14,7 @@ const HATCH_ANGLES = [0, 30, 60, 90, 120, 150];
 export function Tracks() {
   const { highlighted, setHighlighted, ask } = useAgent();
   const [active, setActive] = useState<string>("builder");
+  const reduce = useReducedMotion();
   useEffect(() => {
     if (highlighted.length) setActive(highlighted[0]);
   }, [highlighted]);
@@ -69,13 +72,15 @@ export function Tracks() {
               </button>
             ))}
           </div>
+          <AnimatePresence mode="wait" initial={false}>
+          <motion.div key={dim.id} initial={reduce ? { opacity: 0 } : { opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.25, ease: EASE }}>
           <h3 className="mt-6 font-serif text-3xl">{dim.label}</h3>
           <p className="mt-1 text-[15px] text-ink-3">{dim.items.join(" · ")}</p>
-          <ol className="mt-5 space-y-3">
+          <motion.ol className="mt-5 space-y-3" variants={listVariants} initial={reduce ? "show" : "hidden"} animate="show">
             {dim.evidence.map((e, i) => {
               const ref = resolveRef(e.ref);
               return (
-                <li key={i} className="grid grid-cols-[1.6rem_1fr] gap-2 text-[15.5px] leading-relaxed text-ink-2">
+                <motion.li key={i} variants={itemVariants} className="grid grid-cols-[1.6rem_1fr] gap-2 text-[15.5px] leading-relaxed text-ink-2">
                   <span className="fig-label text-right">{i + 1}</span>
                   <span>
                     {e.text}{" "}
@@ -83,10 +88,12 @@ export function Tracks() {
                       {ref.label}
                     </Link>
                   </span>
-                </li>
+                </motion.li>
               );
             })}
-          </ol>
+          </motion.ol>
+          </motion.div>
+          </AnimatePresence>
         </div>
       </div>
     </Figure>

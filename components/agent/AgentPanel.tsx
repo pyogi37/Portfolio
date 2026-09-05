@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import { useAgent } from "./AgentProvider";
 import { IClose, IMic, ISend, ISpeaker, ISpeakerOff } from "@/components/Icons";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { EASE } from "@/components/motion/Reveal";
 
 const SUGGESTED = [
   "Is he primarily technical or business?",
@@ -42,6 +44,7 @@ export function AgentPanel() {
   const recRef = useRef<Recognition | null>(null);
   const endRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const reduce = useReducedMotion();
 
   useEffect(() => setVoiceSupported(!!getRecognition()), []);
   useEffect(() => {
@@ -110,8 +113,11 @@ export function AgentPanel() {
         </button>
       )}
 
-      <aside
-        className={`fixed inset-y-0 right-0 z-50 flex w-full max-w-md flex-col border-l border-ink bg-paper transition-transform duration-300 ${open ? "translate-x-0" : "translate-x-full"}`}
+      <motion.aside
+        className="fixed inset-y-0 right-0 z-50 flex w-full max-w-md flex-col border-l border-ink bg-paper"
+        initial={false}
+        animate={{ x: open ? "0%" : "100%" }}
+        transition={reduce ? { duration: 0.15 } : { type: "spring", stiffness: 260, damping: 30 }}
         aria-hidden={!open}
         aria-label="Priyanshu AI"
       >
@@ -147,7 +153,13 @@ export function AgentPanel() {
             </div>
           )}
           {messages.map((m, i) => (
-            <div key={i} className={m.role === "user" ? "pl-8" : "pr-4"}>
+            <motion.div
+              key={i}
+              className={m.role === "user" ? "pl-8" : "pr-4"}
+              initial={reduce ? { opacity: 0 } : { opacity: 0, y: 6, filter: m.role === "assistant" ? "blur(4px)" : "blur(0px)" }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              transition={{ duration: 0.45, ease: EASE }}
+            >
               <div className="fig-label text-[12px]">{m.role === "user" ? "You" : "Priyanshu AI"}</div>
               <div className={`mt-1 whitespace-pre-wrap text-[15.5px] leading-relaxed ${m.role === "user" ? "border-l border-ink pl-3 text-ink-2" : "text-ink"}`}>{m.content}</div>
               {m.actions && m.actions.length > 0 && (
@@ -161,28 +173,32 @@ export function AgentPanel() {
                   ))}
                 </div>
               )}
-            </div>
+            </motion.div>
           ))}
-          {busy && <div className="fig-label text-[14px] text-ink-3">writing…</div>}
+          {busy && (
+            <motion.div className="fig-label text-[14px] text-ink-3" initial={{ opacity: 0 }} animate={{ opacity: [0.4, 1, 0.4] }} transition={{ duration: 1.4, repeat: Infinity }}>
+              writing…
+            </motion.div>
+          )}
           {error && <div className="border border-curve-a bg-[var(--curve-a-soft)] p-3 text-[14px]">{error}</div>}
           <div ref={endRef} />
         </div>
 
         <form onSubmit={submit} className="border-t border-rule p-4">
-          <div className="flex items-center gap-1 border-b border-ink">
+          <div className="flex items-center gap-1 border-b border-ink transition-colors focus-within:border-curve-a">
             {voiceSupported && (
               <button type="button" onClick={toggleListening} className={`p-1.5 ${listening ? "text-curve-a" : "text-ink-2 hover:text-ink"}`} title={listening ? "Stop listening" : "Speak your question"} aria-pressed={listening} aria-label="Speak your question">
                 <IMic />
               </button>
             )}
-            <input ref={inputRef} value={input} onChange={(e) => setInput(e.target.value)} placeholder={listening ? "Listening…" : "Ask about his background, projects, or fit…"} className="min-w-0 flex-1 bg-transparent px-1 py-2 text-[15px] outline-none placeholder:text-ink-3" disabled={busy} aria-label="Your question" />
+            <input ref={inputRef} value={input} onChange={(e) => setInput(e.target.value)} placeholder={listening ? "Listening…" : "Ask about his background, projects, or fit…"} className="min-w-0 flex-1 bg-transparent px-1 py-2 text-[15px] outline-none placeholder:text-ink-3 focus-visible:outline-none" disabled={busy} aria-label="Your question" />
             <button type="submit" disabled={busy || !input.trim()} className="p-1.5 text-ink disabled:opacity-30" aria-label="Send">
               <ISend />
             </button>
           </div>
           <p className="mt-2 text-[12px] text-ink-3">Voice uses your browser&apos;s speech engine. Conversations are not stored.</p>
         </form>
-      </aside>
+      </motion.aside>
     </>
   );
 }

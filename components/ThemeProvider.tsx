@@ -17,7 +17,10 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   }, []);
   const setTheme = useCallback((t: Theme) => {
     setThemeState(t);
-    document.documentElement.setAttribute("data-theme", t);
+    const root = document.documentElement;
+    root.classList.add("theme-anim");
+    root.setAttribute("data-theme", t);
+    window.setTimeout(() => root.classList.remove("theme-anim"), 500);
     try {
       localStorage.setItem("theme", t);
     } catch {}

@@ -5,6 +5,8 @@ import Link from "next/link";
 import { roles, projectById, projectSlug } from "@/lib/data";
 import { Figure, Notes } from "@/components/Figure";
 import { IArrowUpRight } from "@/components/Icons";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { EASE, listVariants, itemVariants } from "@/components/motion/Reveal";
 
 /* Fig. 3: roles as spans on a time axis, 2019 to 2026, the way a figure shades periods. */
 const T0 = 2019;
@@ -16,6 +18,7 @@ const tx = (ym: string) => {
 
 export function Experience() {
   const [openId, setOpenId] = useState<string>(roles[0].id);
+  const reduce = useReducedMotion();
   const rows = [...roles].reverse(); // chronological, oldest first
   const open = roles.find((r) => r.id === openId)!;
   return (
@@ -36,7 +39,7 @@ export function Experience() {
           </div>
         </div>
         <ul className="mt-2 divide-y divide-rule">
-          {rows.map((r) => {
+          {rows.map((r, i) => {
             const l = tx(r.start);
             const w = Math.max(2.5, tx(r.end) - l);
             const on = r.id === openId;
@@ -54,9 +57,13 @@ export function Experience() {
                   </span>
                   <span className="relative block h-5">
                     <span className="absolute inset-y-0 left-0 right-0 top-1/2 h-px bg-rule" />
-                    <span
-                      className={`absolute top-0 h-5 rounded-sm border transition ${on ? "border-ink bg-ink" : "border-ink/60 bg-paper"}`}
+                    <motion.span
+                      className={`absolute top-0 h-5 origin-left rounded-sm border transition-colors ${on ? "border-ink bg-ink" : "border-ink/60 bg-paper"}`}
                       style={{ left: `${l}%`, width: `${w}%` }}
+                      initial={{ scaleX: reduce ? 1 : 0 }}
+                      whileInView={{ scaleX: 1 }}
+                      viewport={{ once: true, margin: "-15% 0px" }}
+                      transition={{ duration: 0.8, ease: EASE, delay: reduce ? 0 : 0.15 + i * 0.12 }}
                     />
                     <span className={`absolute top-0 hidden whitespace-nowrap font-mono text-[11px] leading-5 md:block ${l + w > 82 ? "text-right" : ""}`} style={l + w > 82 ? { right: `${100 - l + 1}%` } : { left: `calc(${l + w}% + 8px)` }}>
                       <span className="tnum text-ink-3">{r.period}</span>
@@ -70,20 +77,30 @@ export function Experience() {
       </div>
 
       {/* detail: the reading for the selected span */}
-      <article className="mt-10 grid gap-8 border-t border-rule pt-8 md:grid-cols-[1.6fr_1fr]" id={open.id.replace(":", "-")} aria-live="polite">
+      <AnimatePresence mode="wait" initial={false}>
+      <motion.article
+        key={open.id}
+        initial={reduce ? { opacity: 0 } : { opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={reduce ? { opacity: 0 } : { opacity: 0, y: -4 }}
+        transition={{ duration: 0.3, ease: EASE }}
+        className="mt-10 grid gap-8 border-t border-rule pt-8 md:grid-cols-[1.6fr_1fr]"
+        id={open.id.replace(":", "-")}
+        aria-live="polite"
+      >
         <div>
           <div className="fig-label text-[14px] tnum">{open.period} · {open.location}</div>
           <h3 className="mt-1 font-serif text-3xl">{open.role}</h3>
           <div className="text-lg text-ink-2">{open.organization}</div>
           <p className="mt-3 text-[15px] italic text-ink-3">{open.context}</p>
-          <ol className="mt-4 space-y-2.5">
+          <motion.ol className="mt-4 space-y-2.5" variants={listVariants} initial={reduce ? "show" : "hidden"} animate="show">
             {open.workedOn.map((w, i) => (
-              <li key={i} className="grid grid-cols-[1.6rem_1fr] gap-2 text-[15.5px] leading-relaxed text-ink-2">
+              <motion.li key={i} variants={itemVariants} className="grid grid-cols-[1.6rem_1fr] gap-2 text-[15.5px] leading-relaxed text-ink-2">
                 <span className="fig-label text-right">{i + 1}</span>
                 <span>{w}</span>
-              </li>
+              </motion.li>
             ))}
-          </ol>
+          </motion.ol>
         </div>
         <div className="space-y-5 text-[15px]">
           <div>
@@ -116,7 +133,8 @@ export function Experience() {
             </div>
           )}
         </div>
-      </article>
+      </motion.article>
+      </AnimatePresence>
       <Notes items={[{ n: "a", text: "All figures (camera counts, deal sizes, PoC counts, query timings) are as stated on the resume; none are rounded up here." }]} />
     </Figure>
   );
