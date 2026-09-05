@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { chat, extractJson, LLMConfigError } from "@/lib/ai/llm";
 import { chatSystemPrompt, DIMENSION_IDS, PROJECT_SLUGS } from "@/lib/ai/context";
+import { clientIp, rateLimit } from "@/lib/ai/rate-limit";
 import { SECTION_IDS } from "@/lib/data";
 import type { AgentAction, ChatMessage } from "@/lib/ai/types";
 
@@ -8,6 +9,9 @@ export const runtime = "nodejs";
 
 const MAX_MESSAGES = 12;
 const MAX_CHARS = 2000;
+
+/* Chat is the primary action, so it takes the larger share of the provider's daily free budget. */
+const LIMITS = { perIpPerMinute: 5, perIpPerDay: 20, globalPerDay: 30 };
 
 /** Only let validated actions through to the UI. */
 function sanitizeActions(raw: unknown): AgentAction[] {
@@ -35,6 +39,11 @@ function sanitizeActions(raw: unknown): AgentAction[] {
 }
 
 export async function POST(req: Request) {
+  const limit = rateLimit(clientIp(req), LIMITS);
+  if (!limit.ok) {
+    return NextResponse.json({ error: limit.message }, { status: 429, headers: { "retry-after": String(limit.retryAfter) } });
+  }
+
   let body: { messages?: ChatMessage[] };
   try {
     body = await req.json();

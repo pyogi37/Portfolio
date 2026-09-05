@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { chat, extractJson, LLMConfigError } from "@/lib/ai/llm";
 import { relevanceSystemPrompt } from "@/lib/ai/context";
+import { clientIp, rateLimit } from "@/lib/ai/rate-limit";
 import { allProjects, roles } from "@/lib/data";
 import type { RelevanceResult } from "@/lib/ai/types";
 
@@ -14,6 +15,13 @@ const KNOWN_REFS = new Set<string>([
   "edu:self",
 ]);
 const PROJECT_IDS = new Set(allProjects.map((p) => p.id));
+
+/*
+ * A fit check is a heavier call than a chat turn and a visitor needs very few of
+ * them, so this route takes the smaller share. Chat 30 plus this 12 stays under
+ * the provider's 50 a day with room to spare.
+ */
+const LIMITS = { perIpPerMinute: 3, perIpPerDay: 5, globalPerDay: 12 };
 
 const str = (v: unknown, max = 400) => (typeof v === "string" ? v.slice(0, max) : "");
 const arr = (v: unknown) => (Array.isArray(v) ? v : []);
@@ -43,6 +51,11 @@ function sanitize(r: Partial<RelevanceResult> | null): RelevanceResult {
 }
 
 export async function POST(req: Request) {
+  const limit = rateLimit(clientIp(req), LIMITS);
+  if (!limit.ok) {
+    return NextResponse.json({ error: limit.message }, { status: 429, headers: { "retry-after": String(limit.retryAfter) } });
+  }
+
   let jd = "";
   try {
     const body = await req.json();
