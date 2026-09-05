@@ -11,6 +11,7 @@ A portfolio site where every section, and every answer the AI gives, derives fro
 - Structured JSON output for UI actions (navigate, highlight dimensions, open project); no vendor tool-calling
 - Web Speech API for voice in/out (browser-native, no keys)
 - d3-force for the Priyanshu Graph
+- Motion (Framer Motion, `motion/react`) for one authored motion grammar: figures draw on; see the Motion section
 
 ## Run
 
@@ -58,6 +59,10 @@ Practically, that meant Claude in Cowork and Claude Code doing the implementatio
 ## Design system
 
 The UI follows the world recorded in `DESIGN.md` ("the economist's figure sheet"): every section is a numbered Figure or Table, two renditions of one world (`data-theme="sheet"` light, `data-theme="board"` dark, toggled in the nav and remembered in localStorage). `PRODUCT.md` holds product truth. Both were produced with the [Impeccable](https://impeccable.style) skill, installed under `.claude/skills/impeccable` (run `/impeccable` in Claude Code inside this repo; `impeccable detect app components` runs the anti-pattern detector). Fonts are self-hosted OFL files in `app/fonts`.
+
+## Motion
+
+One grammar, from the world: things are drawn onto the sheet, not dropped in. The focal sequence is Fig. 1 on load (axes, then the curve via `pathLength`, points landing in order, the highlighter swiping across "Talk to it.", the ask plate resolving from a blur, then the leader line). Selection changes explain themselves: the leader re-routes to the chosen point, notes and role details crossfade, evidence lists stagger only because they are lists. Every figure's rule draws once on first view. The marginalia panel springs in; AI replies resolve from a blur. `prefers-reduced-motion` keeps opacity and state changes and removes movement. Implementation: `components/motion/Reveal.tsx` plus per-section `motion` elements.
 
 ## Keyboard
 
