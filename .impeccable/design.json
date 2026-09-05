@@ -1,0 +1,175 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-05T00:00:00Z",
+  "title": "Design System: Priyanshu Yogi Portfolio",
+  "extensions": {
+    "colorMeta": {
+      "curve-a": { "role": "primary", "displayName": "Oxblood curve ink", "canonical": "#a8222b", "tonalRamp": ["oklch(18% 0.09 25)", "oklch(28% 0.13 25)", "oklch(38% 0.16 25)", "oklch(48% 0.18 25)", "oklch(60% 0.17 25)", "oklch(72% 0.13 25)", "oklch(84% 0.08 25)", "oklch(95% 0.03 25)"] },
+      "curve-b": { "role": "primary", "displayName": "Cobalt reference ink", "canonical": "#1f4fd8", "tonalRamp": ["oklch(18% 0.10 265)", "oklch(28% 0.15 265)", "oklch(38% 0.19 265)", "oklch(48% 0.22 265)", "oklch(60% 0.19 265)", "oklch(72% 0.14 265)", "oklch(84% 0.08 265)", "oklch(95% 0.03 265)"] },
+      "marker": { "role": "secondary", "displayName": "Highlighter marker", "canonical": "#ffe66d", "tonalRamp": ["oklch(20% 0.05 98)", "oklch(32% 0.08 98)", "oklch(45% 0.11 98)", "oklch(58% 0.13 98)", "oklch(70% 0.15 98)", "oklch(82% 0.16 98)", "oklch(92% 0.15 98)", "oklch(97% 0.06 98)"] },
+      "ink": { "role": "neutral", "displayName": "Blue-black ink", "canonical": "#141a2b", "tonalRamp": ["oklch(15% 0.03 265)", "oklch(20% 0.03 265)", "oklch(32% 0.03 265)", "oklch(44% 0.025 265)", "oklch(58% 0.02 265)", "oklch(72% 0.015 265)", "oklch(86% 0.01 265)", "oklch(95% 0.005 265)"] },
+      "paper": { "role": "neutral", "displayName": "Cool paper", "canonical": "#f6f7fa", "tonalRamp": ["oklch(15% 0.01 260)", "oklch(28% 0.01 260)", "oklch(42% 0.01 260)", "oklch(56% 0.01 260)", "oklch(70% 0.008 260)", "oklch(84% 0.006 260)", "oklch(93% 0.005 260)", "oklch(97.5% 0.005 260)"] },
+      "grid": { "role": "neutral", "displayName": "Quadrille grid", "canonical": "rgba(64, 104, 190, 0.1)", "tonalRamp": ["rgba(64,104,190,0.4)", "rgba(64,104,190,0.3)", "rgba(64,104,190,0.2)", "rgba(64,104,190,0.15)", "rgba(64,104,190,0.1)", "rgba(64,104,190,0.07)", "rgba(64,104,190,0.05)", "rgba(64,104,190,0.03)"] },
+      "board-paper": { "role": "neutral", "displayName": "Slate-green board", "canonical": "#172420", "tonalRamp": ["oklch(15% 0.02 165)", "oklch(22% 0.02 165)", "oklch(32% 0.02 165)", "oklch(44% 0.02 165)", "oklch(58% 0.02 165)", "oklch(72% 0.015 165)", "oklch(86% 0.01 165)", "oklch(95% 0.006 165)"] },
+      "board-ink": { "role": "neutral", "displayName": "Chalk white", "canonical": "#eef3ef", "tonalRamp": ["oklch(15% 0.01 160)", "oklch(28% 0.01 160)", "oklch(42% 0.01 160)", "oklch(56% 0.01 160)", "oklch(70% 0.008 160)", "oklch(84% 0.007 160)", "oklch(92% 0.006 160)", "oklch(95.5% 0.006 160)"] },
+      "board-curve-a": { "role": "primary", "displayName": "Chalk red", "canonical": "#ff8a80", "tonalRamp": ["oklch(18% 0.08 25)", "oklch(30% 0.11 25)", "oklch(42% 0.14 25)", "oklch(54% 0.16 25)", "oklch(64% 0.16 25)", "oklch(72% 0.15 25)", "oklch(84% 0.09 25)", "oklch(95% 0.03 25)"] },
+      "board-curve-b": { "role": "primary", "displayName": "Chalk blue", "canonical": "#8fc3ff", "tonalRamp": ["oklch(18% 0.06 250)", "oklch(30% 0.09 250)", "oklch(42% 0.11 250)", "oklch(54% 0.12 250)", "oklch(66% 0.11 250)", "oklch(80% 0.09 250)", "oklch(88% 0.06 250)", "oklch(95% 0.02 250)"] },
+      "board-marker": { "role": "secondary", "displayName": "Chalk yellow", "canonical": "#f7e07a", "tonalRamp": ["oklch(20% 0.05 95)", "oklch(32% 0.08 95)", "oklch(45% 0.10 95)", "oklch(58% 0.12 95)", "oklch(70% 0.13 95)", "oklch(82% 0.13 95)", "oklch(90% 0.12 95)", "oklch(97% 0.05 95)"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "The h1 only, placed on Fig. 1 in the empty top-left of the plot." },
+      "headline": { "displayName": "Figure title", "purpose": "Every Fig. and Table title; preceded by the italic figure label at 0.55em." },
+      "title": { "displayName": "Title", "purpose": "A selected item's name inside a figure: role, dimension, featured project." },
+      "title-sm": { "displayName": "Title small", "purpose": "Note headings inside plates and dialogs." },
+      "body": { "displayName": "Body", "purpose": "Page default reading size; 68ch measure." },
+      "body-sm": { "displayName": "Body small", "purpose": "Plate copy, evidence lists, buttons, nav links, field text." },
+      "label": { "displayName": "Figure label", "purpose": "Italic Caslon caption: figure numbers, plate headings, footnote numerals, ledger heads, SVG axis and point labels." },
+      "value": { "displayName": "Value", "purpose": "Mono tabular figures for years, periods, counts, and kbd." }
+    },
+    "shadows": [
+      { "name": "shadow", "value": "0 10px 30px -12px rgba(20, 26, 43, 0.25)", "purpose": "The one sheet shadow: ink button, hero annotation callout, dialog plates. Board rendition: 0 12px 34px -12px rgba(0,0,0,0.6)." },
+      { "name": "flash", "value": "0 0 0 0 var(--marker) -> 0 0 0 18px transparent", "purpose": "One-shot marker ring when the AI lights up a target (1.4s ease-out, once)." }
+    ],
+    "motion": [
+      { "name": "ease-draw", "value": "cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "The single authored easing for draw-on and fade-up." },
+      { "name": "draw", "value": "stroke-dashoffset 2.2s ease-draw forwards (stroke-dasharray = path length)", "purpose": "SVG strokes draw on; .draw-late delays 1.1s." },
+      { "name": "fade-up", "value": "opacity 0->1, translateY 6px->0, 0.7s ease-draw both", "purpose": "Points, callouts and notes appear; staggered 0.22s per item on Fig. 1." },
+      { "name": "panel-slide", "value": "transform 300ms", "purpose": "Marginalia panel slides in from the right." },
+      { "name": "hover-lift", "value": "translateY(-1px)", "purpose": "Ink button hover; the only lift in the system." },
+      { "name": "reduced-motion", "value": "animation-duration 0.01ms; transition-duration 0.01ms; scroll-behavior auto", "purpose": "prefers-reduced-motion collapses every animation." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "container", "value": "72rem" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Ink Button",
+      "kind": "button",
+      "refersTo": "button-ink",
+      "description": "Primary action drawn in solid ink; the only control that carries the sheet shadow.",
+      "html": "<button class=\"ds-btn-ink\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"9\" y=\"3\" width=\"6\" height=\"11\" rx=\"3\"/><path d=\"M5 11a7 7 0 0 0 14 0M12 18v3M9 21h6\"/></svg> Talk to it</button>",
+      "css": ".ds-btn-ink { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; border: 0; border-radius: 4px; background: var(--ink, #141a2b); color: var(--paper, #f6f7fa); font-family: var(--font-sans, 'Atkinson Hyperlegible', system-ui, sans-serif); font-size: 15px; font-weight: 500; line-height: 1.5; box-shadow: var(--shadow, 0 10px 30px -12px rgba(20,26,43,0.25)); cursor: pointer; transition: transform 150ms, opacity 150ms; } .ds-btn-ink:hover { transform: translateY(-1px); } .ds-btn-ink:focus-visible { outline: 2px solid var(--curve-b, #1f4fd8); outline-offset: 3px; } .ds-btn-ink:disabled { opacity: 0.4; cursor: default; }"
+    },
+    {
+      "name": "Line Button",
+      "kind": "button",
+      "refersTo": "button-line",
+      "description": "Secondary action: a hairline-bordered control on translucent paper.",
+      "html": "<button class=\"ds-btn-line\">Why am I relevant to your role?</button>",
+      "css": ".ds-btn-line { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; border: 1px solid var(--rule, rgba(20,26,43,0.16)); border-radius: 4px; background: color-mix(in oklab, var(--paper, #f6f7fa) 80%, transparent); color: var(--ink, #141a2b); font-family: var(--font-sans, 'Atkinson Hyperlegible', system-ui, sans-serif); font-size: 15px; line-height: 1.5; cursor: pointer; transition: border-color 150ms; } .ds-btn-line:hover { border-color: var(--ink-2, #3f4658); } .ds-btn-line:focus-visible { outline: 2px solid var(--curve-b, #1f4fd8); outline-offset: 3px; }"
+    },
+    {
+      "name": "Chip",
+      "kind": "chip",
+      "refersTo": "chip",
+      "description": "Filter, tag, suggested question, or icon control; selected state inverts to ink.",
+      "html": "<span class=\"ds-chip-row\"><button class=\"ds-chip\">What is readTrail?</button><button class=\"ds-chip ds-chip--selected\">builder</button><button class=\"ds-chip ds-chip--hot\">agents</button></span>",
+      "css": ".ds-chip-row { display: inline-flex; flex-wrap: wrap; gap: 6px; } .ds-chip { display: inline-flex; align-items: center; padding: 4px 10px; border: 1px solid var(--rule, rgba(20,26,43,0.16)); border-radius: 4px; background: color-mix(in oklab, var(--paper, #f6f7fa) 70%, transparent); color: var(--ink-2, #3f4658); font-family: var(--font-sans, 'Atkinson Hyperlegible', system-ui, sans-serif); font-size: 13px; line-height: 1.5; cursor: pointer; transition: border-color 150ms, color 150ms; } .ds-chip:hover { border-color: var(--ink-2, #3f4658); color: var(--ink, #141a2b); } .ds-chip:focus-visible { outline: 2px solid var(--curve-b, #1f4fd8); outline-offset: 3px; } .ds-chip--selected { background: var(--ink, #141a2b); color: var(--paper, #f6f7fa); border-color: var(--ink, #141a2b); } .ds-chip--hot { border-color: var(--curve-a, #a8222b); }"
+    },
+    {
+      "name": "Plate",
+      "kind": "card",
+      "refersTo": "plate",
+      "description": "The only container: translucent paper over the grid with a hairline rule, opening with an italic figure label. Never nested.",
+      "html": "<div class=\"ds-plate\"><div class=\"ds-fig-label\">Honest verdict</div><h3 class=\"ds-plate-title\">HawkVision AI <span class=\"ds-fig-label ds-fig-label--inline\">· note 4 of 7</span></h3><p class=\"ds-plate-body\">Owned discovery, feasibility, camera placement, architecture and deployment planning for 12 concurrent enterprise PoCs.</p><a class=\"ds-evidence\" href=\"#\">Evidence: Solutions Architect, HawkVision</a></div>",
+      "css": ".ds-plate { border: 1px solid var(--rule, rgba(20,26,43,0.16)); border-radius: 4px; background: color-mix(in oklab, var(--paper, #f6f7fa) 88%, transparent); backdrop-filter: blur(2px); padding: 20px; max-width: 34rem; color: var(--ink, #141a2b); font-family: var(--font-sans, 'Atkinson Hyperlegible', system-ui, sans-serif); } .ds-fig-label { font-family: var(--font-serif, 'Libre Caslon Text', Georgia, serif); font-style: italic; font-size: 14px; color: var(--ink-2, #3f4658); } .ds-fig-label--inline { font-size: 0.6em; } .ds-plate-title { margin: 4px 0 0; font-family: var(--font-serif, 'Libre Caslon Text', Georgia, serif); font-weight: 400; font-size: 24px; line-height: 1.25; } .ds-plate-body { margin: 8px 0 0; font-size: 15px; line-height: 1.625; color: var(--ink-2, #3f4658); } .ds-evidence { display: inline-block; margin-top: 16px; font-size: 14px; color: var(--curve-b, #1f4fd8); text-decoration: none; text-underline-offset: 0.18em; } .ds-evidence:hover { text-decoration: underline; }"
+    },
+    {
+      "name": "Underline Field",
+      "kind": "input",
+      "refersTo": "field-underline",
+      "description": "The ask input: no box, a single ink baseline shared with its send button.",
+      "html": "<form class=\"ds-field\"><input class=\"ds-field-input\" type=\"text\" placeholder=\"Ask about any point on this curve\" aria-label=\"Ask Priyanshu AI\" /><button class=\"ds-field-btn\" type=\"submit\" aria-label=\"Ask\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 12l16-8-6 16-2.5-6.5L4 12z\"/></svg></button></form>",
+      "css": ".ds-field { display: flex; align-items: center; gap: 4px; max-width: 26rem; border-bottom: 1px solid var(--ink, #141a2b); } .ds-field-input { flex: 1; min-width: 0; padding: 6px 0; border: 0; background: transparent; color: var(--ink, #141a2b); font-family: var(--font-sans, 'Atkinson Hyperlegible', system-ui, sans-serif); font-size: 15px; outline: none; caret-color: var(--curve-a, #a8222b); } .ds-field-input::placeholder { color: var(--ink-3, #7a8194); } .ds-field-btn { padding: 6px; border: 0; background: transparent; color: var(--ink, #141a2b); cursor: pointer; display: inline-flex; } .ds-field-btn:hover { color: var(--curve-a, #a8222b); } .ds-field-btn:focus-visible { outline: 2px solid var(--curve-b, #1f4fd8); outline-offset: 3px; border-radius: 2px; } .ds-field-btn:disabled { opacity: 0.3; }"
+    },
+    {
+      "name": "Textarea",
+      "kind": "input",
+      "refersTo": "textarea",
+      "description": "The single boxed field (fit check): paper fill, hairline that turns to ink on focus, mono count beneath.",
+      "html": "<div class=\"ds-ta-wrap\"><textarea class=\"ds-ta\" rows=\"5\" placeholder=\"Paste the job description here…\" aria-label=\"Job description\"></textarea><div class=\"ds-ta-foot\"><span class=\"ds-ta-count\">0 characters · not stored</span><button class=\"ds-ta-btn\" disabled>Analyse fit</button></div></div>",
+      "css": ".ds-ta-wrap { max-width: 30rem; } .ds-ta { display: block; width: 100%; box-sizing: border-box; padding: 16px; border: 1px solid var(--rule, rgba(20,26,43,0.16)); border-radius: 4px; background: var(--paper, #f6f7fa); color: var(--ink, #141a2b); font-family: var(--font-sans, 'Atkinson Hyperlegible', system-ui, sans-serif); font-size: 15px; line-height: 1.55; resize: vertical; outline: none; } .ds-ta::placeholder { color: var(--ink-3, #7a8194); } .ds-ta:focus { border-color: var(--ink, #141a2b); } .ds-ta-foot { display: flex; align-items: center; justify-content: space-between; margin-top: 12px; } .ds-ta-count { font-family: var(--font-mono, 'JetBrains Mono', ui-monospace, monospace); font-variant-numeric: tabular-nums; font-size: 13px; color: var(--ink-3, #7a8194); } .ds-ta-btn { padding: 6px 16px; border: 0; border-radius: 4px; background: var(--ink, #141a2b); color: var(--paper, #f6f7fa); font-family: var(--font-sans, 'Atkinson Hyperlegible', system-ui, sans-serif); font-size: 14px; font-weight: 500; box-shadow: var(--shadow, 0 10px 30px -12px rgba(20,26,43,0.25)); } .ds-ta-btn:disabled { opacity: 0.4; }"
+    },
+    {
+      "name": "Nav",
+      "kind": "nav",
+      "refersTo": "nav",
+      "description": "Sticky sheet header: italic wordmark, quiet links, rendition switch chip, compact ink button.",
+      "html": "<nav class=\"ds-nav\"><a class=\"ds-nav-mark\" href=\"#\">Priyanshu Yogi</a><div class=\"ds-nav-links\"><a href=\"#\">Education</a><a href=\"#\">Tracks</a><a href=\"#\">Experience</a><a href=\"#\">Projects</a><a href=\"#\">Graph</a><a href=\"#\">Fit check</a></div><div class=\"ds-nav-right\"><button class=\"ds-nav-chip\" aria-label=\"Switch to the chalkboard rendition\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z\"/></svg><span>board</span></button><button class=\"ds-nav-btn\">Talk to it</button></div></nav>",
+      "css": ".ds-nav { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 10px 20px; border-bottom: 1px solid var(--rule, rgba(20,26,43,0.16)); background: color-mix(in oklab, var(--paper, #f6f7fa) 85%, transparent); backdrop-filter: blur(8px); font-family: var(--font-sans, 'Atkinson Hyperlegible', system-ui, sans-serif); } .ds-nav-mark { font-family: var(--font-serif, 'Libre Caslon Text', Georgia, serif); font-style: italic; font-size: 17px; color: var(--ink, #141a2b); text-decoration: none; } .ds-nav-links { display: flex; gap: 20px; font-size: 15px; } .ds-nav-links a { color: var(--ink-2, #3f4658); text-decoration: none; } .ds-nav-links a:hover { color: var(--ink, #141a2b); } .ds-nav-right { display: flex; align-items: center; gap: 8px; } .ds-nav-chip { display: inline-flex; align-items: center; gap: 6px; padding: 6px 8px; border: 1px solid var(--rule, rgba(20,26,43,0.16)); border-radius: 4px; background: color-mix(in oklab, var(--paper, #f6f7fa) 70%, transparent); color: var(--ink-2, #3f4658); font-size: 13px; cursor: pointer; } .ds-nav-chip:hover { border-color: var(--ink-2, #3f4658); color: var(--ink, #141a2b); } .ds-nav-btn { padding: 6px 16px; border: 0; border-radius: 4px; background: var(--ink, #141a2b); color: var(--paper, #f6f7fa); font-size: 14px; font-weight: 500; box-shadow: var(--shadow, 0 10px 30px -12px rgba(20,26,43,0.25)); cursor: pointer; transition: transform 150ms; } .ds-nav-btn:hover { transform: translateY(-1px); } .ds-nav a:focus-visible, .ds-nav button:focus-visible { outline: 2px solid var(--curve-b, #1f4fd8); outline-offset: 3px; border-radius: 2px; }"
+    },
+    {
+      "name": "Figure Heading",
+      "kind": "custom",
+      "refersTo": "headline",
+      "description": "Every section opens as a numbered Fig. or Table: italic label at 0.55em, Caslon title, lede in ink-2.",
+      "html": "<header class=\"ds-figure-head\"><h2 class=\"ds-h-fig\"><span class=\"ds-fig-no\">Fig. 4</span>A background that connects, not a list of keywords.</h2><p class=\"ds-lede\">Drag nodes. Click one to see what it links to. Economics sits three hops from a highway camera deployment for a reason.<a class=\"ds-cite\" href=\"#\" title=\"HawkVision, Solutions Architect\">3</a></p></header>",
+      "css": ".ds-figure-head { max-width: 40rem; color: var(--ink, #141a2b); } .ds-h-fig { margin: 0; font-family: var(--font-serif, 'Libre Caslon Text', Georgia, serif); font-weight: 400; font-size: clamp(1.9rem, 1.2rem + 2.4vw, 3rem); letter-spacing: -0.012em; line-height: 1.08; text-wrap: balance; } .ds-fig-no { margin-right: 0.75rem; font-size: 0.55em; font-style: italic; vertical-align: middle; color: var(--ink-2, #3f4658); } .ds-lede { margin: 16px 0 0; max-width: 62ch; font-family: var(--font-sans, 'Atkinson Hyperlegible', system-ui, sans-serif); font-size: 18px; line-height: 1.625; color: var(--ink-2, #3f4658); } .ds-cite { font-family: var(--font-serif, 'Libre Caslon Text', Georgia, serif); font-style: italic; font-size: 0.72em; vertical-align: super; line-height: 0; margin-left: 0.1em; color: var(--curve-b, #1f4fd8); text-decoration: none; } .ds-cite:hover { text-decoration: underline; }"
+    },
+    {
+      "name": "Marker",
+      "kind": "custom",
+      "refersTo": "mark",
+      "description": "Highlighter swipe behind inline words; the display headline uses it once.",
+      "html": "<h1 class=\"ds-display\">Don't read my resume.<br /><span class=\"ds-mark\">Talk to it.</span></h1>",
+      "css": ".ds-display { margin: 0; font-family: var(--font-serif, 'Libre Caslon Text', Georgia, serif); font-weight: 400; font-size: clamp(2.2rem, 1rem + 3vw, 3.9rem); letter-spacing: -0.015em; line-height: 1.02; text-wrap: balance; color: var(--ink, #141a2b); } .ds-mark { background: linear-gradient(transparent 38%, var(--marker, #ffe66d) 38%, var(--marker, #ffe66d) 88%, transparent 88%); color: var(--marker-ink, #141a2b); padding: 0 0.15em; -webkit-box-decoration-break: clone; box-decoration-break: clone; }"
+    },
+    {
+      "name": "Ledger",
+      "kind": "custom",
+      "refersTo": "plate",
+      "description": "Tabular evidence: italic Caslon heads over an ink rule, hairline rows, mono periods.",
+      "html": "<table class=\"ds-ledger\"><thead><tr><th>Technical project</th><th>What it did</th><th>Where</th></tr></thead><tbody><tr><td><div class=\"ds-ledger-name\">Payments backend</div><div class=\"ds-ledger-meta\">Node.js · PostgreSQL</div></td><td class=\"ds-ledger-body\">Moved 50+ lakh INR a month; query-performance work under load.</td><td class=\"ds-ledger-body\">Edviron<span class=\"ds-ledger-period\">2021 - 2022</span></td></tr></tbody></table>",
+      "css": ".ds-ledger { width: 100%; max-width: 44rem; border-collapse: collapse; font-family: var(--font-sans, 'Atkinson Hyperlegible', system-ui, sans-serif); color: var(--ink, #141a2b); } .ds-ledger th { font-family: var(--font-serif, 'Libre Caslon Text', Georgia, serif); font-style: italic; font-weight: 400; text-align: left; color: var(--ink-2, #3f4658); padding: 0.6rem 0.75rem; border-bottom: 1px solid var(--ink, #141a2b); } .ds-ledger td { padding: 0.8rem 0.75rem; border-bottom: 1px solid var(--rule, rgba(20,26,43,0.16)); vertical-align: top; } .ds-ledger-name { font-family: var(--font-serif, 'Libre Caslon Text', Georgia, serif); font-size: 18px; } .ds-ledger-meta { margin-top: 4px; font-size: 13px; color: var(--ink-3, #7a8194); } .ds-ledger-body { font-size: 15px; color: var(--ink-2, #3f4658); } .ds-ledger-period { display: block; font-family: var(--font-mono, 'JetBrains Mono', ui-monospace, monospace); font-variant-numeric: tabular-nums; font-size: 12px; color: var(--ink-3, #7a8194); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Economist's Figure Sheet",
+    "overview": "The site is a resume drawn as an economics figure. The career is a plotted function on two axes, systems understood against systems built, and every other section is a numbered figure or table on the same sheet: Fig. 1 the curve, Table 1 the education ledger, Fig. 2 the overlapping regions, Fig. 3 the time axis, Table 2 the projects, Fig. 4 the force graph, Table 3 the fit check. Text labels are italic serif captions, evidence is a superscript footnote, the AI lives in the margin as marginalia. Nothing on the page is a \"card\" or a \"hero\"; it is a plate, a ledger, a note, or a callout.\n\nOne world, two renditions. The sheet is cool white paper with a faint blue quadrille grid, blue-black ink, and two curve inks (oxblood and cobalt) plus a highlighter-yellow marker. The board is the same drawing on a deep slate-green lecture board: chalk-white ink, chalk red and chalk blue, chalk yellow, a dusty grid. Every colour is a role token that swaps at [data-theme]; components never know which rendition they are in. The switch is labelled sheet / board, not light / dark.\n\nThe world refuses two defaults on purpose: the dark-glow developer hero and the cream-editorial resume. Density is that of a printed figure page: generous section breathing (80 to 112px), tight internal rhythm (8px grid), a 68ch reading measure, and a body quadrille grid that is always visible as a measurement surface, never blurred away.",
+    "keyCharacteristics": [
+      "Every section is a numbered Fig. or Table with an italic serif label; numbers are referenced by footnotes and by the AI.",
+      "Two accent inks only: oxblood (the curve, status, gaps, errors) and cobalt (links, evidence, focus).",
+      "Highlighter yellow appears as a marker swipe behind text and as text selection; it is never a fill.",
+      "Plates are translucent paper over the grid, bordered with a hairline rule, never nested.",
+      "Inputs are a baseline rule, not a box; the ask field sits inside an annotation callout on the figure.",
+      "Motion is one grammar: strokes draw on, notes fade up, nothing bounces.",
+      "Icons are single-stroke line drawings at 1.6 stroke width, sized 18px."
+    ],
+    "rules": [
+      { "name": "The Two Inks Rule", "body": "Oxblood means data (the curve, what is claimed, what is missing). Cobalt means reference (where the claim comes from, where focus is). No third accent; new state is expressed with ink weight, hatch, or the marker, never a new hue.", "section": "colors" },
+      { "name": "The Role Token Rule", "body": "Components use only role tokens (--ink, --paper, --curve-a ...). No component reads [data-theme] or hardcodes a rendition colour. The board is a re-inking, not a second design.", "section": "colors" },
+      { "name": "The Marker Rule", "body": "Highlighter is a swipe behind words (gradient from 38% to 88% of the line box) or a selection, at most once per viewport as emphasis. It is never a button fill, badge, or panel background.", "section": "colors" },
+      { "name": "The Italic Label Rule", "body": "Anything that names a thing rather than says a thing is set in italic Caslon at 13 to 15px in ink-2. There are no uppercase tracked labels anywhere on the sheet; a caption is the label.", "section": "typography" },
+      { "name": "The Weight-Is-Rare Rule", "body": "Titles are regular weight. Bold appears only inside lists to mark the selected row or the claim in a claim/evidence pair.", "section": "typography" },
+      { "name": "The Hyperlegible Value Rule", "body": "Numbers that are read as data (years, periods, counts) are mono with tabular figures; numbers inside prose stay in Atkinson.", "section": "typography" },
+      { "name": "The Plate Rule", "body": "A plate is never nested inside another plate. Inside a plate, structure comes from italic labels, hairline rules, and spacing.", "section": "elevation" },
+      { "name": "The Grid Shows Through Rule", "body": "Nothing on the sheet is opaque enough to erase the quadrille except the nav bar, the agent panel, the textarea, and image plates. The grid is the measurement surface the figures sit on.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do express every new section as a numbered Figure or Table with an italic Caslon label, a lede in ink-2, and footnotes for evidence.",
+      "Do use only role tokens (--paper, --ink, --curve-a, --curve-b, --marker, --rule) so the board rendition inherits the change for free.",
+      "Do keep curve-a for data and status and curve-b for links, evidence, and focus; if a colour is needed for a new state, use ink weight, a hatch pattern, or the marker first.",
+      "Do draw controls with hairlines: 1px rule at rest, 1px ink when the line carries meaning (a field's baseline, a ledger head).",
+      "Do keep type weight at 400 and build hierarchy from size, italic, and ink / ink-2 / ink-3.",
+      "Do set data numbers (years, periods, counts) in JetBrains Mono with tabular-nums.",
+      "Do animate with the one grammar: draw for strokes (2.2s, cubic-bezier(0.16, 1, 0.3, 1)), fade-up for notes (0.7s, 6px), flash once for AI highlights; honour prefers-reduced-motion.",
+      "Do restack ledgers and fixed-gutter grids below 768px so nothing truncates; hide SVG labels on small screens and replace them with numbered points and a legend line.",
+      "Do keep inline SVG icons single-stroke at 1.6 width, 18px, currentColor."
+    ],
+    "donts": [
+      "Don't add a third accent hue, gradients, or glows; the world is three inks on paper.",
+      "Don't nest a plate inside a plate, or give plates hover shadows; the sheet shadow belongs to the ink button, the hero callout, and dialogs only.",
+      "Don't hide or blur away the body quadrille under sections; opaque panels are limited to the nav, the agent column, the textarea, and image frames.",
+      "Don't use uppercase tracked labels or kickers above headings; the italic figure label is the caption device.",
+      "Don't box an input; fields are a baseline rule (the fit-check textarea is the single bordered exception).",
+      "Don't use the highlighter as a fill for buttons, badges, or backgrounds; it is a swipe behind words and the selection colour.",
+      "Don't round corners beyond 4px except the floating pill and legend dots.",
+      "Don't hardcode a rendition value or branch on [data-theme] inside a component; the only rendition-specific rule that exists is the chalk variant of .mark.",
+      "Don't replace the drawn hero with a photo, a video, or a dark-glow banner; Fig. 1 is the identity."
+    ]
+  }
+}
