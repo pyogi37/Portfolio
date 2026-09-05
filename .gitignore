@@ -8,3 +8,7 @@ tsconfig.tsbuildinfo
 .impeccable/review/
 .impeccable/live/
 .claude/skills/impeccable/scripts/bin/
+
+.vercel
+.env*
+!.env.example
