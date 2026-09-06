@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Fig. 1, a career plotted as a curve">
+  <!--
+    The tab mark is the figure the whole sheet is built on: axes, the curve, and
+    the point it has reached. Two renditions of one world, same as the site, so a
+    dark browser chrome gets the lecture board and a light one gets the paper.
+    Detail is cut back to what survives at 16px: the rise, the dip, the last point.
+  -->
+  <style>
+    :root { --paper: #f6f7fa; --ink: #141a2b; --curve: #a8222b; --grid: #4068be; --grid-o: 0.16; }
+    @media (prefers-color-scheme: dark) {
+      :root { --paper: #172420; --ink: #eef3ef; --curve: #ff8a80; --grid: #dce8e2; --grid-o: 0.1; }
+    }
+  </style>
+
+  <rect width="32" height="32" fill="var(--paper)" />
+
+  <!-- quadrille: just enough to read as squared paper, not enough to be noise -->
+  <path d="M0 11h32M0 21h32M11 0v32M21 0v32" stroke="var(--grid)" stroke-opacity="var(--grid-o)" stroke-width="1" />
+
+  <!-- axes -->
+  <path d="M7 4v21h22" fill="none" stroke="var(--ink)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+
+  <!-- systems built against systems understood: the rise, the dip, the correction -->
+  <path d="M9 21c4-1 5-6 8-8 2.5-1.7 3 4 5 4 2.2 0 3-6 4-9" fill="none" stroke="var(--curve)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+
+  <!-- where the curve has got to: a point on the line, not a blob at the end of it -->
+  <circle cx="26" cy="8" r="2.9" fill="var(--curve)" stroke="var(--paper)" stroke-width="1" />
+</svg>
