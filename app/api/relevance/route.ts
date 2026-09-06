@@ -6,6 +6,8 @@ import { allProjects, roles } from "@/lib/data";
 import type { RelevanceResult } from "@/lib/ai/types";
 
 export const runtime = "nodejs";
+/* A long assessment on a free-tier model takes its time; 20-25s is normal here. */
+export const maxDuration = 60;
 
 const KNOWN_REFS = new Set<string>([
   ...roles.map((r) => r.id),
@@ -72,7 +74,9 @@ export async function POST(req: Request) {
         { role: "system", content: relevanceSystemPrompt() },
         { role: "user", content: `<job_description>\n${jd}\n</job_description>\n\nReturn the JSON assessment.` },
       ],
-      { json: true, maxTokens: 1800, temperature: 0.2 },
+      // A full assessment of a detailed job description runs past 1800 tokens and
+      // used to come back cut in half, which read to the visitor as a parse failure.
+      { json: true, maxTokens: 3000, temperature: 0.2 },
     );
     const parsed = extractJson<Partial<RelevanceResult>>(raw);
     if (!parsed) return NextResponse.json({ error: "The model did not return a structured result. Try again." }, { status: 502 });

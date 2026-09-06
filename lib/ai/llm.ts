@@ -35,7 +35,9 @@ export async function chat(
   if (opts.json) body.response_format = { type: "json_object" };
 
   const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), 45_000);
+  // Sits just inside the routes' maxDuration, so a slow model aborts with our own
+  // message rather than the platform killing the function first.
+  const timer = setTimeout(() => controller.abort(), 55_000);
   let res: Response;
   try {
     res = await fetch(`${baseUrl}/chat/completions`, {
@@ -54,8 +56,14 @@ export async function chat(
     throw new Error(`Model request failed (${res.status}): ${text.slice(0, 200)}`);
   }
   const json = await res.json();
-  const content = json?.choices?.[0]?.message?.content;
+  const choice = json?.choices?.[0];
+  const content = choice?.message?.content;
   if (typeof content !== "string") throw new Error("Model returned an empty response.");
+  // A reply cut off at the token cap is not a parsing problem, and saying so saves
+  // the reader from a "did not return a structured result" that blames the wrong thing.
+  if (choice?.finish_reason === "length") {
+    throw new Error("The model ran out of room before it finished the answer. Try a shorter job description.");
+  }
   return content;
 }
 
