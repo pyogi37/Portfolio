@@ -272,6 +272,26 @@ export function Hero() {
           </span>
         </p>
 
+        {/*
+          The plot hides its labels below sm, so on a phone the figure is seven numbered
+          points and this key. It is also the honest tap target: a 5px dot on a curve is
+          not one, and reading the key is how most people will pick a point here.
+        */}
+        <ol className="mt-3 border-t border-rule pt-2 text-[13.5px] sm:hidden">
+          {steps.map((s, i) => (
+            <li key={s.title}>
+              <button
+                onClick={() => setSel(i)}
+                aria-pressed={i === sel}
+                className={`flex w-full items-baseline gap-2 py-1 text-left ${i === shown ? "text-ink" : "text-ink-2"}`}
+              >
+                <span className="fig-label w-4 shrink-0 text-right">{i + 1}</span>
+                <span className={i === shown ? "underline decoration-curve-a underline-offset-2" : ""}>{s.title}</span>
+              </button>
+            </li>
+          ))}
+        </ol>
+
         {leader && ready && (
           <svg className="pointer-events-none absolute inset-0 hidden h-full w-full md:block" aria-hidden>
             <motion.line
