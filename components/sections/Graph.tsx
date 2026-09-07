@@ -174,7 +174,20 @@ export function Graph() {
                     style={{ transition: "opacity .2s ease" }}
                   />
                   <circle r={isSel ? r + 3 : isHot ? r + 1.5 : r} fill={TYPE_HOLLOW[n.type] && !isSel ? "var(--paper)" : TYPE_COLOR[n.type]} stroke={isSel ? "var(--curve-a)" : TYPE_COLOR[n.type]} strokeWidth={isSel ? 2.5 : 1.6} style={{ transition: "r .2s ease" }} />
-                  <text y={r + 14} textAnchor="middle" fontSize={11} fill={isSel || isNb || isHot ? "var(--ink)" : "var(--ink-2)"} fontFamily="var(--font-sans)" style={{ pointerEvents: "none" }}>
+                  {/*
+                    Forty-six labels print on top of each other on a phone. Below sm only the
+                    selected node and the ones it links to are named; the rest are dots until
+                    you pick them, and the plate underneath carries the detail either way.
+                  */}
+                  <text
+                    className={isSel || isNb || isHot ? undefined : "hidden sm:block"}
+                    y={r + 14}
+                    textAnchor="middle"
+                    fontSize={11}
+                    fill={isSel || isNb || isHot ? "var(--ink)" : "var(--ink-2)"}
+                    fontFamily="var(--font-sans)"
+                    style={{ pointerEvents: "none" }}
+                  >
                     {n.label}
                   </text>
                 </g>

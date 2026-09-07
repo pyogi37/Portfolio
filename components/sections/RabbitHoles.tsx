@@ -73,7 +73,7 @@ export function RabbitHoles() {
           <line x1={PAD.l} y1={size.h - PAD.b} x2={size.w - PAD.r} y2={size.h - PAD.b} stroke="var(--ink)" strokeWidth={1} />
           <text transform={`translate(${PAD.l - 12} ${(PAD.t + size.h - PAD.b) / 2}) rotate(-90)`} textAnchor="middle" fontSize={13} fontStyle="italic" fontFamily="var(--font-serif)" fill="var(--ink-2)">builds with</text>
           <text x={size.w - PAD.r} y={size.h - PAD.b + 22} textAnchor="end" fontSize={13} fontStyle="italic" fontFamily="var(--font-serif)" fill="var(--ink-2)">reads about</text>
-          {pts.map((p) => {
+          {pts.map((p, i) => {
             const it = byId[p.id];
             const work = it.kind === "work";
             const isHover = hover === p.id;
@@ -83,8 +83,13 @@ export function RabbitHoles() {
                 {/* same ring as Fig. 1 and the graph: the mark answers the pointer */}
                 <circle r={13} fill="none" stroke={work ? "var(--curve-a)" : "var(--curve-b)"} strokeWidth={1} strokeDasharray="2 3" opacity={isHover ? 0.75 : 0} style={{ transition: "opacity .2s ease" }} />
                 <circle r={isHover ? 7 : 5.5} fill={work ? "var(--curve-a)" : "var(--paper)"} stroke={work ? "var(--curve-a)" : "var(--curve-b)"} strokeWidth={1.8} />
-                <text y={-12} textAnchor="middle" fontSize={13} fontFamily="var(--font-serif)" fontStyle="italic" fill={isHover ? "var(--ink)" : "var(--ink-2)"} style={{ pointerEvents: "none" }}>
+                {/* Thirteen labels will not fit across a phone without printing on each other,
+                    so below sm the point carries its number and the key underneath carries the word. */}
+                <text className="hidden sm:block" y={-12} textAnchor="middle" fontSize={13} fontFamily="var(--font-serif)" fontStyle="italic" fill={isHover ? "var(--ink)" : "var(--ink-2)"} style={{ pointerEvents: "none" }}>
                   {it.label}
+                </text>
+                <text className="sm:hidden" y={-11} textAnchor="middle" fontSize={13} fontFamily="var(--font-serif)" fontStyle="italic" fill={isHover ? "var(--ink)" : "var(--ink-2)"} style={{ pointerEvents: "none" }}>
+                  {i + 1}
                 </text>
               </g>
             );
@@ -100,6 +105,26 @@ export function RabbitHoles() {
           </div>
         </div>
       </div>
+
+      {/* The key for the numbered points, and on a phone the only sane way to pick one. */}
+      <ol className="mt-3 grid grid-cols-2 gap-x-5 border-t border-rule pt-2 text-[13.5px] sm:hidden">
+        {items.map((it, i) => {
+          const work = it.kind === "work";
+          const on = hover === it.id;
+          return (
+            <li key={it.id}>
+              <button
+                onClick={() => setHover(it.id)}
+                aria-pressed={on}
+                className={`flex w-full items-baseline gap-1.5 py-1 text-left ${on ? "text-ink" : "text-ink-2"}`}
+              >
+                <span className={`fig-label w-4 shrink-0 text-right ${work ? "text-curve-a" : "text-curve-b"}`}>{i + 1}</span>
+                <span className={on ? "underline decoration-curve-a underline-offset-2" : ""}>{it.label}</span>
+              </button>
+            </li>
+          );
+        })}
+      </ol>
     </Figure>
   );
 }

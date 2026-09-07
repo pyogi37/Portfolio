@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useCallback, useContext, useMemo, useRef, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { AgentAction, ChatMessage } from "@/lib/ai/types";
 
@@ -62,6 +62,16 @@ export function AgentProvider({ children }: { children: React.ReactNode }) {
     [router],
   );
 
+  /*
+   * Speech has to be stoppable from every control that implies stopping it.
+   * cancel() used to be called only when a new answer started speaking, so muting,
+   * clearing or closing left the current utterance talking to the end of itself.
+   */
+  const stopSpeaking = useCallback(() => {
+    if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
+    window.speechSynthesis.cancel();
+  }, []);
+
   const speak = (text: string) => {
     if (!voiceOutRef.current || typeof window === "undefined" || !("speechSynthesis" in window)) return;
     window.speechSynthesis.cancel();
@@ -69,6 +79,28 @@ export function AgentProvider({ children }: { children: React.ReactNode }) {
     u.rate = 1.02;
     window.speechSynthesis.speak(u);
   };
+
+  /** Muting is a request for silence now, not only for the next answer. */
+  const setVoiceOutAndHush = useCallback(
+    (v: boolean) => {
+      voiceOutRef.current = v;
+      setVoiceOut(v);
+      if (!v) stopSpeaking();
+    },
+    [stopSpeaking],
+  );
+
+  /** Closing the panel puts the agent away, so it stops talking too. */
+  const setOpenAndHush = useCallback(
+    (v: boolean) => {
+      setOpen(v);
+      if (!v) stopSpeaking();
+    },
+    [stopSpeaking],
+  );
+
+  // Speech survives React unmounting and route changes; it has to be cancelled explicitly.
+  useEffect(() => stopSpeaking, [stopSpeaking]);
 
   const ask = useCallback(
     async (text: string) => {
@@ -102,14 +134,27 @@ export function AgentProvider({ children }: { children: React.ReactNode }) {
   );
 
   const reset = useCallback(() => {
+    stopSpeaking(); // clearing the conversation clears what is being read from it
     setMessages([]);
     setError(null);
     setHighlighted([]);
-  }, []);
+  }, [stopSpeaking]);
 
   const value = useMemo(
-    () => ({ open, setOpen, messages, busy, error, ask, reset, highlighted, setHighlighted, voiceOut, setVoiceOut }),
-    [open, messages, busy, error, ask, reset, highlighted, voiceOut],
+    () => ({
+      open,
+      setOpen: setOpenAndHush,
+      messages,
+      busy,
+      error,
+      ask,
+      reset,
+      highlighted,
+      setHighlighted,
+      voiceOut,
+      setVoiceOut: setVoiceOutAndHush,
+    }),
+    [open, setOpenAndHush, messages, busy, error, ask, reset, highlighted, voiceOut, setVoiceOutAndHush],
   );
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
