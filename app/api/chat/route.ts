@@ -59,10 +59,11 @@ export async function POST(req: Request) {
   }
 
   try {
-    const raw = await chat([{ role: "system", content: chatSystemPrompt() }, ...msgs], { json: true });
+    const { text: raw, provider, ms } = await chat([{ role: "system", content: chatSystemPrompt() }, ...msgs], { json: true });
     const parsed = extractJson<{ reply?: unknown; actions?: unknown }>(raw);
     const reply = parsed && typeof parsed.reply === "string" ? parsed.reply : raw.trim();
-    return NextResponse.json({ reply, actions: sanitizeActions(parsed?.actions) });
+    // Which provider answered, so a fallback is visible rather than silent.
+    return NextResponse.json({ reply, actions: sanitizeActions(parsed?.actions), servedBy: provider, ms });
   } catch (e) {
     const status = e instanceof LLMConfigError ? 503 : 502;
     return NextResponse.json({ error: e instanceof Error ? e.message : "Model error" }, { status });

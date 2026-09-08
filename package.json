@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "bench:providers": "node scripts/bench-providers.mjs"
   },
   "dependencies": {
     "d3-force": "^3.0.0",

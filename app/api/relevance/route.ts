@@ -78,9 +78,9 @@ export async function POST(req: Request) {
       // used to come back cut in half, which read to the visitor as a parse failure.
       { json: true, maxTokens: 3000, temperature: 0.2 },
     );
-    const parsed = extractJson<Partial<RelevanceResult>>(raw);
+    const parsed = extractJson<Partial<RelevanceResult>>(raw.text);
     if (!parsed) return NextResponse.json({ error: "The model did not return a structured result. Try again." }, { status: 502 });
-    return NextResponse.json(sanitize(parsed));
+    return NextResponse.json({ ...sanitize(parsed), servedBy: raw.provider, ms: raw.ms });
   } catch (e) {
     const status = e instanceof LLMConfigError ? 503 : 502;
     return NextResponse.json({ error: e instanceof Error ? e.message : "Model error" }, { status });
