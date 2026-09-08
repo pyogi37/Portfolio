@@ -6,14 +6,21 @@ import { IClose, IMic, ISend, ISpeaker, ISpeakerOff } from "@/components/Icons";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { EASE } from "@/components/motion/Reveal";
 
+/*
+ * The suggestions are the only place the agent gets to say what it is worth asking.
+ * They lead with the questions a hiring reader actually has, name each featured
+ * project so the case studies are reachable from the panel, and keep one that
+ * nobody would think to ask: the site's own failure story is the best engineering
+ * evidence here, and it only surfaces if something invites it.
+ */
 const SUGGESTED = [
   "Is he primarily technical or business?",
   "How did he get into coding without a CS degree?",
+  "What is SignalRoom?",
   "What is readTrail?",
   "What is he building right now?",
-  "What connects economics and engineering for him?",
+  "How does this site stay up when a model provider fails?",
   "What does Priyanshu do outside work?",
-  "What kind of problems does he enjoy?",
   "Tell me something not on his resume.",
 ];
 
