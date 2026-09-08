@@ -29,6 +29,7 @@ const CASE_STUDY_FIELDS = [
   "process",
   "openQuestions",
   "whatItShows",
+  "roadmap",
   "architecture",
 ] as const;
 
