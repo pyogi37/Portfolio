@@ -193,20 +193,28 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
               ))}
             </div>
           )}
-          {screenshots.length > 1 && (
-            <div className="mt-10 grid items-start gap-6 md:grid-cols-3">
-              {screenshots.slice(1).map((s) => (
-                <figure key={s.src}>
-                  <div className="overflow-hidden border border-rule">
-                    <Image src={s.src} alt={s.alt} width={1200} height={800} className="w-full" />
-                  </div>
-                  <figcaption className="fig-label mt-2 text-[13px]">
-                    Fig. {next()} · {s.caption}
-                  </figcaption>
-                </figure>
-              ))}
-            </div>
-          )}
+        </section>
+      )}
+
+      {/*
+        The plates stand on their own. They used to live inside the core-experience
+        section, so a project without a coreFlow showed its first screenshot and
+        silently dropped the rest.
+      */}
+      {screenshots.length > 1 && (
+        <section className="figure !pt-0">
+          <div className="grid items-start gap-6 md:grid-cols-3">
+            {screenshots.slice(1).map((s) => (
+              <figure key={s.src}>
+                <div className="overflow-hidden border border-rule">
+                  <Image src={s.src} alt={s.alt} width={1200} height={800} className="w-full" />
+                </div>
+                <figcaption className="fig-label mt-2 text-[13px]">
+                  Fig. {next()} · {s.caption}
+                </figcaption>
+              </figure>
+            ))}
+          </div>
         </section>
       )}
 

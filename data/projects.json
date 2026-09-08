@@ -303,7 +303,10 @@
         ]
       },
       "whereAIFits": "Central. This is a tool-using agent with grounding, structured outputs and explicit gap reporting. Its limits are also documented: no persistent memory, browser-native voice quality, and dependence on free-tier model rate limits.",
-      "links": {},
+      "links": {
+        "demo": "https://priyanshu.fyi",
+        "github": "https://github.com/pyogi37/Portfolio"
+      },
       "technologies": [
         "Next.js",
         "TypeScript",
@@ -316,6 +319,23 @@
         "builder",
         "agents",
         "product"
+      ],
+      "screenshots": [
+        {
+          "src": "/priyanshu-os/os-figure-sheet.png",
+          "alt": "The portfolio homepage: a career plotted as Fig. 1 on quadrille paper, with an ask input drawn as an annotation on the plot",
+          "caption": "The career as a plotted function, with the ask input drawn as an annotation on it"
+        },
+        {
+          "src": "/priyanshu-os/os-marginalia.png",
+          "alt": "The marginalia panel open beside the figure, answering whether he is primarily technical or business",
+          "caption": "The agent answers in the margin, grounded in the same JSON the page renders from"
+        },
+        {
+          "src": "/priyanshu-os/os-fit-check.png",
+          "alt": "The job-description fit check showing an honest verdict and strong matches, each citing the dataset row it came from",
+          "caption": "A pasted job description, an honest verdict, and matches that cite their source row"
+        }
       ]
     },
     {
