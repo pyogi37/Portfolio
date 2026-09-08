@@ -2,6 +2,7 @@
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { scrollIntoViewRespectingMotion } from "@/lib/scroll";
 import type { AgentAction, ChatMessage } from "@/lib/ai/types";
 
 type AgentState = {
@@ -43,7 +44,7 @@ export function AgentProvider({ children }: { children: React.ReactNode }) {
         if (a.type === "navigate") {
           const el = document.getElementById(a.section);
           if (el) {
-            el.scrollIntoView({ behavior: "smooth", block: "start" });
+            scrollIntoViewRespectingMotion(el, { block: "start" });
             el.classList.remove("flash");
             void el.offsetWidth;
             el.classList.add("flash");

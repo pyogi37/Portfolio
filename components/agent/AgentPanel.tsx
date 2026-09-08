@@ -5,6 +5,7 @@ import { useAgent } from "./AgentProvider";
 import { IClose, IMic, ISend, ISpeaker, ISpeakerOff } from "@/components/Icons";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { EASE } from "@/components/motion/Reveal";
+import { scrollIntoViewRespectingMotion } from "@/lib/scroll";
 
 /*
  * The suggestions are the only place the agent gets to say what it is worth asking.
@@ -55,7 +56,7 @@ export function AgentPanel() {
 
   useEffect(() => setVoiceSupported(!!getRecognition()), []);
   useEffect(() => {
-    endRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (endRef.current) scrollIntoViewRespectingMotion(endRef.current);
   }, [messages, busy, open]);
   useEffect(() => {
     if (open) setTimeout(() => inputRef.current?.focus(), 250);
