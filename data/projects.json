@@ -249,8 +249,8 @@
       "id": "project:priyanshu-os",
       "tier": "featured",
       "name": "Priyanshu OS / AI Voice Portfolio",
-      "status": "in-progress",
-      "statusLabel": "In progress: you are using it",
+      "status": "working-mvp",
+      "statusLabel": "Working MVP: deployed on its own domain, and you are reading it",
       "tagline": "A portfolio you talk to. An AI agent grounded in structured profile data that can answer, navigate and reason about fit.",
       "idea": "Replace the static resume with an agent that answers questions about Priyanshu's background, navigates this site, surfaces relevant work, and analyses a pasted job description against his actual experience.",
       "problem": "Resumes flatten a non-linear path into bullet points. Recruiters and hiring managers have specific questions, and a static page cannot answer them or admit what it does not know.",
@@ -270,36 +270,12 @@
       ],
       "architecture": {
         "stack": [
-          "Next.js (App Router) + TypeScript",
-          "Tailwind CSS",
-          "Provider-agnostic LLM layer (OpenAI-compatible chat format, default Gemini free tier; works with OpenCode Zen, Groq, OpenRouter, Ollama)",
-          "Structured JSON output for UI actions (navigate, highlight dimensions, open project)",
-          "Web Speech API for voice input and output (MVP)",
-          "d3-force for the knowledge graph"
-        ],
-        "modules": [
-          {
-            "name": "/data/*.json",
-            "role": "Single source of truth: profile, education, experience, projects, interests, knowledge graph."
-          },
-          {
-            "name": "/api/chat",
-            "role": "Builds a grounded system prompt from the dataset, runs a tool-use loop, returns text plus UI actions."
-          },
-          {
-            "name": "/api/relevance",
-            "role": "Structured JSON output: strong matches, transferable experience, gaps, relevant projects, interview questions. Each match cites a dataset id."
-          },
-          {
-            "name": "Agent UI",
-            "role": "Chat panel with suggested prompts, voice toggle, and action execution against the page."
-          }
-        ],
-        "keyIdeas": [
-          "The dataset is small enough to fit in context, so retrieval is full-context injection today; the layer is isolated so it can move to embeddings if the corpus grows.",
-          "Pasted job descriptions are untrusted input: they are wrapped as data and the system prompt forbids following instructions inside them.",
-          "Tool results are validated against known section and project ids before the UI acts on them.",
-          "No vendor SDK: one fetch-based client, so the model can be swapped by changing an env var. Free-tier rate limits are handled with clear fallback messages."
+          "Next.js 15 (App Router) and TypeScript, Tailwind v4, self-hosted OFL fonts",
+          "Four OpenAI-compatible providers tried in order (Cerebras, Gemini, OpenRouter, Groq), with a five-minute circuit breaker and a per-attempt timeout",
+          "Per-provider prompt sizing: a provider with a smaller token allowance is sent a smaller knowledge base",
+          "Structured JSON output for UI actions, validated against known section, dimension and project ids before anything runs",
+          "In-memory rate limiting on both model routes, with the daily provider budget split between them",
+          "Web Speech API for voice in and out, d3-force for the knowledge graph, Motion for one authored motion grammar"
         ]
       },
       "whereAIFits": "Central. This is a tool-using agent with grounding, structured outputs and explicit gap reporting. Its limits are also documented: no persistent memory, browser-native voice quality, and dependence on free-tier model rate limits.",
@@ -336,6 +312,84 @@
           "alt": "The job-description fit check showing an honest verdict and strong matches, each citing the dataset row it came from",
           "caption": "A pasted job description, an honest verdict, and matches that cite their source row"
         }
+      ],
+      "coreFlow": [
+        {
+          "step": "Land",
+          "text": "Fig. 1 plots the career as a curve. The ask input is drawn on the plot as an annotation, not bolted on as a chat bubble."
+        },
+        {
+          "step": "Ask",
+          "text": "The question goes to a system prompt built from the same six JSON files the page itself renders from."
+        },
+        {
+          "step": "Answer",
+          "text": "The reply arrives in the margin, in third person, and says plainly when something is not on record."
+        },
+        {
+          "step": "Act",
+          "text": "Validated actions move the page: scroll to a section, hatch the relevant tracks, open a case study."
+        },
+        {
+          "step": "Check fit",
+          "text": "Paste a job description. Every claimed match must cite a dataset id, and an uncited one is dropped rather than shown."
+        },
+        {
+          "step": "Read the gaps",
+          "text": "Missing experience comes back as output, next to the matches, instead of being left out."
+        }
+      ],
+      "decisions": [
+        {
+          "decision": "The data is the source of truth, not the components",
+          "tradeoff": "Every section and every AI answer renders from six JSON files, so the page and the agent can never disagree. A copy fix needs a deploy, which is the price of there being one version of the truth."
+        },
+        {
+          "decision": "Grounded, not generative",
+          "tradeoff": "The prompt forbids invention and requires \"that is not something I have on record\". It refuses questions a looser agent would happily answer, which is the point: a portfolio agent that guesses is worse than no agent."
+        },
+        {
+          "decision": "Gaps are output, not omission",
+          "tradeoff": "The fit check returns missing experience alongside the matches, so the site argues against its own candidate in writing. A fit report with no gaps is not trustworthy."
+        },
+        {
+          "decision": "One model provider was a single point of failure",
+          "tradeoff": "OpenRouter withdrew the free model this site ran on and the AI went down until it was noticed. Five free models failed five different ways in one afternoon: withdrawn, rate limited, upstream overloaded, restricted to other clients, and answering 200 then 503 a minute later. The fix was a chain across four providers with a circuit breaker rather than a better single provider. Writing it surfaced a subtler bug: the first version treated any 4xx as fatal, which is wrong, because Google answers 400 to a bad API key and Groq answers 413 to a prompt Cerebras accepts. A sabotage test caught it before it shipped."
+        },
+        {
+          "decision": "The prompt is sized to the provider",
+          "tradeoff": "Groq's free tier allows 8,000 tokens a minute against a full prompt of about 10,000, so it is sent a lean knowledge base measured at 5,993 tokens against its own tokenizer. A fallback answers with less depth on project internals. A thinner answer beats no answer."
+        },
+        {
+          "decision": "The model routes are rate limited",
+          "tradeoff": "Two public endpoints on a free-tier key are an open proxy for anyone who finds them, so both are capped per visitor and per day. A genuinely curious visitor can hit a wall, and the figures and notes all still work without the AI."
+        }
+      ],
+      "shipped": [
+        "Grounded chat with structured UI actions, validated against known ids before the client runs them",
+        "Job-description fit check with cited matches, transferable experience and explicit gaps",
+        "Four-provider failover chain with a five-minute circuit breaker and per-attempt timeouts",
+        "Per-provider knowledge-base tiers, so a small token budget gets a prompt built to fit it",
+        "An offline provider benchmark that races the real dataset and reports latency, success rate and JSON compliance",
+        "Rate limiting on both model routes, with the daily budget split between them",
+        "Two renditions of one world, keyboard access to every figure, and a reduced-motion path"
+      ],
+      "roadmap": [
+        "Hybrid retrieval over the same JSON, so a question retrieves what it needs instead of sending the whole dataset every time",
+        "A labelled question set and a scoring harness, so retrieval quality is measured rather than asserted",
+        "Per-project OG images for the case studies"
+      ],
+      "openQuestions": [
+        "Rate-limit counters live in the running instance, so the daily cap is a brake rather than a guarantee if the platform runs several. Is a shared store worth the dependency at this size?",
+        "There is no conversation memory. Should a visitor be able to pick up where they left off, or is a stateless agent the more honest demonstration?",
+        "Voice quality is whatever the browser ships, which varies a lot by platform.",
+        "A free provider can withdraw a model at any time. The chain turns that into a slower answer instead of an outage, but it does not remove it."
+      ],
+      "whatItShows": [
+        "Grounding and refusal: answers derive from a dataset, and the agent says when the dataset does not cover the question",
+        "Structured outputs treated as untrusted: every UI action is validated against known ids before it runs, and the job description is data, never instructions",
+        "Operating on infrastructure you do not control: failover, circuit breaking, prompt budgets per provider, and a benchmark to decide the order",
+        "Honesty as a product decision: statuses that do not overclaim, and a fit report that reports its own gaps"
       ]
     },
     {
