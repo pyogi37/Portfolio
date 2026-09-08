@@ -3,20 +3,58 @@ import { data, SECTION_IDS, allProjects, projectSlug } from "@/lib/data";
 /**
  * Grounding context for the agent. The dataset is small (a few thousand tokens), so the whole
  * thing is injected. If it grows, swap this for retrieval over the same JSON files.
+ *
+ * Two sizes, because providers have very different budgets. "full" is everything.
+ * "lean" is for a provider whose per-minute token allowance cannot fit the whole
+ * dataset (Groq's free tier is 8k tokens/minute against a ~10k prompt): it keeps
+ * every fact the agent reasons from, and drops the long case-study prose that only
+ * the project pages render. Answers from a lean provider are shallower on
+ * readTrail's internals, which is the right trade for a fallback: a thinner answer
+ * beats no answer.
  */
-export function buildKnowledgeBase(): string {
+export type KbTier = "full" | "lean";
+
+/** Case-study prose. Rendered by app/projects/[slug]/page.tsx, never quoted by the agent. */
+const CASE_STUDY_FIELDS = [
+  "idea",
+  "problem",
+  "question",
+  "corePromise",
+  "principles",
+  "notList",
+  "coreFlow",
+  "states",
+  "decisions",
+  "whereAIFits",
+  "process",
+  "openQuestions",
+  "whatItShows",
+  "architecture",
+] as const;
+
+export function buildKnowledgeBase(tier: KbTier = "full"): string {
   const { profile, education, experience, projects, interests } = data;
-  const compactProjects = projects.projects.map((p) => {
+  const shaped = projects.projects.map((p) => {
     const { screenshots: _s, ...rest } = p as Record<string, unknown> & { screenshots?: unknown };
-    return rest;
+    if (tier === "full") return rest;
+    const lean: Record<string, unknown> = {};
+    for (const [k, v] of Object.entries(rest)) {
+      if (!(CASE_STUDY_FIELDS as readonly string[]).includes(k)) lean[k] = v;
+    }
+    // The stack is the only part of the architecture the agent needs: it is the
+    // only place readTrail's real technology is enumerated.
+    const arch = rest.architecture as { stack?: unknown } | undefined;
+    if (arch && typeof arch === "object" && arch.stack) lean.stack = arch.stack;
+    return lean;
   });
   return JSON.stringify(
     {
       profile,
       education,
       experience,
-      projects: { tiers: projects.tiers, projects: compactProjects },
-      interests,
+      projects: { tiers: projects.tiers, projects: shaped },
+      // Rabbit holes are colour, not evidence. First thing to go when space is tight.
+      ...(tier === "full" ? { interests } : {}),
     },
     null,
     0,
@@ -26,7 +64,7 @@ export function buildKnowledgeBase(): string {
 export const PROJECT_SLUGS = allProjects.map((p) => projectSlug(p.id));
 export const DIMENSION_IDS = data.profile.dimensions.map((d) => d.id);
 
-export function chatSystemPrompt(): string {
+export function chatSystemPrompt(tier: KbTier = "full"): string {
   return `You are "Priyanshu AI", the voice of Priyanshu Yogi's portfolio website. You answer questions from recruiters, hiring managers, engineers and curious visitors about Priyanshu.
 
 GROUNDING RULES (non-negotiable):
@@ -49,10 +87,10 @@ Section guide (the site is laid out as numbered figures on a sheet): top = Fig. 
 OUTPUT FORMAT: respond with ONLY a JSON object: {"reply": string, "actions": AgentAction[]}. No markdown fences, no text outside the JSON.
 
 KNOWLEDGE BASE:
-${buildKnowledgeBase()}`;
+${buildKnowledgeBase(tier)}`;
 }
 
-export function relevanceSystemPrompt(): string {
+export function relevanceSystemPrompt(tier: KbTier = "full"): string {
   return `You analyse a job description against Priyanshu Yogi's ACTUAL experience and return a grounded, honest fit assessment.
 
 RULES:
@@ -75,5 +113,5 @@ OUTPUT: ONLY a JSON object with this exact shape:
 }
 
 KNOWLEDGE BASE:
-${buildKnowledgeBase()}`;
+${buildKnowledgeBase(tier)}`;
 }

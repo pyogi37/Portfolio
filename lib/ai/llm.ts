@@ -38,11 +38,14 @@ class AttemptError extends Error {
 const ATTEMPT_TIMEOUT_MS = 20_000;
 
 async function attempt(p: Provider, messages: LLMMessage[], opts: ChatOpts): Promise<string> {
+  const wanted = opts.maxTokens ?? 1200;
   const body: Record<string, unknown> = {
     model: p.model,
     messages,
     temperature: opts.temperature ?? 0.3,
-    max_tokens: opts.maxTokens ?? 1200,
+    // A provider whose allowance counts input and output together needs the reply
+    // capped too, or a prompt that fits still overruns the budget on the way back.
+    max_tokens: p.maxOutput ? Math.min(wanted, p.maxOutput) : wanted,
   };
   if (opts.json) body.response_format = { type: "json_object" };
 
@@ -67,14 +70,16 @@ async function attempt(p: Provider, messages: LLMMessage[], opts: ChatOpts): Pro
   if (!res.ok) {
     const text = await res.text().catch(() => "");
     /*
-     * Default to trying the next provider. Almost every failure is about this
-     * provider, not about the request: 401/403 a revoked or wrong key, 402 an
-     * empty balance, 404 a withdrawn model, 429 no capacity, 5xx unwell. Only a
-     * genuinely malformed or oversized request would be rejected identically by
-     * everyone, and retrying that just wastes the fallbacks' quota.
+     * Every HTTP failure is somebody else's turn. It is tempting to treat 4xx as
+     * "the request is wrong, so everyone will reject it", but that is not true of
+     * real providers: Google answers 400 to a bad API key, Groq answers 413 to a
+     * prompt that Cerebras accepts happily. Status codes describe this provider's
+     * opinion, not the request's validity.
+     *
+     * The cost of being wrong the other way is one wasted call on a fallback; the
+     * cost of stopping early is an outage. If they all refuse, the log says why.
      */
-    const SAME_EVERYWHERE = [400, 413, 422];
-    throw new AttemptError(`${p.name} failed (${res.status}): ${text.slice(0, 160)}`, !SAME_EVERYWHERE.includes(res.status), res.status);
+    throw new AttemptError(`${p.name} failed (${res.status}): ${text.slice(0, 160)}`, true, res.status);
   }
 
   const json = await res.json();
@@ -95,11 +100,18 @@ async function attempt(p: Provider, messages: LLMMessage[], opts: ChatOpts): Pro
 type ChatOpts = { json?: boolean; temperature?: number; maxTokens?: number };
 
 /**
+ * Either a fixed set of messages, or a builder that is handed the provider's
+ * knowledge-base tier. The builder form lets a smaller provider be asked a smaller
+ * prompt without every provider paying for the smallest one's limits.
+ */
+export type MessagesFor = LLMMessage[] | ((tier: Provider["kbTier"]) => LLMMessage[]);
+
+/**
  * Asks each configured provider in turn until one answers. Providers that failed
  * recently are skipped for a cooldown, so a dead primary costs one visitor a
  * timeout rather than every visitor.
  */
-export async function chat(messages: LLMMessage[], opts: ChatOpts = {}): Promise<LLMResult> {
+export async function chat(build: MessagesFor, opts: ChatOpts = {}): Promise<LLMResult> {
   const all = providers();
   if (!all.length) {
     throw new LLMConfigError(
@@ -116,6 +128,7 @@ export async function chat(messages: LLMMessage[], opts: ChatOpts = {}): Promise
   for (const p of order) {
     const started = Date.now();
     try {
+      const messages = typeof build === "function" ? build(p.kbTier) : build;
       const text = await attempt(p, messages, opts);
       unbench(p.name);
       if (failures.length) console.warn(`[llm] ${p.name} served after ${failures.length} failure(s): ${failures.join(" | ")}`);

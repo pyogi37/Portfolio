@@ -59,7 +59,8 @@ export async function POST(req: Request) {
   }
 
   try {
-    const { text: raw, provider, ms } = await chat([{ role: "system", content: chatSystemPrompt() }, ...msgs], { json: true });
+    // Built per provider: one with a small token allowance gets the lean knowledge base.
+    const { text: raw, provider, ms } = await chat((tier) => [{ role: "system", content: chatSystemPrompt(tier) }, ...msgs], { json: true });
     const parsed = extractJson<{ reply?: unknown; actions?: unknown }>(raw);
     const reply = parsed && typeof parsed.reply === "string" ? parsed.reply : raw.trim();
     // Which provider answered, so a fallback is visible rather than silent.

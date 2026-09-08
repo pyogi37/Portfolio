@@ -15,6 +15,15 @@ export type Provider = {
   baseUrl: string;
   model: string;
   apiKey: string;
+  /**
+   * Which size of knowledge base this provider can afford. Groq's free tier allows
+   * 8k tokens a minute against a ~10k full prompt, so it can only ever be asked the
+   * lean one. Declared per provider rather than guessed from a threshold, because
+   * only the operator knows what their plan allows.
+   */
+  kbTier: "full" | "lean";
+  /** Caps the reply length for a provider whose budget counts output as well as input. */
+  maxOutput?: number;
 };
 
 /** LLM_BASE_URL is the primary; _2 and _3 are the fallbacks, tried in that order. */
@@ -25,7 +34,10 @@ function slot(suffix: string): Provider | null {
   const model = process.env[`LLM_MODEL${suffix}`]?.trim();
   const apiKey = process.env[`LLM_API_KEY${suffix}`]?.trim();
   if (!baseUrl || !model || !apiKey) return null;
+  const maxOutputRaw = Number(process.env[`LLM_MAX_OUTPUT${suffix}`]);
   return {
+    kbTier: process.env[`LLM_KB_TIER${suffix}`]?.trim() === "lean" ? "lean" : "full",
+    maxOutput: Number.isFinite(maxOutputRaw) && maxOutputRaw > 0 ? maxOutputRaw : undefined,
     // The host is enough to tell providers apart in a log or a response.
     name: (() => {
       try {

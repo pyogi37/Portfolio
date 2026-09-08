@@ -70,8 +70,8 @@ export async function POST(req: Request) {
 
   try {
     const raw = await chat(
-      [
-        { role: "system", content: relevanceSystemPrompt() },
+      (tier) => [
+        { role: "system", content: relevanceSystemPrompt(tier) },
         { role: "user", content: `<job_description>\n${jd}\n</job_description>\n\nReturn the JSON assessment.` },
       ],
       // A full assessment of a detailed job description runs past 1800 tokens and

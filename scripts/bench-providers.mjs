@@ -47,15 +47,58 @@ function collectProviders(env) {
     } catch {
       name = `provider${suffix || "1"}`;
     }
-    list.push({ slot: suffix || "(primary)", name, baseUrl: baseUrl.replace(/\/$/, ""), model, apiKey });
+    const maxOutput = Number(env[`LLM_MAX_OUTPUT${suffix}`]);
+    list.push({
+      slot: suffix || "(primary)",
+      name,
+      baseUrl: baseUrl.replace(/\/$/, ""),
+      model,
+      apiKey,
+      // Mirrors what the app sends this provider. Benchmarking every provider with
+      // the same oversized prompt would fail the ones the app deliberately asks less of.
+      kbTier: env[`LLM_KB_TIER${suffix}`] === "lean" ? "lean" : "full",
+      maxOutput: Number.isFinite(maxOutput) && maxOutput > 0 ? maxOutput : 400,
+    });
   }
   return list;
 }
 
-/* Roughly the shape and size of the real grounded prompt: a large static system
-   block plus a short question, asking for the same JSON the app asks for. */
-const SYSTEM = "You answer only from this data about a candidate: " + "Career history, roles, projects and skills. ".repeat(1100);
-const USER = 'Return JSON with key "reply" (one sentence) and key "actions" (an empty array).';
+/*
+ * The real knowledge base, built the same way lib/ai/context.ts builds it. Synthetic
+ * filler of the right length is not good enough: a provider's JSON mode can reject a
+ * prompt of repeated nonsense that it would answer happily for real data, which makes
+ * the benchmark report a working provider as dead.
+ */
+const CASE_STUDY_FIELDS = [
+  "idea", "problem", "question", "corePromise", "principles", "notList", "coreFlow",
+  "states", "decisions", "whereAIFits", "process", "openQuestions", "whatItShows", "architecture",
+];
+
+function knowledgeBase(tier) {
+  const read = (n) => JSON.parse(readFileSync(resolve(process.cwd(), `data/${n}.json`), "utf8"));
+  const [profile, education, experience, projects, interests] = ["profile", "education", "experience", "projects", "interests"].map(read);
+  const shaped = projects.projects.map((p) => {
+    const { screenshots, ...rest } = p;
+    if (tier === "full") return rest;
+    const lean = {};
+    for (const [k, v] of Object.entries(rest)) if (!CASE_STUDY_FIELDS.includes(k)) lean[k] = v;
+    if (rest.architecture?.stack) lean.stack = rest.architecture.stack;
+    return lean;
+  });
+  return JSON.stringify({
+    profile,
+    education,
+    experience,
+    projects: { tiers: projects.tiers, projects: shaped },
+    ...(tier === "full" ? { interests } : {}),
+  });
+}
+
+const SYSTEM = {
+  full: "You answer questions about this candidate using ONLY this JSON data.\n\nKNOWLEDGE BASE:\n" + knowledgeBase("full"),
+  lean: "You answer questions about this candidate using ONLY this JSON data.\n\nKNOWLEDGE BASE:\n" + knowledgeBase("lean"),
+};
+const USER = 'Is he primarily technical or business? Respond with ONLY a JSON object: {"reply": string, "actions": []}';
 
 async function once(p) {
   const started = Date.now();
@@ -66,11 +109,11 @@ async function once(p) {
       body: JSON.stringify({
         model: p.model,
         messages: [
-          { role: "system", content: SYSTEM },
+          { role: "system", content: SYSTEM[p.kbTier] },
           { role: "user", content: USER },
         ],
         temperature: 0.3,
-        max_tokens: 400,
+        max_tokens: p.maxOutput,
         response_format: { type: "json_object" },
       }),
       signal: AbortSignal.timeout(30_000),
@@ -107,7 +150,8 @@ if (!list.length) {
   process.exit(1);
 }
 
-console.log(`Benchmarking ${list.length} provider(s), ${RUNS} run(s) each, ~8k-token prompt.\n`);
+console.log(`Benchmarking ${list.length} provider(s), ${RUNS} run(s) each, against the real knowledge base.`);
+console.log(`  full = ${SYSTEM.full.length.toLocaleString()} chars   lean = ${SYSTEM.lean.length.toLocaleString()} chars\n`);
 const rows = [];
 for (const p of list) {
   const results = [];
@@ -116,6 +160,7 @@ for (const p of list) {
   rows.push({
     slot: p.slot,
     name: p.name,
+    tier: p.kbTier,
     model: p.model,
     success: `${okRuns.length}/${RUNS}`,
     medianMs: median(okRuns.map((r) => r.ms)),
@@ -131,12 +176,12 @@ const w = {
   model: Math.max(5, ...rows.map((r) => r.model.length)) + 2,
 };
 const pad = (s, n) => String(s ?? "-").padEnd(n);
-const header = pad("slot", w.slot) + pad("provider", w.name) + pad("model", w.model) + pad("ok", 6) + pad("median", 9) + pad("json", 9) + "note";
+const header = pad("slot", w.slot) + pad("provider", w.name) + pad("model", w.model) + pad("kb", 6) + pad("ok", 6) + pad("median", 9) + pad("json", 9) + "note";
 console.log(header);
 console.log("-".repeat(header.length + 10));
 for (const r of rows) {
   console.log(
-    pad(r.slot, w.slot) + pad(r.name, w.name) + pad(r.model, w.model) + pad(r.success, 6) + pad(r.medianMs ? `${r.medianMs}ms` : "-", 9) + pad(r.json, 9) + r.note,
+    pad(r.slot, w.slot) + pad(r.name, w.name) + pad(r.model, w.model) + pad(r.tier, 6) + pad(r.success, 6) + pad(r.medianMs ? `${r.medianMs}ms` : "-", 9) + pad(r.json, 9) + r.note,
   );
 }
 
