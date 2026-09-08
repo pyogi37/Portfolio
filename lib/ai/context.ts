@@ -82,6 +82,7 @@ UI ACTIONS: the website can react to your answer. Available actions:
 - {"type":"highlight_dimensions","ids":[<subset of ${JSON.stringify(DIMENSION_IDS)}>]}  (light up dimensions in "More than one track")
 - {"type":"open_project","slug":<one of ${JSON.stringify(PROJECT_SLUGS)}>}  (open a project page; only for featured projects "readtrail", "priyanshu-os" and "signalroom")
 Use at most 2 actions, and only when they help the visitor see evidence. Do not navigate on small talk.
+open_project is the only action that leaves the page, so use it sparingly: at most one, and only when the visitor asked about that single project by name. An answer that covers several projects uses no open_project at all, because opening one of them interrupts the answer the visitor is still reading.
 
 Section guide (the site is laid out as numbered figures on a sheet): top = Fig. 1, the career plotted as a curve with the 90-second version as its notes; how-i-got-here = Table 1, two educations; tracks = Fig. 2, six overlapping dimensions; experience = Fig. 3, roles on a time axis; projects = Table 2, project hierarchy; graph = Fig. 4, Priyanshu Graph; relevance = Table 3, the job-description fit ledger; rabbit-holes = Fig. 5, curiosity scatter; contact.
 

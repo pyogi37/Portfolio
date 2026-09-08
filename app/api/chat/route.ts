@@ -13,10 +13,25 @@ const MAX_CHARS = 2000;
 /* Chat is the primary action, so it takes the larger share of the provider's daily free budget. */
 const LIMITS = { perIpPerMinute: 5, perIpPerDay: 20, globalPerDay: 30 };
 
-/** Only let validated actions through to the UI. */
-function sanitizeActions(raw: unknown): AgentAction[] {
+const normalise = (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, "");
+
+/**
+ * Only let validated actions through to the UI.
+ *
+ * open_project is the only action that leaves the page, which makes it the one
+ * worth gating hardest. Asked "what is he building right now?", the model
+ * answered about three projects and returned an open_project for two of them;
+ * the client ran both, so the visitor was navigated to one project and then
+ * immediately to another, away from the answer they were reading.
+ *
+ * So it now has to be asked for: at most one, and only when the visitor's own
+ * message names that project. A prompt rule would be a request. This is a gate.
+ */
+function sanitizeActions(raw: unknown, lastUserMessage: string): AgentAction[] {
   if (!Array.isArray(raw)) return [];
+  const asked = normalise(lastUserMessage);
   const out: AgentAction[] = [];
+  let opened = false;
   for (const a of raw) {
     if (!a || typeof a !== "object") continue;
     const t = (a as { type?: unknown }).type;
@@ -29,9 +44,12 @@ function sanitizeActions(raw: unknown): AgentAction[] {
         const ok = ids.filter((i): i is string => typeof i === "string" && DIMENSION_IDS.includes(i));
         if (ok.length) out.push({ type: "highlight_dimensions", ids: ok });
       }
-    } else if (t === "open_project") {
+    } else if (t === "open_project" && !opened) {
       const slug = (a as { slug?: unknown }).slug;
-      if (typeof slug === "string" && PROJECT_SLUGS.includes(slug)) out.push({ type: "open_project", slug });
+      if (typeof slug === "string" && PROJECT_SLUGS.includes(slug) && asked.includes(normalise(slug))) {
+        out.push({ type: "open_project", slug });
+        opened = true;
+      }
     }
     if (out.length >= 2) break;
   }
@@ -64,7 +82,7 @@ export async function POST(req: Request) {
     const parsed = extractJson<{ reply?: unknown; actions?: unknown }>(raw);
     const reply = parsed && typeof parsed.reply === "string" ? parsed.reply : raw.trim();
     // Which provider answered, so a fallback is visible rather than silent.
-    return NextResponse.json({ reply, actions: sanitizeActions(parsed?.actions), servedBy: provider, ms });
+    return NextResponse.json({ reply, actions: sanitizeActions(parsed?.actions, msgs[msgs.length - 1].content), servedBy: provider, ms });
   } catch (e) {
     const status = e instanceof LLMConfigError ? 503 : 502;
     return NextResponse.json({ error: e instanceof Error ? e.message : "Model error" }, { status });
