@@ -20,6 +20,7 @@
     "lookingFor": "Building technically difficult products that solve real user problems, at the intersection of engineering, customers and product."
   },
   "currentlyBuilding": [
+    "SignalRoom, a grounded discovery-to-brief workflow with a published evaluation (working demo, synthetic data only)",
     "readTrail, a privacy-first Chrome reading companion (working MVP, built in public)",
     "This portfolio: a voice-capable AI agent grounded in structured profile data",
     "Experiments around AI agents, tool use, RAG and voice interfaces"
@@ -43,7 +44,8 @@
         {"text": "Built frontend dashboards, backend APIs and Computer Vision pipeline integrations on HawkVision's core engineering team; used Terraform for deployment pipelines.", "ref": "exp:hawkvision-dev"},
         {"text": "Built Instipe, a NestJS/GraphQL payment system for educational institutions processing 50+ lakh INR/month; cut a GraphQL query from 10+ seconds to under 100ms.", "ref": "exp:edviron"},
         {"text": "Led a 5-engineer team shipping Hazo (NestJS, React Native, AWS) and WorkOS.", "ref": "exp:project-dark-horse"},
-        {"text": "readTrail: a Manifest V3 Chrome extension with a canvas reading trail, validated service-worker messaging and 128 behavioral tests.", "ref": "project:readtrail"}
+        {"text": "readTrail: a Manifest V3 Chrome extension with a canvas reading trail, validated service-worker messaging and 128 behavioral tests.", "ref": "project:readtrail"},
+        {"text": "SignalRoom: FastAPI and LangGraph with a SQLite checkpointer, strict-schema structured output recorded and replayed by content hash, and an evaluation suite that runs in CI without a key.", "ref": "project:signalroom"}
       ]
     },
     {
@@ -54,7 +56,8 @@
         {"text": "Solutioned 50+ enterprise Computer Vision opportunities, including AI feasibility assessment and camera placement strategy.", "ref": "exp:hawkvision-solutions"},
         {"text": "Designed an internal AI-native solutioning operating system (Claude + Obsidian) that cut proposal first drafts from days to 5-10 minutes.", "ref": "project:solutioning-os"},
         {"text": "Led WorkOS, an agentic enterprise operating system unifying role-based access, onboarding and cross-tool integrations.", "ref": "exp:project-dark-horse"},
-        {"text": "Building this portfolio's voice agent with tool calling grounded in structured data.", "ref": "project:priyanshu-os"}
+        {"text": "Building this portfolio's voice agent with tool calling grounded in structured data.", "ref": "project:priyanshu-os"},
+        {"text": "SignalRoom: a LangGraph workflow where code verifies every model quote against a numbered transcript line, numbers are classified by provenance, and human approval is a real interrupt rather than a button.", "ref": "project:signalroom"}
       ]
     },
     {
@@ -64,7 +67,8 @@
       "evidence": [
         {"text": "Owned discovery, feasibility, architecture and deployment planning for 12 concurrent enterprise PoCs, authoring every Solution Architecture Specification.", "ref": "exp:hawkvision-solutions"},
         {"text": "Fixed a failed on-site Raspberry Pi + relay automation deployment by redrawing the wiring on customer premises.", "ref": "exp:hawkvision-solutions"},
-        {"text": "Carried a 10-camera highway-safety PoC across a 165km corridor to sign-off.", "ref": "exp:hawkvision-solutions"}
+        {"text": "Carried a 10-camera highway-safety PoC across a 165km corridor to sign-off.", "ref": "exp:hawkvision-solutions"},
+        {"text": "SignalRoom encodes the discovery-to-brief work as a system: requirements, open items and contradictions carry the line the customer said them on, and unknowns stay open instead of being filled in.", "ref": "project:signalroom"}
       ]
     },
     {
@@ -101,6 +105,6 @@
     {"q": "Is he primarily technical or business?", "a": "He's moved across both. He started by building software, later worked directly on enterprise AI deployments, and eventually took broader solutioning and business responsibility. He's now deliberately moving closer to building again, while keeping the customer exposure.", "dimensions": ["builder", "customer", "business"]},
     {"q": "How did he get into coding without a CS degree?", "a": "He studied Economics and Political Science at Delhi University (2019 to 2022), then did the Coding Ninjas Full Stack Web Development job bootcamp (2022 to 2023), and learned the rest through projects and professional work: an SDE internship at Edviron, leading a small team at Project Dark Horse, and engineering at HawkVision.", "dimensions": ["humanities", "builder"]},
     {"q": "What connects economics and engineering for him?", "a": "Both are about systems: incentives, constraints, and how parts interact. Economics and political science taught him to think about human systems and institutions; engineering gave him the tools to build technical systems. Solutioning work sits right between the two.", "dimensions": ["humanities", "builder", "customer"]},
-    {"q": "What is he building right now?", "a": "readTrail, a privacy-first Chrome reading companion that is a working MVP, and this portfolio, a voice-capable AI agent grounded in structured profile data. Alongside that he is experimenting with agents, RAG and voice.", "dimensions": ["builder", "agents", "product"]}
+    {"q": "What is he building right now?", "a": "SignalRoom, a workflow that turns a discovery call transcript into a solution brief where every claim is tied to a line the customer actually said, with its evaluation and its failures published. Also readTrail, a privacy-first Chrome reading companion that is a working MVP, and this portfolio, a voice-capable AI agent grounded in structured profile data.", "dimensions": ["builder", "agents", "customer"]}
   ]
 }

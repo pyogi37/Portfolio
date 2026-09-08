@@ -55,6 +55,11 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
             <a href="#architecture" className="btn-line !py-1.5 text-[14px]">
               Architecture
             </a>
+            {links.demo && (
+              <a href={links.demo} target="_blank" rel="noreferrer" className="btn-line !py-1.5 text-[14px]">
+                Live demo <IArrowUpRight />
+              </a>
+            )}
             {links.github && (
               <a href={links.github} target="_blank" rel="noreferrer" className="btn-line !py-1.5 text-[14px]">
                 <IGithub /> GitHub <IArrowUpRight />

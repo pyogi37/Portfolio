@@ -44,6 +44,11 @@ export function Projects() {
                 <button onClick={() => void ask(`What is ${p.name.split(" /")[0]}?`)} className="btn-line !py-1.5 text-[14px]">
                   Ask Priyanshu AI
                 </button>
+                {p.links?.demo && (
+                  <a href={p.links.demo} target="_blank" rel="noreferrer" className="btn-line !py-1.5 text-[14px]">
+                    Live demo <IArrowUpRight />
+                  </a>
+                )}
                 {p.links?.github && (
                   <a href={p.links.github} target="_blank" rel="noreferrer" className="btn-line !py-1.5 text-[14px]">
                     <IGithub /> GitHub
