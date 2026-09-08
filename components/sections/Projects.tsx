@@ -25,13 +25,22 @@ export function Projects() {
           const shots = (p as typeof rt).screenshots;
           return (
             <article key={p.id} className="plate rounded-sm p-5">
-              {shots?.[0] ? (
-                <Link href={`/projects/${projectSlug(p.id)}`} className="block overflow-hidden rounded-sm border border-rule">
-                  <Image src={shots[0].src} alt={shots[0].alt} width={1600} height={860} className="w-full transition duration-500 hover:scale-[1.02]" />
-                </Link>
-              ) : (
-                <SelfPlate />
-              )}
+              {/*
+                Every featured plate opens its case study and answers the pointer the
+                same way. The drawn plate used to do neither, so this site's own card
+                was the one card on the page that looked inert.
+              */}
+              <Link
+                href={`/projects/${projectSlug(p.id)}`}
+                aria-label={`Open the ${p.name} case study`}
+                className="group block overflow-hidden rounded-sm border border-rule"
+              >
+                {shots?.[0] ? (
+                  <Image src={shots[0].src} alt={shots[0].alt} width={1600} height={860} className="w-full transition duration-500 group-hover:scale-[1.02]" />
+                ) : (
+                  <SelfPlate className="w-full transition duration-500 group-hover:scale-[1.02]" />
+                )}
+              </Link>
               <div className="mt-4 flex flex-wrap items-baseline justify-between gap-2">
                 <h3 className="font-serif text-3xl">{p.name}</h3>
                 <span className="text-[13px] text-curve-a">{p.statusLabel}</span>
@@ -116,10 +125,11 @@ export function Projects() {
   );
 }
 
-/* Plate for this site itself: a small drawing of the figure-sheet hero, not a screenshot. */
-function SelfPlate() {
+/* Plate for this site itself: a small drawing of the figure-sheet hero, not a screenshot.
+   The border and radius live on the wrapping link, so this matches a screenshot plate. */
+function SelfPlate({ className = "" }: { className?: string }) {
   return (
-    <svg viewBox="0 0 400 215" className="w-full rounded-sm border border-rule bg-paper" role="img" aria-label="Diagram of this portfolio: a plotted curve with an annotation callout">
+    <svg viewBox="0 0 400 215" className={`block bg-paper ${className}`} role="img" aria-label="Diagram of this portfolio: a plotted curve with an annotation callout">
       <line x1="28" y1="16" x2="28" y2="180" stroke="var(--ink)" strokeWidth="1" />
       <line x1="28" y1="180" x2="385" y2="180" stroke="var(--ink)" strokeWidth="1" />
       <path d="M45 170 C 90 165, 110 150, 140 120 S 210 85, 240 95 S 300 110, 320 100 S 360 45, 375 35" fill="none" stroke="var(--curve-a)" strokeWidth="2" />

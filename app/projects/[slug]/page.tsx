@@ -1,13 +1,51 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { featuredProjects, projectSlug, dimensions } from "@/lib/data";
+import { data, featuredProjects, projectSlug, dimensions } from "@/lib/data";
 import { AskAbout } from "@/components/AskAbout";
 import { Notes } from "@/components/Figure";
 import { IArrow, IArrowUpRight, IGithub } from "@/components/Icons";
 
 export function generateStaticParams() {
   return featuredProjects.map((p) => ({ slug: projectSlug(p.id) }));
+}
+
+/*
+ * Without this every case study shared the site's own title, so a link to a
+ * project previewed in Slack or a mail client as the homepage. The case study is
+ * the thing worth sending, so it says its own name, its status, and shows its
+ * first screenshot.
+ */
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const p = featuredProjects.find((x) => projectSlug(x.id) === slug) as ((typeof featuredProjects)[number] & Any) | undefined;
+  if (!p) return { title: "Project not found" };
+
+  const name = String(p.name);
+  const title = `${name} · ${data.profile.name}`;
+  // The status belongs in the preview: it is the honest part, and the one a
+  // reader would otherwise assume.
+  const description = [p.tagline, p.statusLabel ? `Status: ${p.statusLabel}.` : ""].filter(Boolean).join(" ").trim();
+  const shot = arr<{ src: string; alt: string }>(p.screenshots)[0];
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: "article",
+      url: `/projects/${slug}`,
+      ...(shot ? { images: [{ url: shot.src, alt: shot.alt }] } : {}),
+    },
+    twitter: {
+      card: shot ? "summary_large_image" : "summary",
+      title,
+      description,
+      ...(shot ? { images: [shot.src] } : {}),
+    },
+  };
 }
 
 type Any = Record<string, unknown>;

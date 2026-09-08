@@ -28,9 +28,23 @@ const atkinson = localFont({
 });
 const jet = localFont({ src: [{ path: "./fonts/JetBrainsMono[wght].ttf", style: "normal", weight: "100 800" }], variable: "--font-jet", display: "swap" });
 
+/*
+ * Relative URLs in a page's metadata are resolved against this. Without it Next
+ * resolves them against localhost, so a shared case-study link previews with a
+ * broken image everywhere except the machine that built it.
+ */
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim() || "https://priyanshu.fyi";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: `${data.profile.name} | ${data.profile.hero.headline}`,
   description: data.profile.hero.subtext,
+  openGraph: {
+    type: "website",
+    url: "/",
+    title: `${data.profile.name} | ${data.profile.hero.headline}`,
+    description: data.profile.hero.subtext,
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
