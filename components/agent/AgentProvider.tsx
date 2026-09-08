@@ -51,9 +51,13 @@ export function AgentProvider({ children }: { children: React.ReactNode }) {
             router.push(`/#${a.section}`);
           }
         } else if (a.type === "highlight_dimensions") {
+          /*
+           * Marks the regions and nothing else. This used to scroll to Fig. 2 as
+           * well, so an answer about one project could hatch three dimensions and
+           * carry the reader off to a different figure mid-sentence. Moving the
+           * page is what navigate is for; if the agent wants both it asks for both.
+           */
           setHighlighted(a.ids);
-          const el = document.getElementById("tracks");
-          el?.scrollIntoView({ behavior: "smooth", block: "start" });
         } else if (a.type === "open_project") {
           router.push(`/projects/${a.slug}`);
         }
