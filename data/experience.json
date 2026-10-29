@@ -91,6 +91,6 @@
     {"phase": "Building", "text": "Started working on software products: a payment system at Edviron, then leading a small team shipping Hazo and WorkOS at Project Dark Horse.", "refs": ["exp:edviron", "exp:project-dark-horse"]},
     {"phase": "HawkVision", "text": "Joined early on the small product/engineering team. Built parts of the product, worked on deployments, moved closer to customers, became Solutions Architect, and in April 2026 was promoted to Head of Global Solutions and Head of India Sales.", "refs": ["exp:hawkvision-dev", "exp:hawkvision-solutions"]},
     {"phase": "Building in public", "text": "Since leaving HawkVision in August 2026, building LLM agents and tools in the open, with the evals published, misses included.", "refs": ["project:signalroom", "project:readtrail", "project:priyanshu-os"]},
-    {"phase": "What comes next", "text": "Between roles and available immediately, remote or on-site. Looking at Forward Deployed Engineer and AI Solutions Engineer roles first, and AI Engineer, Product Engineer, Customer Engineer and technical product roles too.", "refs": []}
+    {"phase": "What comes next", "text": "Between roles and available immediately, remote or on-site, for technically difficult products that solve real user problems.", "refs": []}
   ]
 }
