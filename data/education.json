@@ -32,7 +32,7 @@
     {"step": "Building real software", "detail": "Led a 5-engineer team shipping Hazo and WorkOS at Project Dark Horse", "kind": "self"},
     {"step": "Applied AI / Computer Vision", "detail": "Software Developer at HawkVision AI: dashboards, APIs, CV pipeline integrations", "kind": "self"},
     {"step": "Enterprise AI systems", "detail": "Global Solutions Head: 50+ CV opportunities, 12 concurrent PoCs, 7 countries", "kind": "self"},
-    {"step": "Agents + RAG + Voice", "detail": "readTrail, this AI portfolio, and ongoing experiments", "kind": "self"}
+    {"step": "Agents with published evals", "detail": "SignalRoom, ReadTrail, this AI portfolio, and experiments in voice and personal tooling", "kind": "self"}
   ],
   "storyView": [
     {"title": "Studied human systems", "subtitle": "Economics + Political Science", "ref": "edu:du"},
@@ -41,6 +41,6 @@
     {"title": "Went deep into real-world AI", "subtitle": "Computer vision + edge deployments", "ref": "exp:hawkvision-dev"},
     {"title": "Ended up sitting with customers", "subtitle": "Solutioning + deployments", "ref": "exp:hawkvision-solutions"},
     {"title": "Learned the commercial side", "subtitle": "Enterprise + GTM + global solutions", "ref": "exp:hawkvision-solutions"},
-    {"title": "Came back toward building", "subtitle": "Agents + RAG + Voice + AI-native products", "ref": "project:readtrail"}
+    {"title": "Came back toward building", "subtitle": "Agents with published evals, misses included", "ref": "project:signalroom"}
   ]
 }

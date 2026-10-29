@@ -2,12 +2,10 @@
   "name": "Priyanshu Yogi",
   "handle": "pyogi37",
   "location": "Jaipur, India",
-  "headline": "Customer-facing AI builder | FDE, AI solutions & full-stack product engineering",
+  "headline": "Forward Deployed Engineer | Enterprise AI from the discovery call to a system that runs on site | I build agents and publish the evals, misses included",
   "titles": [
     "Forward Deployed Engineer",
-    "AI Solutions Engineer",
-    "Solutions Architect",
-    "Full-stack Product Engineer"
+    "AI Solutions Engineer"
   ],
   "hero": {
     "headline": "Don't read my resume. Talk to it.",
@@ -15,12 +13,12 @@
     "motif": "Human systems → software systems → intelligent systems"
   },
   "brandIdea": "I like understanding systems, then building them.",
-  "summary": "Forward-deployed engineer with a full-stack foundation, owning technical solutioning end-to-end, from customer discovery through architecture, PoC delivery, and production deployment, across 50+ enterprise AI and Computer Vision opportunities in seven countries. Translates ambiguous operational problems into deployable systems, working directly with engineering and commercial stakeholders to close the gap between customer need and shipped solution.",
+  "summary": "Forward deployed engineer who takes enterprise AI from the discovery call to a system running on site: architecture, PoC, integration, deployment and the debugging after. At HawkVision AI, ran 12 PoCs across 50+ enterprise computer-vision opportunities in 7 countries. Now building LLM agents with published evals, misses included.",
   "philosophy": "The best technical solution is not merely the most sophisticated one. It is the one that survives contact with users, infrastructure, commercial constraints, and deployment reality.",
   "positioning": {
     "theme": "A non-linear path into technology",
     "oneLiner": "I learned to think about human systems first, then taught myself how to build technical systems.",
-    "currentDirection": "Deliberately moving closer to hands-on building again, while keeping the customer and commercial understanding gained through solutioning and sales roles.",
+    "currentDirection": "Between roles since leaving HawkVision in August 2026, and available immediately, remote or on-site. Building LLM agents in public meanwhile, with the evals published, misses included.",
     "targetRoles": [
       "Forward Deployed Engineer",
       "AI Engineer",
@@ -61,6 +59,7 @@
       "React",
       "React Native",
       "FastAPI",
+      "Next.js",
       "PostgreSQL",
       "MongoDB",
       "AWS",
@@ -75,8 +74,12 @@
     "ai": [
       "Computer Vision solutioning",
       "Edge deployments",
+      "LLM agents",
+      "LangGraph",
+      "Evals and grounding",
+      "Prompt-injection testing",
+      "MCP servers",
       "LLM-assisted internal tooling (Claude + Obsidian)",
-      "Agentic workflows (learning and building)",
       "RAG (learning and building)",
       "Voice interfaces (learning and building)"
     ]
@@ -177,7 +180,11 @@
           "ref": "exp:hawkvision-solutions"
         },
         {
-          "text": "Fixed a failed on-site Raspberry Pi + relay automation deployment by redrawing the wiring on customer premises.",
+          "text": "Fixed a failed on-site Raspberry Pi + relay automation setup during a PoC by redrawing the wiring on customer premises.",
+          "ref": "exp:hawkvision-solutions"
+        },
+        {
+          "text": "After one site turned up 10 cameras on 3 resolutions, made a signed camera spec sheet part of every architecture spec.",
           "ref": "exp:hawkvision-solutions"
         },
         {
@@ -210,7 +217,11 @@
           "ref": "project:readtrail"
         },
         {
-          "text": "Turned field feedback from customer workshops and site visits into roadmap decisions at HawkVision.",
+          "text": "Turned field findings into product priorities with Product and Engineering through a capability-gap register at HawkVision.",
+          "ref": "exp:hawkvision-solutions"
+        },
+        {
+          "text": "Part of the HawkVision team that was runner-up for Product Excellence (startup category) at the ISPMA SPM Summit 2026, IIM Bangalore.",
           "ref": "exp:hawkvision-solutions"
         }
       ]
@@ -228,6 +239,10 @@
       "evidence": [
         {
           "text": "Built HawkVision's initial India sales pipeline from scratch.",
+          "ref": "exp:hawkvision-solutions"
+        },
+        {
+          "text": "Stood up a 3-person solutioning team in a month at the CEO's request: every request got an owner, a first response within 2 working days and a proposal draft within 5.",
           "ref": "exp:hawkvision-solutions"
         },
         {
@@ -266,7 +281,7 @@
   "faq": [
     {
       "q": "Is he primarily technical or business?",
-      "a": "He's moved across both. He started by building software, later worked directly on enterprise AI deployments, and eventually took broader solutioning and business responsibility. He's now deliberately moving closer to building again, while keeping the customer exposure.",
+      "a": "He's moved across both. He started by building software, later worked directly on enterprise AI deployments, and took on broader solutioning and business responsibility, ending as Head of Global Solutions and Head of India Sales. Since leaving in August 2026 he has been building again, in public, and he's available immediately.",
       "dimensions": [
         "builder",
         "customer",

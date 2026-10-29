@@ -67,7 +67,7 @@ const NOTES = [
   "HawkVision's core engineering team: dashboards, APIs, computer-vision pipeline integrations, Terraform for deployments.",
   "Owned discovery, feasibility, camera placement, architecture and deployment planning for 12 concurrent enterprise PoCs. Once redrew a customer's relay wiring on site to rescue a failed deployment.",
   "Built the India pipeline from scratch, wrote 10+ RFP responses scoped at 1,000+ cameras, supported the CEO on international partnerships. 50+ opportunities across 7 countries.",
-  "readTrail is a working MVP. This site is an agent grounded in structured data. The experiments are labelled as experiments.",
+  "SignalRoom publishes its evals, misses included. ReadTrail is a working MVP. This site is an agent grounded in structured data. Between roles now, and available immediately.",
 ];
 
 /** The first and last points: where the path started and where it is now. */

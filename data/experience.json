@@ -8,15 +8,18 @@
       "period": "Jun 2025 – Aug 2026",
       "start": "2025-06",
       "end": "2026-08",
-      "context": "Enterprise Computer Vision company. Moved from the core engineering team into owning technical solutioning end-to-end, then into India sales and global solutions.",
+      "context": "Computer-vision workplace safety. Moved from the core engineering team to the solutions side as Solutions Architect in June 2025, then was promoted to Head of Global Solutions and Head of India Sales in April 2026. Left in August 2026.",
       "workedOn": [
         "Led end-to-end technical solutioning across 50+ enterprise Computer Vision opportunities in 7 countries (Europe, Middle East, APAC), spanning manufacturing, construction, infrastructure, highways, warehousing, logistics and airports.",
-        "Owned discovery, AI feasibility assessment, camera placement strategy, system architecture and deployment planning for 12 concurrent enterprise PoCs, authoring every Solution Architecture Specification and running customer workshops and site visits to turn field feedback into roadmap decisions.",
-        "Diagnosed and resolved a failed on-site automation deployment (Raspberry Pi + relay kit) by identifying incorrect circuit diagrams and redrawing the correct wiring on customer premises, restoring functionality without a return visit.",
+        "Ran 12 PoCs (PPE, near-miss, ANPR, intrusion) in real customer environments: discovery, AI feasibility, camera placement, architecture and deployment planning, every Solution Architecture Specification, and the debugging after go-live.",
+        "Diagnosed and resolved a failed on-site automation setup during a PoC (Raspberry Pi + relay kit) by identifying incorrect circuit diagrams and redrawing the correct wiring on customer premises, restoring functionality without a return visit.",
         "Ran a 10-camera highway-safety PoC across a 165km corridor on on-prem edge hardware, no cloud, with a path to ~100 cameras.",
+        "Stood up a 3-person solutioning team in a month at the CEO's request. Single intake: every request became an engagement page with an owner and SLAs (first response within 2 working days, proposal draft within 5).",
+        "Turned field findings into product priorities with Product and Engineering through a capability-gap register. After one site turned up 10 cameras on 3 resolutions, made a signed camera spec sheet part of every architecture spec.",
         "Authored 10+ RFI/RFP responses across automotive, fabrication, construction, oil & gas and energy, each scoped at 1,000+ camera enterprise deployments.",
         "Built the initial India sales pipeline from scratch and supported the CEO on international business development and partnerships.",
-        "Designed and built an internal AI-native solutioning operating system (Claude + Obsidian) that automated company, process and operations research, cutting proposal first drafts from 2-3 hours to 5-10 minutes, and Solution Architecture Spec first drafts to under 5 minutes, with customer and market intelligence auto-routed into a shared knowledge vault."
+        "Designed and built an internal AI-native solutioning operating system (Claude + Obsidian) for the whole sales and solutioning job: 17 slash commands, ~85 accounts, scheduled daily briefs, and company, process and operations research automated. Proposal first drafts went from 2-3 hours to 5-10 minutes and Solution Architecture Spec first drafts to under 5 minutes. The AI proposes; a human approves any change to deal data.",
+        "Part of the HawkVision team that was runner-up for Product Excellence (startup category) at the ISPMA SPM Summit 2026, IIM Bangalore."
       ],
       "learned": "How enterprise AI actually gets bought and deployed: feasibility before features, site reality over slide decks, and the commercial constraints that decide whether a technically sound solution ships.",
       "technologies": ["Computer Vision solutioning", "Edge deployments", "Raspberry Pi", "Solution Architecture Specs", "RFP/RFI", "Claude", "Obsidian"],
@@ -33,8 +36,9 @@
       "end": "2025-06",
       "context": "Joined during the early product-building stage on the core engineering team.",
       "workedOn": [
-        "Built frontend dashboards, backend APIs and Computer Vision pipeline integrations on the core engineering team.",
-        "Used Terraform to streamline deployment pipelines. This was the technical foundation behind the move into global solutions leadership."
+        "Core engineer on a 2-3 person team: frontend dashboards, alerting and backend APIs for real-time detections.",
+        "Wired Computer Vision model outputs into the product end to end, from inference to the alert a supervisor sees, and wrote the PRDs and architecture docs.",
+        "Used Terraform to streamline deployment pipelines. This was the technical foundation behind the move to the solutions side."
       ],
       "learned": "What a CV product looks like from the inside: pipelines, integrations, and the infrastructure that has to hold up at a customer site.",
       "technologies": ["React", "Node.js", "Computer Vision pipelines", "Terraform", "Cloud deployment"],
@@ -52,7 +56,8 @@
       "context": "Early-stage venture building. Took an ambiguous vision and a small team and turned it into shipped products.",
       "workedOn": [
         "Led a 5-engineer team building Hazo (NestJS backend, React Native frontend, AWS) and WorkOS, an agentic enterprise operating system unifying role-based access, onboarding and cross-tool integrations (Google Calendar, Jira).",
-        "Translated an ambiguous, early-stage vision into two shipped products, directing roadmap and delivery cadence for 30% faster time-to-market."
+        "Translated an ambiguous, early-stage vision into two shipped products, directing roadmap and delivery cadence for 30% faster time-to-market.",
+        "Helped grow a trained, credentialed engineer community to 1,000+ members."
       ],
       "learned": "0→1 product work: scoping, delivery cadence, and making tradeoffs when the vision is still moving.",
       "technologies": ["NestJS", "React Native", "AWS", "Google Calendar API", "Jira integration"],
@@ -71,6 +76,7 @@
       "workedOn": [
         "Built Instipe, a NestJS/GraphQL payment system for educational institutions processing 50+ lakh INR/month, optimizing MongoDB pipelines to cut query execution time up to 90%.",
         "Cut a GraphQL query's response time from 10+ seconds to under 100ms using caching strategies and AWS Lambda serverless compute.",
+        "Cut page load from 9s to under 2s, and added business alarms that made incident response 40% faster.",
         "Built a microservice handling admin operations, managing trustees and customer accounts."
       ],
       "learned": "Backend fundamentals under real load: query performance, caching, serverless tradeoffs, and money-handling systems where correctness matters.",
@@ -83,8 +89,8 @@
     {"phase": "Humanities", "text": "Studied Economics and Political Science at the University of Delhi. Developed an interest in understanding systems, incentives, institutions and why people or organizations behave the way they do.", "refs": ["edu:du"]},
     {"phase": "Self-taught engineering", "text": "Moved into technology through self-learning: a full-stack bootcamp, then projects and professional work rather than a traditional CS degree.", "refs": ["edu:coding-ninjas"]},
     {"phase": "Building", "text": "Started working on software products: a payment system at Edviron, then leading a small team shipping Hazo and WorkOS at Project Dark Horse.", "refs": ["exp:edviron", "exp:project-dark-horse"]},
-    {"phase": "HawkVision", "text": "Joined early on the small product/engineering team. Built parts of the product, worked on deployments, moved closer to customers, and eventually took on solution architecture, solutioning and broader business responsibility.", "refs": ["exp:hawkvision-dev", "exp:hawkvision-solutions"]},
-    {"phase": "AI-native products", "text": "Now increasingly building around AI agents, RAG, voice interfaces, multimodal systems, intelligent workflows and tool-using AI.", "refs": ["project:readtrail", "project:priyanshu-os"]},
-    {"phase": "What comes next", "text": "Building technically difficult products that solve real user problems. Roles like Forward Deployed Engineer, AI Engineer, AI Solutions Engineer, Product Engineer, Customer Engineer and technical product roles.", "refs": []}
+    {"phase": "HawkVision", "text": "Joined early on the small product/engineering team. Built parts of the product, worked on deployments, moved closer to customers, became Solutions Architect, and in April 2026 was promoted to Head of Global Solutions and Head of India Sales.", "refs": ["exp:hawkvision-dev", "exp:hawkvision-solutions"]},
+    {"phase": "Building in public", "text": "Since leaving HawkVision in August 2026, building LLM agents and tools in the open, with the evals published, misses included.", "refs": ["project:signalroom", "project:readtrail", "project:priyanshu-os"]},
+    {"phase": "What comes next", "text": "Between roles and available immediately, remote or on-site. Looking at Forward Deployed Engineer and AI Solutions Engineer roles first, and AI Engineer, Product Engineer, Customer Engineer and technical product roles too.", "refs": []}
   ]
 }
