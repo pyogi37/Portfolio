@@ -456,7 +456,7 @@
         },
         {
           "step": "Critique",
-          "text": "Model findings merged with code findings: dropped evidence, unverified numbers, invalid citations, unaddressed contradictions."
+          "text": "Model findings merged with code findings: dropped evidence, unverified numbers, invalid citations, unaddressed contradictions, figures one speaker corrects on the next line."
         },
         {
           "step": "Gate",
@@ -484,7 +484,7 @@
       "decisions": [
         {
           "decision": "Code gates over prompt instructions",
-          "tradeoff": "Prompts are requests. Every claim, citation and number is checked in code, and the first live run showed the checks needed tuning (number words, Unicode hyphens) before they were fair. The gate fired zero times on real runs and is kept anyway."
+          "tradeoff": "Prompts are requests. Every claim, citation and number is checked in code, and the checks needed tuning before they were fair: the first live run tripped on number words and Unicode hyphens, and a later replay showed six of sixteen number findings were passage citation ids such as operational-alert-design#5 read as figures. The gate fired zero times on real runs and is kept anyway."
         },
         {
           "decision": "A real LangGraph with the gate as an interrupt",
@@ -500,7 +500,7 @@
         },
         {
           "decision": "Publish the failures with the scores",
-          "tradeoff": "Contradictions were caught 3 of 8 times and every room came back needing changes. Both are in the README. Unmatched extractions count against precision rather than being relabelled."
+          "tradeoff": "The model caught 3 of 8 contradictions and every room came back needing changes; both are in the README, with the miss a later code check still leaves: a gateway that is 'staying' and then proposed for replacement nineteen lines later, with no figure to compare. When a replay showed the write-up had overclaimed (padded durations flagged in every room, when one room padded them and the check passed it), the decision log was corrected in place with a date. Unmatched extractions count against precision rather than being relabelled."
         }
       ],
       "architecture": {
@@ -510,7 +510,7 @@
           "Pydantic strict-schema structured output over an OpenAI-compatible client (Groq default, OpenRouter tested)",
           "SQLite FTS5",
           "React 19 and Vite",
-          "pytest (52 tests) and an evaluation runner replayed in CI"
+          "pytest (56 tests) and an evaluation runner replayed in CI"
         ],
         "modules": [
           {
@@ -519,11 +519,11 @@
           },
           {
             "name": "grounding.py",
-            "role": "The code gates: quote verification and repair, number provenance, citation stripping, the non-answer rule, question similarity."
+            "role": "The code gates: quote verification and repair, number provenance, citation stripping, the non-answer rule, question similarity, figure corrections between consecutive speakers."
           },
           {
             "name": "model_client.py",
-            "role": "structured_call: strict JSON schema output, recording and replay by content hash, latency, tokens and cost per call."
+            "role": "structured_call: strict JSON schema output, recording and replay by content hash, latency, tokens and cost per call, and which provider served each live call."
           },
           {
             "name": "retrieval.py",
@@ -542,7 +542,7 @@
           "The evaluation plants traps: injection lines, numbers seeded in the reference library, speaker contradictions, deliberate gaps."
         ]
       },
-      "whereAIFits": "Three model calls per room: extract, design, critique, each with strict structured output. The model proposes; code decides what survives. The interesting part is not the prompts but the gates around them and the evaluation that shows where the model still fails: it treats a correction between speakers as resolved rather than disputed, and it pads unknown durations with estimates.",
+      "whereAIFits": "Three model calls per room: extract, design, critique, each with strict structured output. The model proposes; code decides what survives. The interesting part is not the prompts but the gates around them and the evaluation that shows where the model still fails: it treats a correction between speakers as resolved rather than disputed, which a code check now catches when the correction is a figure on the next line, and it writes numbers nobody stated, mostly exit-criteria targets, which the number check flags in six of ten rooms.",
       "process": "Started from a Codex scaffold that was audited first (AUDIT.md): keyword extraction dressed as an agent, pass-through graph nodes, evals that could not fail. Rebuilt in ordered commits with Claude: retrieval, model client, the real graph, fixtures, the evaluation harness, a first live run, and check tuning from what that run exposed. Design followed the Impeccable process: product record, a direction round with alternates, a written direction contract, a fresh-context finish review, and DESIGN.md recorded from the built code.",
       "shipped": [
         "Six-stage workflow with a human gate as a LangGraph interrupt",
@@ -550,19 +550,20 @@
         "Number provenance check across the whole brief",
         "Follow-up loop where non-answers cannot close items",
         "Ten synthetic fixtures, scoring harness, CI replay from committed recordings",
-        "A published evaluation run: 0.95 requirement recall, 0.87 precision, 119 of 119 model quotes passing the verbatim check, 4 of 4 injection lines ignored, 2 of 2 planted numbers kept out, and 3 of 8 contradictions caught, which is the failure the write-up leads with",
+        "A published evaluation of run 1 on ten fixtures: 0.95 requirement recall, 0.87 precision, 119 of 119 model quotes passing the verbatim check, 4 of 4 injection lines ignored, 2 of 2 planted numbers kept out, and 3 of 8 contradictions caught by the model. Replaying run 1's recorded outputs through a figure-correction check added later gives 7 of 8, but that check was written after seeing those misses and is scored on the same fixtures, and run 2's revised prompts are unrecorded because the provider account has no credit.",
+        "Code check for a figure one speaker corrects on the next line, kept as a dispute rather than a resolved value; on the ten transcripts it fires on four pairs and nowhere else",
         "Recorded rooms that open with no key",
         "DOCX export of the brief",
         "Read-only MCP tools over search, rooms and evaluation results"
       ],
       "roadmap": [
-        "Run 2 of the evaluation with the revised contradiction and duration prompts (blocked on provider credits at time of writing)",
+        "Run 2 of the evaluation with the revised contradiction and duration prompts (written, unrecorded: the provider account has no credit)",
         "Streaming stage updates in the UI instead of a synchronous run",
-        "A code-side contradiction detector for numeric disagreements between speakers",
+        "Run the figure-correction check before the brief is drafted, so the brief can address what it finds",
         "More fixtures before quoting rates with confidence"
       ],
       "openQuestions": [
-        "Should a correction between speakers be surfaced as a contradiction or as a resolved value with a note?",
+        "Figure corrections are now kept as a dispute rather than a resolved value. Can a reversal with no figures, a fact and its contradiction far apart, be caught without leaving it to the model?",
         "How much of the brief should the model be allowed to write before the reviewer has confirmed the open items?",
         "Is a single accountable reviewer the right gate, or does a delivery lead need a second one?"
       ],
