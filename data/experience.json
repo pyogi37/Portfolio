@@ -1,6 +1,26 @@
 {
   "roles": [
     {
+      "id": "exp:independent",
+      "role": "Building in public, between roles",
+      "organization": "Independent",
+      "location": "Jaipur, India",
+      "period": "Aug 2026 – present",
+      "start": "2026-08",
+      "end": "present",
+      "context": "Left HawkVision in August 2026. Since then, building LLM agents and tools in the open with their evals published, misses included, while looking for the next role. Available immediately, remote or on-site.",
+      "workedOn": [
+        "SignalRoom: a discovery-call transcript becomes a solution brief where every claim cites the line the customer said it on, with the evaluation and its misses published.",
+        "ReadTrail: a privacy-first Chrome reading companion; 2.0 is on GitHub with 394 unit tests and 11 end-to-end scenarios, not yet on the Chrome Web Store.",
+        "This portfolio: an agent grounded in six JSON files, with failover across four free-tier model providers and a prompt sized to each one's budget.",
+        "Smaller experiments: Cochlea, a vocal-analysis MCP server heading toward a coach for beginner singers; Spotify Mood Curator, working and open source; and Atlas, a personal capture pipeline."
+      ],
+      "learned": "Evals are only worth publishing with the misses in them, and anything built on free tiers has to assume every provider will fail on its own schedule.",
+      "technologies": ["Python", "FastAPI", "LangGraph", "TypeScript", "Next.js", "Chrome Extensions (Manifest V3)", "MCP", "Evals"],
+      "relatedProjects": ["project:signalroom", "project:readtrail", "project:priyanshu-os", "project:mood-curator", "project:cochlea", "project:atlas"],
+      "dimensions": ["builder", "agents", "product"]
+    },
+    {
       "id": "exp:hawkvision-solutions",
       "role": "Global Solutions Head & Head of India Sales",
       "organization": "HawkVision AI",

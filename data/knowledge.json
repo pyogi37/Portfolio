@@ -293,6 +293,12 @@
       "id": "playwright",
       "label": "Playwright",
       "type": "technology"
+    },
+    {
+      "id": "independent",
+      "label": "Independent (now)",
+      "type": "experience",
+      "ref": "exp:independent"
     }
   ],
   "links": [
@@ -603,6 +609,18 @@
     {
       "source": "playwright",
       "target": "chrome-ext"
+    },
+    {
+      "source": "independent",
+      "target": "signalroom"
+    },
+    {
+      "source": "independent",
+      "target": "readtrail"
+    },
+    {
+      "source": "independent",
+      "target": "priyanshu-os"
     }
   ]
 }

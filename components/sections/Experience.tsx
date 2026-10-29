@@ -8,10 +8,11 @@ import { IArrowUpRight } from "@/components/Icons";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { EASE, listVariants, itemVariants } from "@/components/motion/Reveal";
 
-/* Fig. 3: roles as spans on a time axis, 2019 to 2026, the way a figure shades periods. */
+/* Fig. 3: roles as spans on a time axis, 2019 to now, the way a figure shades periods. */
 const T0 = 2019;
-const T1 = 2026.75;
+const T1 = 2027; // raise with the tick count below when the axis needs another year
 const tx = (ym: string) => {
+  if (ym === "present") return 100; // an ongoing span runs to the axis edge
   const [y, m] = ym.split("-").map(Number);
   return ((y + (m - 1) / 12 - T0) / (T1 - T0)) * 100;
 };
@@ -26,7 +27,7 @@ export function Experience() {
       id="experience"
       n={3}
       title="Four roles, three companies, one direction."
-      lede="Backend under real load, then 0→1 product leadership, then inside an enterprise computer-vision company from engineering to global solutions. HawkVision is the deepest chapter, not the only one."
+      lede="Backend under real load, then 0→1 product leadership, then inside an enterprise computer-vision company from engineering to global solutions. HawkVision is the deepest chapter, not the only one. The last row is now: between roles, building in public."
       interaction="Click any row to open what that role actually involved."
     >
       {/* time axis: a fixed label gutter on the left, the span drawn to its right. Nothing truncates. */}
@@ -34,7 +35,7 @@ export function Experience() {
         <div className="grid md:grid-cols-[230px_1fr]">
           <div />
           <div className="flex justify-between border-b border-ink pb-1 font-mono text-[12px] text-ink-3">
-            {Array.from({ length: 8 }, (_, i) => T0 + i).map((y) => (
+            {Array.from({ length: T1 - T0 + 1 }, (_, i) => T0 + i).map((y) => (
               <span key={y} className="tnum">{y}</span>
             ))}
           </div>
