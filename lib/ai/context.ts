@@ -1,4 +1,4 @@
-import { data, SECTION_IDS, allProjects, projectSlug } from "@/lib/data";
+import { data, SECTION_IDS, featuredProjects, projectSlug } from "@/lib/data";
 
 /**
  * Grounding context for the agent. The dataset is small (a few thousand tokens), so the whole
@@ -62,7 +62,8 @@ export function buildKnowledgeBase(tier: KbTier = "full"): string {
   );
 }
 
-export const PROJECT_SLUGS = allProjects.map((p) => projectSlug(p.id));
+// Only featured projects have a page; any other slug would open a 404.
+export const PROJECT_SLUGS = featuredProjects.map((p) => projectSlug(p.id));
 export const DIMENSION_IDS = data.profile.dimensions.map((d) => d.id);
 
 export function chatSystemPrompt(tier: KbTier = "full"): string {
