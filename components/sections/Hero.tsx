@@ -66,7 +66,7 @@ const NOTES = [
   "Edviron: a payment system moving 50+ lakh INR a month, and the query-performance problems that come with it. Then Project Dark Horse: leading five engineers to ship two products from an ambiguous brief.",
   "HawkVision's core engineering team: dashboards, APIs, computer-vision pipeline integrations, Terraform for deployments.",
   "Owned discovery, feasibility, camera placement, architecture and deployment planning for 12 concurrent enterprise PoCs. Once redrew a customer's relay wiring on site to rescue a failed deployment.",
-  "Built the India pipeline from scratch, priced deals, wrote 10+ RFP responses scoped at 1,000+ cameras, supported the CEO on international partnerships. 50+ opportunities across 7 countries.",
+  "Built the India pipeline from scratch, wrote 10+ RFP responses scoped at 1,000+ cameras, supported the CEO on international partnerships. 50+ opportunities across 7 countries.",
   "readTrail is a working MVP. This site is an agent grounded in structured data. The experiments are labelled as experiments.",
 ];
 

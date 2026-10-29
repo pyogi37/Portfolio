@@ -143,7 +143,7 @@
           "ref": "exp:hawkvision-solutions"
         },
         {
-          "text": "Designed an internal AI-native solutioning operating system (Claude + Obsidian) that cut proposal first drafts from days to 5-10 minutes.",
+          "text": "Designed an internal AI-native solutioning operating system (Claude + Obsidian) that cut proposal first drafts from 2-3 hours to 5-10 minutes.",
           "ref": "project:solutioning-os"
         },
         {
@@ -181,7 +181,7 @@
           "ref": "exp:hawkvision-solutions"
         },
         {
-          "text": "Carried a 10-camera highway-safety PoC across a 165km corridor to sign-off.",
+          "text": "Ran a 10-camera highway-safety PoC across a 165km corridor on on-prem edge hardware, with a path to ~100 cameras.",
           "ref": "exp:hawkvision-solutions"
         },
         {
@@ -227,7 +227,7 @@
       ],
       "evidence": [
         {
-          "text": "Built HawkVision's India sales pipeline from scratch and defined India pricing strategy and commercial proposals.",
+          "text": "Built HawkVision's initial India sales pipeline from scratch.",
           "ref": "exp:hawkvision-solutions"
         },
         {

@@ -136,7 +136,7 @@ export function Experience() {
         </div>
       </motion.article>
       </AnimatePresence>
-      <Notes items={[{ n: "a", text: "All figures (camera counts, deal sizes, PoC counts, query timings) are as stated on the resume; none are rounded up here." }]} />
+      <Notes items={[{ n: "a", text: "All figures (camera counts, PoC counts, query timings) are as stated on the resume; none are rounded up here." }]} />
     </Figure>
   );
 }

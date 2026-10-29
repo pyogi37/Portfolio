@@ -618,7 +618,7 @@
       "status": "shipped-internal",
       "statusLabel": "Shipped internally at HawkVision",
       "tagline": "Claude + Obsidian system that automated company, process and operations research for enterprise CV proposals.",
-      "problem": "Each proposal and Solution Architecture Spec started with a multi-day manual research cycle.",
+      "problem": "Each proposal first draft took 2-3 hours of manual company, process and operations research.",
       "outcome": "Proposal first drafts in 5-10 minutes; Solution Architecture Spec first drafts in under 5 minutes; customer and market intelligence auto-routed into a shared knowledge vault.",
       "technologies": [
         "Claude",
@@ -696,9 +696,9 @@
       "id": "project:highway-poc",
       "tier": "technical",
       "name": "Highway-safety Computer Vision PoC",
-      "status": "signed-off",
-      "statusLabel": "PoC signed off, scaling",
-      "tagline": "10-camera highway-safety PoC across a 165km corridor, carried to sign-off and now scaling toward 100+ cameras.",
+      "status": "delivered",
+      "statusLabel": "PoC delivered, path to ~100 cameras",
+      "tagline": "10-camera highway-safety PoC across a 165km corridor on on-prem edge hardware, no cloud, with a path to ~100 cameras.",
       "outcome": "Owned discovery, feasibility, camera placement, architecture and deployment planning.",
       "technologies": [
         "Computer Vision",
