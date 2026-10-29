@@ -15,7 +15,7 @@ Every section is a numbered Figure or Table. Every AI answer derives from six JS
 | `data/profile.json` | hero, positioning, skills, the six tracks and their evidence, FAQ answers |
 | `data/education.json` | the two educations, and the seven turning points plotted as the career curve |
 | `data/experience.json` | the roles on the time axis, and the career story |
-| `data/projects.json` | the three tiers, and the readTrail, Priyanshu OS and SignalRoom case studies |
+| `data/projects.json` | the three tiers, and the ReadTrail, Priyanshu OS and SignalRoom case studies |
 | `data/interests.json` | the curiosity scatter and the off-duty panel |
 | `data/knowledge.json` | the graph's nodes and links |
 
@@ -97,7 +97,7 @@ One provider is enough to start. Add `_2`, `_3`, `_4` for the chain, and `LLM_KB
 The honesty rules are in the data, and the agent is told about them.
 
 - Projects marked `exploring` or `planned` are interest, never experience, and the agent says so.
-- readTrail is a working MVP. SignalRoom is a working demo on synthetic data with a published evaluation, including the contradictions its model missed.
+- ReadTrail is a working MVP. SignalRoom is a working demo on synthetic data with a published evaluation, including the contradictions its model missed.
 - The fit check returns gaps next to the matches. A fit report with no gaps is not trustworthy, so the site argues against its own candidate in writing.
 - Nothing in `data/*.json` comes from anywhere but the resume, the project repositories and the GitHub profile.
 

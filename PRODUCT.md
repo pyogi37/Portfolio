@@ -28,11 +28,11 @@ Visitors open it on a laptop from an email or LinkedIn, often alongside the PDF 
 
 ## Capabilities and Constraints
 
-- Sections: hero, "The 90-second version" (turning points), "How I got here" (humanities vs self-taught education), "More than one track" (six overlapping dimensions with cited evidence), About in six moves, experience timeline (Edviron, Project Dark Horse, HawkVision x2), three-tier project hierarchy (featured / technical / experiments), readTrail case study page, Priyanshu OS case study page, Priyanshu Graph (force-directed, draggable), rabbit-hole constellation, `/off-duty` panel, "Why am I relevant to your role?" job-description analyser, contact.
+- Sections: hero, "The 90-second version" (turning points), "How I got here" (humanities vs self-taught education), "More than one track" (six overlapping dimensions with cited evidence), About in six moves, experience timeline (Edviron, Project Dark Horse, HawkVision x2), three-tier project hierarchy (featured / technical / experiments), ReadTrail case study page, Priyanshu OS case study page, Priyanshu Graph (force-directed, draggable), rabbit-hole constellation, `/off-duty` panel, "Why am I relevant to your role?" job-description analyser, contact.
 - Priyanshu AI: chat + voice, grounded in `/data/*.json`, returns validated UI actions (navigate, highlight dimensions, open project). No conversation persistence.
 - Stack: Next.js 15 App Router, TypeScript, Tailwind v4, d3-force. No CMS. Content edits happen in JSON.
-- Honesty constraints: projects marked `exploring` or `planned` are never presented as shipped. readTrail is a working MVP in plain JavaScript (Manifest V3). No invented metrics, employers, or personal facts. No phone number on the public site.
-- Terminology: "tracks" or "dimensions" for the six overlapping areas; "Priyanshu AI" for the agent; "readTrail" (lower-case r, capital T) for the product.
+- Honesty constraints: projects marked `exploring` or `planned` are never presented as shipped. ReadTrail is a working MVP in plain JavaScript (Manifest V3). No invented metrics, employers, or personal facts. No phone number on the public site.
+- Terminology: "tracks" or "dimensions" for the six overlapping areas; "Priyanshu AI" for the agent; "ReadTrail" (capital R, capital T, as the repo, manifest and store listing spell it) for the product.
 - Undecided: final domain; whether Framer-generated visuals will be added later (owner said "Framer for visuals only, later").
 
 ## Brand Commitments
@@ -45,7 +45,7 @@ Visitors open it on a laptop from an email or LinkedIn, often alongside the PDF 
 ## Evidence on Hand
 
 - Resume PDF (source of all experience facts, metrics and dates).
-- readTrail repository: `docs/PRODUCT-VISION.md`, README, sprint docs, four real screenshots in `public/readtrail/`.
+- ReadTrail repository: `docs/PRODUCT-VISION.md`, README, sprint docs, four real screenshots in `public/readtrail/`.
 - GitHub profile bio and philosophy line: "The best technical solution is not merely the most sophisticated one. It is the one that survives contact with users, infrastructure, commercial constraints, and deployment reality."
 - Absent, must not be fabricated: testimonials, logos of customers (HawkVision customers are not named), photos of Priyanshu, live demo videos, code for the "exploring/planned" experiments.
 

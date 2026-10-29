@@ -338,7 +338,7 @@ export function Hero() {
               </button>
             </div>
             <div className="mt-2 flex flex-wrap gap-1.5">
-              {["Technical or business?", "What is readTrail?"].map((s) => (
+              {["Technical or business?", "What is ReadTrail?"].map((s) => (
                 <button type="button" key={s} onClick={() => void ask(s)} className="chip">
                   {s}
                 </button>

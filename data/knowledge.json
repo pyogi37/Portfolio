@@ -101,7 +101,7 @@
     },
     {
       "id": "readtrail",
-      "label": "readTrail",
+      "label": "ReadTrail",
       "type": "project",
       "ref": "project:readtrail"
     },

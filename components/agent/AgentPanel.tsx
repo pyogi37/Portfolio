@@ -18,7 +18,7 @@ const SUGGESTED = [
   "Is he primarily technical or business?",
   "How did he get into coding without a CS degree?",
   "What is SignalRoom?",
-  "What is readTrail?",
+  "What is ReadTrail?",
   "What is he building right now?",
   "How does this site stay up when a model provider fails?",
   "What does Priyanshu do outside work?",

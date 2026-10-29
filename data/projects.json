@@ -8,11 +8,11 @@
     {
       "id": "project:readtrail",
       "tier": "featured",
-      "name": "readTrail",
+      "name": "ReadTrail",
       "status": "working-mvp",
       "statusLabel": "Working MVP, built in public",
       "tagline": "A privacy-first Chrome reading companion that remembers exactly where you stopped reading.",
-      "idea": "readTrail helps people read long, text-heavy material in their browser without losing their place, their momentum, or the ideas they want to return to.",
+      "idea": "ReadTrail helps people read long, text-heavy material in their browser without losing their place, their momentum, or the ideas they want to return to.",
       "problem": "Dense text makes it easy to lose the current line, forget where you stopped, or abandon unfinished reading because returning takes too much effort. Most of that reading already happens in a browser, on a laptop or desktop.",
       "question": "How can a browser help people continue reading without turning their attention into another data stream?",
       "corePromise": [
@@ -56,7 +56,7 @@
       "coreFlow": [
         {
           "step": "Activate",
-          "text": "Turn readTrail on for this exact page from the popup. The UI warns that page clicks will be reserved for reading lock."
+          "text": "Turn ReadTrail on for this exact page from the popup. The UI warns that page clicks will be reserved for reading lock."
         },
         {
           "step": "Follow",
@@ -99,7 +99,7 @@
           "tradeoff": "Less convenient than always-on, but a dormant page creates no canvas, pointer listener, anchor lookup or reading-state write. Privacy is enforced structurally, not by policy."
         },
         {
-          "decision": "Active readTrail is an explicit reading lock",
+          "decision": "Active ReadTrail is an explicit reading lock",
           "tradeoff": "Primary clicks pause or resume instead of activating links and buttons. Scrolling and text selection stay available. Reading loses some page interactivity, but the pause gesture works even on linked text."
         },
         {
@@ -174,7 +174,7 @@
           "Anchor validation caps depth, index and offset so malformed local data fails safely."
         ]
       },
-      "whereAIFits": "Nowhere yet, deliberately. The product vision lists an AI summarizer as something readTrail is not by default, and the active sprint names knowledge graphs, recommendations and summaries as non-goals. The directional 'knowledge' layer (helping readers see what a page contributed to what they already know) is undecided in interaction model and data model, and is only allowed to arrive once reliable reading memory exists.",
+      "whereAIFits": "Nowhere yet, deliberately. The product vision lists an AI summarizer as something ReadTrail is not by default, and the active sprint names knowledge graphs, recommendations and summaries as non-goals. The directional 'knowledge' layer (helping readers see what a page contributed to what they already know) is undecided in interaction model and data model, and is only allowed to arrive once reliable reading memory exists.",
       "process": "Built with a small, review-led agent workflow: Priyanshu owns product vision and resolves product questions; a lead engineering agent converts outcomes into sprint scope, delegates bounded tasks and reviews every diff; a bounded worker agent implements one task at a time and cannot commit, change scope or edit the vision. Sprint documents carry goals, non-goals, acceptance criteria and a manual Chrome verification record.",
       "shipped": [
         "Visual reading guide following the current line",
@@ -210,22 +210,22 @@
       "screenshots": [
         {
           "src": "/readtrail/reading-guide-training.png",
-          "alt": "readTrail reading guide highlighting the current passage on an arXiv article",
+          "alt": "ReadTrail reading guide highlighting the current passage on an arXiv article",
           "caption": "Following the current line on a long arXiv page"
         },
         {
           "src": "/readtrail/reading-guide-results.png",
-          "alt": "readTrail reading guide moved farther down the same arXiv article",
+          "alt": "ReadTrail reading guide moved farther down the same arXiv article",
           "caption": "Further down the same article"
         },
         {
           "src": "/readtrail/appearance-settings.png",
-          "alt": "readTrail appearance settings",
+          "alt": "ReadTrail appearance settings",
           "caption": "Trail style, colour, size, opacity and highlighting controls"
         },
         {
           "src": "/readtrail/reading-space.png",
-          "alt": "readTrail Reading Space showing a saved article with Continue reading and Remove actions",
+          "alt": "ReadTrail Reading Space showing a saved article with Continue reading and Remove actions",
           "caption": "Reading Space: saved pages, ready to continue"
         }
       ],

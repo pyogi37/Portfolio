@@ -17,7 +17,7 @@
     {"id": "investing", "label": "Investing", "kind": "curious", "note": "Incentives again, with a scoreboard."},
     {"id": "travel", "label": "Travel", "kind": "curious", "note": "The kind involving mountains is usually better."},
     {"id": "photography", "label": "Photography", "kind": "curious", "note": "Another excuse to obsess over composition and details."},
-    {"id": "reading", "label": "Reading", "kind": "curious", "note": "Long-form, ideally. readTrail exists partly because of this."},
+    {"id": "reading", "label": "Reading", "kind": "curious", "note": "Long-form, ideally. ReadTrail exists partly because of this."},
     {"id": "fitness", "label": "Fitness", "kind": "curious", "note": "Mostly in service of the trekking."},
     {"id": "cooking", "label": "Cooking", "kind": "curious", "note": "A system with fast feedback loops."},
     {"id": "productivity", "label": "Productivity", "kind": "curious", "note": "Tools, notes, and the occasional over-engineered Obsidian vault."},
