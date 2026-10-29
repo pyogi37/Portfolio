@@ -8,9 +8,10 @@ import { data, SECTION_IDS, featuredProjects, projectSlug } from "@/lib/data";
  * "lean" is for a provider whose per-minute token allowance cannot fit the whole
  * dataset (Groq's free tier is 8k tokens/minute against a ~10k prompt): it keeps
  * every fact the agent reasons from, and drops the long case-study prose that only
- * the project pages render. Answers from a lean provider are shallower on
- * ReadTrail's internals, which is the right trade for a fallback: a thinner answer
- * beats no answer.
+ * the project pages render, plus the education timelines that retell the career
+ * story. Answers from a lean provider are shallower on the featured projects'
+ * internals, which is the right trade for a fallback: a thinner answer beats no
+ * answer. Run npm run bench:providers after adding content; it mirrors this shaping.
  */
 export type KbTier = "full" | "lean";
 
@@ -30,6 +31,7 @@ const CASE_STUDY_FIELDS = [
   "openQuestions",
   "whatItShows",
   "roadmap",
+  "shipped",
   "architecture",
 ] as const;
 
@@ -42,16 +44,13 @@ export function buildKnowledgeBase(tier: KbTier = "full"): string {
     for (const [k, v] of Object.entries(rest)) {
       if (!(CASE_STUDY_FIELDS as readonly string[]).includes(k)) lean[k] = v;
     }
-    // The stack is the only part of the architecture the agent needs: it is the
-    // only place ReadTrail's real technology is enumerated.
-    const arch = rest.architecture as { stack?: unknown } | undefined;
-    if (arch && typeof arch === "object" && arch.stack) lean.stack = arch.stack;
     return lean;
   });
+  const { journey: _j, storyView: _v, ...educationLean } = education;
   return JSON.stringify(
     {
       profile,
-      education,
+      education: tier === "full" ? education : educationLean,
       experience,
       projects: { tiers: projects.tiers, projects: shaped },
       // Rabbit holes are colour, not evidence. First thing to go when space is tight.

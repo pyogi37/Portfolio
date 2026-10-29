@@ -71,7 +71,8 @@ function collectProviders(env) {
  */
 const CASE_STUDY_FIELDS = [
   "idea", "problem", "question", "corePromise", "principles", "notList", "coreFlow",
-  "states", "decisions", "whereAIFits", "process", "openQuestions", "whatItShows", "architecture",
+  "states", "decisions", "whereAIFits", "process", "openQuestions", "whatItShows", "roadmap",
+  "shipped", "architecture",
 ];
 
 function knowledgeBase(tier) {
@@ -82,12 +83,12 @@ function knowledgeBase(tier) {
     if (tier === "full") return rest;
     const lean = {};
     for (const [k, v] of Object.entries(rest)) if (!CASE_STUDY_FIELDS.includes(k)) lean[k] = v;
-    if (rest.architecture?.stack) lean.stack = rest.architecture.stack;
     return lean;
   });
+  const { journey, storyView, ...educationLean } = education;
   return JSON.stringify({
     profile,
-    education,
+    education: tier === "full" ? education : educationLean,
     experience,
     projects: { tiers: projects.tiers, projects: shaped },
     ...(tier === "full" ? { interests } : {}),
