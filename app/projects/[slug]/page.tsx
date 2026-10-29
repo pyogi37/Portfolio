@@ -264,7 +264,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
             {arch.permissions && (
               <>
                 <div className="fig-label mt-5 text-[14px]">Permissions</div>
-                <div className="mt-1.5 flex gap-1.5">
+                <div className="mt-1.5 flex flex-wrap gap-1.5">
                   {arch.permissions.map((x) => (
                     <code key={x} className="chip font-mono">{x}</code>
                   ))}
