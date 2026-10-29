@@ -288,6 +288,11 @@
       "id": "mcp",
       "label": "MCP",
       "type": "technology"
+    },
+    {
+      "id": "playwright",
+      "label": "Playwright",
+      "type": "technology"
     }
   ],
   "links": [
@@ -590,6 +595,14 @@
     {
       "source": "atlas",
       "target": "typescript"
+    },
+    {
+      "source": "readtrail",
+      "target": "playwright"
+    },
+    {
+      "source": "playwright",
+      "target": "chrome-ext"
     }
   ]
 }

@@ -33,7 +33,7 @@
   },
   "currentlyBuilding": [
     "SignalRoom, a grounded discovery-to-brief workflow with a published evaluation (working demo, synthetic data only)",
-    "ReadTrail, a privacy-first Chrome reading companion (working MVP, built in public)",
+    "ReadTrail, a privacy-first Chrome reading companion with a Desk for writing beside saved passages (working MVP; 2.0 on GitHub, not yet on the Chrome Web Store)",
     "This portfolio: a voice-capable AI agent grounded in structured profile data",
     "Experiments: Cochlea, a vocal-analysis MCP server heading toward a coach for beginner singers (in progress); Spotify Mood Curator (working MVP); Atlas, a personal capture pipeline (in progress)"
   ],
@@ -115,7 +115,7 @@
           "ref": "exp:project-dark-horse"
         },
         {
-          "text": "ReadTrail: a Manifest V3 Chrome extension with a canvas reading trail, validated service-worker messaging and 128 behavioral tests.",
+          "text": "ReadTrail: a Manifest V3 Chrome extension with a canvas reading guide, a side panel and a writing Desk, every message validated at one service-worker trust boundary, 394 unit and behavioral tests and 11 Playwright end-to-end scenarios.",
           "ref": "project:readtrail"
         },
         {
@@ -221,7 +221,7 @@
           "ref": "exp:project-dark-horse"
         },
         {
-          "text": "ReadTrail's product vision separates decisions made, open questions and non-goals, and documents planned work separately from shipped work.",
+          "text": "ReadTrail's product vision separates decisions made, open questions and non-goals, documents planned work separately from shipped work, and says plainly that nobody outside the project has used it yet.",
           "ref": "project:readtrail"
         },
         {
@@ -315,7 +315,7 @@
     },
     {
       "q": "What is he building right now?",
-      "a": "SignalRoom, a workflow that turns a discovery call transcript into a solution brief where every claim is tied to a line the customer actually said, with its evaluation and its failures published. Also ReadTrail, a privacy-first Chrome reading companion that is a working MVP, and this portfolio, a voice-capable AI agent grounded in structured profile data.",
+      "a": "SignalRoom, a workflow that turns a discovery call transcript into a solution brief where every claim is tied to a line the customer actually said, with its evaluation and its failures published; the latest change is a code check that keeps a figure one speaker corrects on the next line as a dispute. Also ReadTrail, a privacy-first Chrome reading companion that is a working MVP (2.0 on GitHub, not yet on the Chrome Web Store), and this portfolio, a voice-capable AI agent grounded in structured profile data. On the side: Cochlea, a local MCP server that measures a sung take so an LLM can coach from the numbers, heading toward a coach for beginner singers; Spotify Mood Curator, a working playlist builder on real listening data; and Atlas, a personal capture pipeline. He's between roles and available immediately.",
       "dimensions": [
         "builder",
         "agents",

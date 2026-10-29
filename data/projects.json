@@ -10,10 +10,10 @@
       "tier": "featured",
       "name": "ReadTrail",
       "status": "working-mvp",
-      "statusLabel": "Working MVP, built in public",
-      "tagline": "A privacy-first Chrome reading companion that remembers exactly where you stopped reading.",
-      "idea": "ReadTrail helps people read long, text-heavy material in their browser without losing their place, their momentum, or the ideas they want to return to.",
-      "problem": "Dense text makes it easy to lose the current line, forget where you stopped, or abandon unfinished reading because returning takes too much effort. Most of that reading already happens in a browser, on a laptop or desktop.",
+      "statusLabel": "Working MVP, 2.0 on main and unreleased; not yet on the Chrome Web Store",
+      "tagline": "A privacy-first Chrome reading companion: follow the line, keep your exact place, and write beside the passages you saved.",
+      "idea": "ReadTrail helps people read long, text-heavy material in Chrome without losing their place, then keep the passages that mattered and write with them, with every quote still able to go back to its paragraph.",
+      "problem": "Dense text makes it easy to lose the current line, forget where you stopped, or abandon unfinished reading because returning takes too much effort. And for people who read to answer a question, what they gather loses its connection to where it came from: a saved highlight is an orphan a month later, with no reliable way back to the exact paragraph.",
       "question": "How can a browser help people continue reading without turning their attention into another data stream?",
       "corePromise": [
         "Follow the text while actively reading.",
@@ -27,23 +27,23 @@
         },
         {
           "title": "The browser is the natural home",
-          "text": "Built into the environment where the reading already happens, not a separate reading app."
+          "text": "Built into the environment where the reading already happens: a side panel beside the page, not a separate reading app."
         },
         {
           "title": "Use is intentional",
-          "text": "Opt-in per page. No reading state is collected before the reader activates it."
+          "text": "Opt-in per page. No reading state is collected before the reader turns it on for that page in that tab."
         },
         {
           "title": "Memory should be trustworthy",
-          "text": "When it says it remembers a position, the reader can rely on it. Saved state survives looking elsewhere."
+          "text": "When it says it remembers a position, the reader can rely on it. When it cannot find something, it says so instead of guessing."
         },
         {
           "title": "Privacy is part of the product",
-          "text": "Reading history reveals sensitive interests. Collect the minimum, store locally by default, make saving explicit."
+          "text": "Reading history reveals sensitive interests. Everything stays on the device, saving is always an explicit choice, and incognito tabs leave nothing durable."
         },
         {
           "title": "Grow from position to understanding",
-          "text": "Exact position is the foundation. Knowledge capture is a future layer, not an excuse to weaken the initial experience."
+          "text": "Exact position is the foundation. Passages, notes and drafts were built on top of it, and the only relation between two sources is one the reader wrote: quoting both in one draft."
         }
       ],
       "notList": [
@@ -51,38 +51,47 @@
         "An automatic surveillance log of browsing activity",
         "A read-it-later dumping ground with no sense of position",
         "A productivity dashboard that judges how much someone reads",
+        "A replacement for the browser or the original page",
         "An AI summarizer by default"
       ],
       "coreFlow": [
         {
           "step": "Activate",
-          "text": "Turn ReadTrail on for this exact page from the popup. The UI warns that page clicks will be reserved for reading lock."
+          "text": "Click the toolbar icon to open the side panel and turn ReadTrail on for this page. The panel warns first: while it is on, clicks pause and resume reading instead of opening links."
         },
         {
           "step": "Follow",
-          "text": "A light, translucent guide tracks the current readable line as you move."
+          "text": "A ruler, underline or dots follows the line you are reading, spanning only the text it is on."
         },
         {
           "step": "Pause",
-          "text": "A single click freezes the marker on a line, anchored to the text so it stays attached while scrolling. Click again to resume."
+          "text": "One click pauses the marker on a line, anchored to the text so it stays attached while scrolling. Click again to resume."
         },
         {
           "step": "Save for later",
-          "text": "An explicit action in the popup. One durable resume point per exact URL. Unsaved progress stays temporary."
+          "text": "An explicit choice in the side panel: one durable resume point per exact URL. If a tab closes with unsaved progress, the panel's Recently closed list offers to keep it (or a setting always or never saves)."
         },
         {
-          "step": "Close Chrome",
-          "text": "Temporary state expires with the session. Saved checkpoints survive a restart."
+          "step": "Keep a passage",
+          "text": "Select text and choose Save selection in the panel, or Save selection to ReadTrail from the right-click menu. The clip keeps its page, title and exact position, and the kept text flashes to confirm."
+        },
+        {
+          "step": "Write at the Desk",
+          "text": "A full tab with your sources on the left and a draft on the right. Quote a passage and it keeps its citation. Return goes back to that paragraph and says whether it found it exactly, found it by its wording because the page changed, or did not find it."
+        },
+        {
+          "step": "Take it out",
+          "text": "Copy the draft as Markdown or download a .md file: quotes become blockquotes with numbered references, and a Sources list gives each page once."
         },
         {
           "step": "Continue reading",
-          "text": "Reading Space lists saved pages. Continue reading opens the page, activates reading lock and restores the saved position."
+          "text": "Library, then Pages, in the side panel opens a saved page, turns ReadTrail on and restores the position. If the page changed since you saved, it says so."
         }
       ],
       "states": [
         {
           "name": "Following",
-          "text": "Light, translucent guide. Responsive but quiet, respects reduced motion."
+          "text": "Light, translucent guide. Responsive but quiet."
         },
         {
           "name": "Paused",
@@ -90,155 +99,212 @@
         },
         {
           "name": "Saved",
-          "text": "Warm-gold treatment for a deliberate saved checkpoint. Distinguishable without relying on colour alone."
+          "text": "Warm-gold band with dashed edges and a left edge flag for a deliberate save. Distinguishable without relying on colour alone."
         }
       ],
       "decisions": [
         {
           "decision": "Opt-in per page, dormant by default",
-          "tradeoff": "Less convenient than always-on, but a dormant page creates no canvas, pointer listener, anchor lookup or reading-state write. Privacy is enforced structurally, not by policy."
+          "tradeoff": "The content script is injected on every http(s) page but stays inert: until the reader turns it on it registers no event listeners, draws nothing, records no position and writes no state. On-demand injection was rejected because side-panel clicks do not grant activeTab and Continue reading opens tabs programmatically. An end-to-end test checks a fresh page is dormant."
+        },
+        {
+          "decision": "Page text is read only when the reader asks",
+          "tradeoff": "This replaced the 1.0 rule 'store only what restores a position' once passages and drafts arrived. Save selection reads the selection and stores it; Return reads the page to find a saved passage and keeps nothing it sees. A third read needs the owner's decision. Position anchors still contain no page text."
         },
         {
           "decision": "Active ReadTrail is an explicit reading lock",
           "tradeoff": "Primary clicks pause or resume instead of activating links and buttons. Scrolling and text selection stay available. Reading loses some page interactivity, but the pause gesture works even on linked text."
         },
         {
-          "decision": "One automatic position, many intentional bookmarks",
-          "tradeoff": "Keeps the mental model simple: the trail remembers where you stopped; you decide what is worth marking. Bookmarks are deferred to a later sprint."
+          "decision": "The side panel replaces the popup and Reading Space",
+          "tradeoff": "One entry point beside the page, at the cost of requiring Chrome 114. Playwright cannot drive the real docked panel, so that surface stays on a manual checklist."
+        },
+        {
+          "decision": "Reading state is kept per tab, validated by URL",
+          "tradeoff": "URL-keyed state produced cross-tab activation, orphaned reading locks and lost updates. Per-tab records fix that, at the cost of cleanup on tab close and a stricter sender-based trust rule."
+        },
+        {
+          "decision": "Never add the tabs permission",
+          "tradeoff": "It would add a browsing-history install warning. Without it the worker cannot see tab URLs, so it asks the content script, and Return can reuse only a tab the reader already saved a clip from."
+        },
+        {
+          "decision": "Relations are quotations, not inferences",
+          "tradeoff": "Two sources are related because the reader quoted both in one draft. Automatic connections by shared tag or domain were retired and their module deleted: less to discover, nothing the reader did not author."
+        },
+        {
+          "decision": "Return never claims more than it knows",
+          "tradeoff": "Resolving both anchors is not enough to report 'found exactly': the resolved text must equal the stored clip text. Otherwise it searches by wording and reports approximate, or missing. Slower to say yes, never wrong about it."
         },
         {
           "decision": "Permanent saving is a separate decision",
-          "tradeoff": "Temporary progress never silently becomes history. Saving is an explicit 'Save for later' action; the popup shows when temporary progress is newer than the saved point."
+          "tradeoff": "Temporary progress never silently becomes history. Saving is an explicit Save for later; a closing tab is offered through a quiet Recently closed list rather than a notification, so no extra permission is needed."
         },
         {
-          "decision": "Turning off hides, never deletes",
-          "tradeoff": "Readers can leave and come back without fear. Session anchors persist even when the UI is off."
-        },
-        {
-          "decision": "Store only what restores a position",
-          "tradeoff": "No passage text, page content, selections, analytics identifiers or browsing log. Title and URL become durable only because the reader explicitly saved that page."
+          "decision": "One automatic position, many intentional bookmarks",
+          "tradeoff": "Keeps the mental model simple: the trail remembers where you stopped; you decide what is worth marking. Bookmarks are still not built; double click is reserved for them."
         },
         {
           "decision": "Document planned work separately from shipped work",
-          "tradeoff": "The README's roadmap is explicitly 'planned work, not completed claims'. Slower-looking, but honest."
+          "tradeoff": "The README's roadmap is explicitly 'planned work, not completed claims', and decisions go in an append-only, numbered log (97 so far). Slower-looking, but honest."
         }
       ],
       "architecture": {
         "stack": [
-          "Chrome Extension (Manifest V3)",
-          "Plain JavaScript, HTML, CSS",
-          "Canvas overlay for the trail",
-          "chrome.storage.session for temporary state",
-          "chrome.storage.local for preferences and saved pages",
-          "Vitest + JSDOM (128 behavioral tests)"
+          "Chrome Extension (Manifest V3), Chrome 114 or newer",
+          "Plain JavaScript, HTML, CSS: no bundler, no runtime dependencies",
+          "Chrome Side Panel API for page controls and the library",
+          "Canvas overlay for the reading guide",
+          "CSS Custom Highlight API for saved passages, Return's flash and the line highlight (no DOM changes to the page)",
+          "chrome.storage.session for per-tab temporary state",
+          "chrome.storage.local for preferences, saved places, passages, notes, tags and drafts",
+          "Vitest + JSDOM (394 unit and behavioral tests in 15 files)",
+          "Playwright (11 end-to-end scenarios against the unpacked extension in Chromium)"
         ],
         "permissions": [
           "storage",
-          "activeTab"
+          "activeTab",
+          "sidePanel",
+          "contextMenus"
         ],
         "modules": [
           {
             "name": "background/service-worker.js",
-            "role": "Owns extension state and validates every runtime message and stored record at the trust boundary. Handles persist, list, remove, clear and continue for saved resume points."
+            "role": "The single trust boundary. Validates every message and stored record, owns every durable write, keeps per-tab state, the Recently closed list and Continue reading."
+          },
+          {
+            "name": "background/library.js",
+            "role": "Knowledge-layer handlers (passages, notes, page tags, drafts, export and import) and the Save selection to ReadTrail context menu, which confirms a save on the page or marks that tab's icon when it fails."
+          },
+          {
+            "name": "shared/",
+            "role": "Constants, error codes, validators and the page-controls state machine, loaded by every surface."
           },
           {
             "name": "content/position.js",
-            "role": "Position detection: finds the readable line and builds a DOM anchor (path, index, offset) plus viewport offset, scrollY and scroll ratio."
+            "role": "Finds the readable line and builds an anchor: a node path and offset, a nearby landmark id and a structural check, plus scroll offsets. No page text."
           },
           {
             "name": "content/renderer.js",
-            "role": "Canvas rendering of following, paused and saved trail states with configurable style, colour, size, opacity and highlighting."
+            "role": "Canvas rendering of following, paused and saved states in ruler, underline or dots style."
           },
           {
             "name": "content/content.js",
-            "role": "Page lifecycle and interaction: activation, reading lock, click and double-click handling, restoration."
+            "role": "Page lifecycle: activation, reading lock, click handling, restoration and the line highlight."
           },
           {
-            "name": "popup/",
-            "role": "Current-page controls: activate, Save for later, Update saved position, open Reading Space."
+            "name": "content/passage.js",
+            "role": "Captures the selection only on request, draws saved passages with CSS highlights, and resolves or searches for a passage when the reader presses Return."
+          },
+          {
+            "name": "sidepanel/",
+            "role": "The side panel: this-page controls, Recently closed, Library (Pages and Tags), search, and import, export and clear."
+          },
+          {
+            "name": "sidepanel/desk.html",
+            "role": "The Desk, its own full-tab document: sources beside drafts, quotes, Return, and Markdown export."
           },
           {
             "name": "options/",
-            "role": "Global appearance preferences."
-          },
-          {
-            "name": "reading-space/",
-            "role": "Extension-owned page listing saved pages with Continue reading, Remove and Clear all."
+            "role": "Appearance, closing-tab behaviour and excluded sites, written only through the worker."
           }
         ],
-        "dataModel": "readtrail.saved.v1:<exactUrl> = { version, title, position: { anchor, viewportOffset, scrollY, scrollRatio, savedAt }, savedAt }",
+        "dataModel": "Session (cleared with the browser): readtrail.tab.v1:<tabId> = { url, title, active, mode, position, incognito, origin, restoreQuality? }; readtrail.recent.v1 = { items: [{ tabId, url, title, position, closedAt }] } (max 10, 30 minutes); readtrail.seen.v1:<tabId> = { url } (written when a clip is saved from that tab). Local (this device only): settings; readtrail.saved.v1:<exactUrl> = { title, position, savedAt }; readtrail.passage.v1:<uuid> = { url, title, text (up to 4,000 characters), start, end, note, tags }; readtrail.note.v1:<uuid> = { url, title, text, tags }; readtrail.pagemeta.v1:<url> = { tags }; readtrail.draft.v1:<uuid> = { title, tags, blocks: [ { type: text, text } | { type: quote, passageId, text, url, title } ] }. Version, id and timestamp fields omitted here; storage.sync is never used.",
         "keyIdeas": [
-          "Temporary state and durable state live in different storage areas, behind the same validated message boundary.",
-          "Saving snapshots the active content script's in-memory position, never the URL-keyed shared session record, because two tabs can share the same URL.",
-          "Save messages must be tab-bound and their sender URL must match the saved URL; incognito, oversized and malformed input is rejected.",
-          "Anchor validation caps depth, index and offset so malformed local data fails safely."
+          "Tab identity comes from the sender: a content script's tab is sender.tab.id and any tabId it sends is ignored; only an extension page may name a tabId; a tab record counts only when its URL matches.",
+          "A durable record about a page must be attributable to a tab, so incognito is refused at the worker, and the panel never offers a save it would refuse.",
+          "Durable writes are bounded: 1,500 passages and notes, drafts capped at 100, and any new write refused past 9 MB. Removals, clearing and settings are never refused.",
+          "Import in replace mode writes the new records before removing the old ones, and cross-checks every quote against its passage so a file cannot fabricate a source.",
+          "The content script is declared on all http(s) sites but stays inert until activated; that dormancy is the main permission justification, and a test proves it."
         ]
       },
-      "whereAIFits": "Nowhere yet, deliberately. The product vision lists an AI summarizer as something ReadTrail is not by default, and the active sprint names knowledge graphs, recommendations and summaries as non-goals. The directional 'knowledge' layer (helping readers see what a page contributed to what they already know) is undecided in interaction model and data model, and is only allowed to arrive once reliable reading memory exists.",
-      "process": "Built with a small, review-led agent workflow: Priyanshu owns product vision and resolves product questions; a lead engineering agent converts outcomes into sprint scope, delegates bounded tasks and reviews every diff; a bounded worker agent implements one task at a time and cannot commit, change scope or edit the vision. Sprint documents carry goals, non-goals, acceptance criteria and a manual Chrome verification record.",
+      "whereAIFits": "Not in the product yet, by choice. 1.0 and 2.0 make no network requests at all, so the first store review carries no third-party data disclosure. Planned for 1.1: optional AI actions (summaries, tag and connection suggestions) using the reader's own Anthropic key, off unless a key is added, acting on a draft and never on a live page. It stays owner-gated and has not started.",
+      "process": "Built with a review-led agent workflow. Priyanshu owns the product vision, resolves product questions and approves every push and tag. Claude Code is the lead (sprint scope, implementation, tests, and the only committer); Codex independently reviews each phase diff and drives browser QA; an OpenCode worker takes one bounded task in named files and cannot commit. Ten sprint documents carry scope and acceptance criteria. Sprint 010 ran as three parallel sessions on separate branches, each reviewed and merged by the lead, who fixed two defects the sessions reported.",
       "shipped": [
-        "Visual reading guide following the current line",
-        "Anchored paused marker that stays attached while scrolling",
-        "Configurable trail style, colour, size, opacity and highlighting",
-        "Explicit per-page activation with reading-lock warning",
-        "Explicit Save for later, one durable resume point per exact URL",
-        "Private Reading Space with Continue reading, Remove and Clear all",
-        "Session restoration to the exact position on unchanged pages",
-        "Local-only settings and data: no account, analytics or page-text collection",
-        "128 automated behavioral tests"
+        "Reading guide (ruler, underline or dots) following the current line, spanning only the text it is on",
+        "Reading lock: one click pauses at a line, anchored to the text while scrolling; another click resumes",
+        "Appearance settings (style, colour, size, opacity, line highlight), closing-tab behaviour and excluded sites",
+        "Side panel, replacing the popup and Reading Space: this-page controls, Recently closed, and Library with Pages and Tags",
+        "Explicit Save for later, one durable resume point per exact URL; Continue reading restores it and says when the page changed",
+        "Per-tab reading state: two tabs on the same page never share activation, position or reading lock",
+        "More resilient restoration: landmark anchors, structural checks and a proportional fallback",
+        "Recently closed: an offer to keep a tab that closed with unsaved progress (ask, always or never)",
+        "Passages (Save selection in the panel or the right-click menu), notes, page tags, local search grouped by page, JSON export and import",
+        "The Desk: drafts beside your sources, quotes that keep their citation, and Return to the exact paragraph with an honest verdict",
+        "Markdown out: Copy as Markdown, Download .md and Copy with source, with numbered references and a Sources list",
+        "The Desk as one document: Enter, Backspace, Up and Down move across blocks, quotes are embeds the caret steps over, and blocks drag by a handle",
+        "A right-click save that confirms itself: the kept text flashes, and a failure shows '!' on that tab's icon with the reason",
+        "Two scoped clears, Clear saved places and Clear page content, each confirmed first; neither touches drafts or settings",
+        "Incognito: the guide works, nothing durable is stored and no save is offered",
+        "No account, sync, analytics or network requests",
+        "394 unit and behavioral tests (Vitest, 15 files) and 11 Playwright end-to-end scenarios"
       ],
       "roadmap": [
-        "More resilient restoration when a page's structure changes significantly",
-        "Optional save prompt when closing a tab with unsaved progress",
+        "Submit 2.0.0 to the Chrome Web Store (1.0.0 was completed but never submitted)",
+        "Text-only PDF clips through the right-click menu (Sprint 011), after checking Chrome's PDF viewer in a real browser; Return on a PDF quote will say plainly it cannot locate the passage",
+        "A fifth design critique of the Desk: if flexibility still scores 1, the editor is redesigned again before anything else",
+        "A keyboard shortcut for Save selection, and tag autocomplete",
+        "First-run and empty states that show one next action",
+        "Manual QA in a real Chrome for touch, IME, a screen reader and narrow-column articles, which no automated run covers",
         "Multiple intentional bookmarks per page",
-        "Reflection: preserving selected passages, reactions or questions when explicitly chosen",
-        "Knowledge connections built on top of reliable reading memory (directional, undecided)"
+        "1.1: optional AI actions with the reader's own Anthropic key, off unless a key is added"
       ],
       "openQuestions": [
+        "Nobody outside the project has used ReadTrail on a real page yet. What will the first two or three students or writers stumble on?",
         "What is the simplest activation gesture that feels native to the browser?",
         "How precise must restoration be when a page changes between visits?",
         "When does an unfinished item become completed?",
-        "What does 'contributed to my knowledge' mean from the reader's point of view?"
+        "What does 'contributed to my knowledge' mean from the reader's point of view?",
+        "Which knowledge features genuinely improve reading rather than create collection overhead?"
       ],
       "whatItShows": [
-        "Product thinking: decisions, non-goals and open questions are written down and separated",
-        "UX judgment: three visually distinct states, reduced-motion and keyboard support",
-        "System design: trust boundaries, storage separation, fail-safe validation",
-        "Curiosity: a real problem from his own reading habit",
-        "Thinking beyond implementation: privacy as architecture, not a checkbox"
+        "Product thinking: decisions, non-goals and open questions are written down and separated, and 97 numbered decisions record why things changed",
+        "Honesty as a feature: Return reports exact, approximate or missing, and the docs record fixes that passed their tests and were still wrong",
+        "UX judgment: three guide states told apart without colour alone, reduced motion in the panel and on Return's scroll, and a keyboard path beside the drag handle",
+        "System design: one trust boundary, per-tab state, provenance checks on import, bounded storage",
+        "Privacy as architecture: dormant by default, two explicit reads, no network, no tabs permission",
+        "Curiosity: a real problem from his own reading habit"
       ],
       "screenshots": [
         {
-          "src": "/readtrail/reading-guide-training.png",
-          "alt": "ReadTrail reading guide highlighting the current passage on an arXiv article",
-          "caption": "Following the current line on a long arXiv page"
+          "src": "/readtrail/store-01-reading-guide.png",
+          "alt": "ReadTrail's ruler guide highlighting a line of the Wikipedia article 'Close reading' in pale red",
+          "caption": "Following the line on a long article (store capture, 9 Oct 2026; the ruler now spans only the text)"
         },
         {
-          "src": "/readtrail/reading-guide-results.png",
-          "alt": "ReadTrail reading guide moved farther down the same arXiv article",
-          "caption": "Further down the same article"
+          "src": "/readtrail/store-02-paused-and-saved.png",
+          "alt": "The same line paused after Save for later, shown as a warm-gold band with dashed edges and a small flag at the left edge",
+          "caption": "Paused and saved: the warm-gold marker (same 9 Oct capture)"
         },
         {
-          "src": "/readtrail/appearance-settings.png",
-          "alt": "ReadTrail appearance settings",
-          "caption": "Trail style, colour, size, opacity and highlighting controls"
+          "src": "/readtrail/store-03-desk-return.png",
+          "alt": "The ReadTrail Desk with a Sources pane on the left and a draft on the right; a quote from the Close reading article shows its source link and a Return result reading 'Found exactly, in the tab you already had open.'",
+          "caption": "The Desk: a quote with its citation, and Return's verdict"
         },
         {
-          "src": "/readtrail/reading-space.png",
-          "alt": "ReadTrail Reading Space showing a saved article with Continue reading and Remove actions",
-          "caption": "Reading Space: saved pages, ready to continue"
+          "src": "/readtrail/store-04-sources.png",
+          "alt": "The Desk's Sources pane with the Close reading page expanded: Continue reading, Remove saved place, and its saved passages with Quote and Remove",
+          "caption": "Every passage keeps its source"
+        },
+        {
+          "src": "/readtrail/store-05-options.png",
+          "alt": "ReadTrail options page with trail style (Ruler, Dots, Underline), colour, size and opacity, a highlight current line toggle, and the Closing tabs choice: ask in the side panel, always save, or never save",
+          "caption": "Appearance and closing-tab settings"
         }
       ],
       "links": {
-        "github": "https://github.com/pyogi37/readtrail"
+        "github": "https://github.com/pyogi37/ReadTrail",
+        "docs": "https://pyogi37.github.io/ReadTrail/"
       },
       "technologies": [
         "JavaScript",
         "Chrome Extension",
         "Manifest V3",
+        "Chrome Side Panel API",
         "Canvas API",
+        "CSS Custom Highlight API",
         "chrome.storage",
-        "Vitest"
+        "Vitest",
+        "Playwright"
       ],
       "dimensions": [
         "builder",
