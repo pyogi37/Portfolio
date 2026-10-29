@@ -20,20 +20,20 @@ An interactive portfolio for Priyanshu Yogi that replaces the static resume with
 
 ## Positioning
 
-"Don't read my resume. Talk to it." A voice-capable agent grounded strictly in Priyanshu's structured experience, which can navigate the site, light up evidence, and analyse a pasted job description while reporting gaps honestly. The differentiating claim is a non-linear path: Economics and Political Science at Delhi University, self-taught software engineering, enterprise computer-vision solutioning across 50+ opportunities in 7 countries, and now agents, RAG and voice. Internal storytelling principle (not a slogan to plaster): "I like understanding systems, then building them." Motif: human systems → software systems → intelligent systems.
+"Don't read my resume. Talk to it." A voice-capable agent grounded strictly in Priyanshu's structured experience, which can navigate the site, light up evidence, and analyse a pasted job description while reporting gaps honestly. The differentiating claim is a non-linear path: Economics and Political Science at Delhi University, self-taught software engineering, enterprise computer-vision solutioning across 50+ opportunities in 7 countries, and now LLM agents built in public with their evals published, misses included. Internal storytelling principle (not a slogan to plaster): "I like understanding systems, then building them." Motif: human systems → software systems → intelligent systems.
 
 ## Operating Context
 
-Visitors open it on a laptop from an email or LinkedIn, often alongside the PDF resume. Some open on a phone from a chat message. The AI runs on free-tier models (Gemini by default, OpenAI-compatible endpoint), so latency is a few seconds and rate limits happen; the site must be complete and credible with the AI panel closed. Voice uses the browser's Web Speech API.
+Visitors open it on a laptop from an email or LinkedIn, often alongside the PDF resume. Some open on a phone from a chat message. The AI runs on free-tier models across up to four OpenAI-compatible providers with failover (the last one on a lean prompt), so latency is a few seconds and rate limits happen; the site must be complete and credible with the AI panel closed. Voice uses the browser's Web Speech API.
 
 ## Capabilities and Constraints
 
-- Sections: hero, "The 90-second version" (turning points), "How I got here" (humanities vs self-taught education), "More than one track" (six overlapping dimensions with cited evidence), About in six moves, experience timeline (Edviron, Project Dark Horse, HawkVision x2), three-tier project hierarchy (featured / technical / experiments), ReadTrail case study page, Priyanshu OS case study page, Priyanshu Graph (force-directed, draggable), rabbit-hole constellation, `/off-duty` panel, "Why am I relevant to your role?" job-description analyser, contact.
+- Sections: hero, "The 90-second version" (turning points), "How I got here" (humanities vs self-taught education), "More than one track" (six overlapping dimensions with cited evidence), About in six moves, experience timeline (Edviron, Project Dark Horse, HawkVision x2), three-tier project hierarchy (featured / technical / experiments), ReadTrail, SignalRoom and Priyanshu OS case study pages, Priyanshu Graph (force-directed, draggable), rabbit-hole constellation, `/off-duty` panel, "Why am I relevant to your role?" job-description analyser, contact.
 - Priyanshu AI: chat + voice, grounded in `/data/*.json`, returns validated UI actions (navigate, highlight dimensions, open project). No conversation persistence.
 - Stack: Next.js 15 App Router, TypeScript, Tailwind v4, d3-force. No CMS. Content edits happen in JSON.
-- Honesty constraints: projects marked `exploring` or `planned` are never presented as shipped. ReadTrail is a working MVP in plain JavaScript (Manifest V3). No invented metrics, employers, or personal facts. No phone number on the public site.
+- Honesty constraints: projects marked `exploring` or `planned` are never presented as shipped. ReadTrail is a working MVP in plain JavaScript (Manifest V3); 2.0 is on main but unreleased and not on the Chrome Web Store. SignalRoom's 7 of 8 contradictions is a replay of run 1 through a code check written after seeing its misses, and is never quoted without that caveat. No invented metrics, employers, or personal facts. No phone number on the public site. Former-employer pricing, deal sizes and open-deal scope stay off the site, as they are off the v2 resume. Atlas appears as architecture only: no link, screenshots or personal content.
 - Terminology: "tracks" or "dimensions" for the six overlapping areas; "Priyanshu AI" for the agent; "ReadTrail" (capital R, capital T, as the repo, manifest and store listing spell it) for the product.
-- Undecided: final domain; whether Framer-generated visuals will be added later (owner said "Framer for visuals only, later").
+- Domain: priyanshu.fyi. Undecided: whether Framer-generated visuals will be added later (owner said "Framer for visuals only, later").
 
 ## Brand Commitments
 
@@ -44,8 +44,8 @@ Visitors open it on a laptop from an email or LinkedIn, often alongside the PDF 
 
 ## Evidence on Hand
 
-- Resume PDF (source of all experience facts, metrics and dates).
-- ReadTrail repository: `docs/PRODUCT-VISION.md`, README, sprint docs, four real screenshots in `public/readtrail/`.
+- Resume v2 (FDE / AI Solutions, 9 Oct 2026), the source of experience facts, metrics and dates, with one owner correction (29 Oct 2026): promoted from Solutions Architect to Head of Global Solutions and Head of India Sales in April 2026, not after a July reorg.
+- ReadTrail repository: `docs/PRODUCT-VISION.md`, README, sprint docs, five store screenshots in `public/readtrail/`.
 - GitHub profile bio and philosophy line: "The best technical solution is not merely the most sophisticated one. It is the one that survives contact with users, infrastructure, commercial constraints, and deployment reality."
 - Absent, must not be fabricated: testimonials, logos of customers (HawkVision customers are not named), photos of Priyanshu, live demo videos, code for the "exploring/planned" experiments.
 
