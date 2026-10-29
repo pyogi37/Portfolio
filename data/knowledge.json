@@ -265,6 +265,29 @@
       "id": "provider-failover",
       "label": "Provider failover",
       "type": "domain"
+    },
+    {
+      "id": "mood-curator",
+      "label": "Spotify Mood Curator",
+      "type": "project",
+      "ref": "project:mood-curator"
+    },
+    {
+      "id": "cochlea",
+      "label": "Cochlea",
+      "type": "project",
+      "ref": "project:cochlea"
+    },
+    {
+      "id": "atlas",
+      "label": "Atlas",
+      "type": "project",
+      "ref": "project:atlas"
+    },
+    {
+      "id": "mcp",
+      "label": "MCP",
+      "type": "technology"
     }
   ],
   "links": [
@@ -523,6 +546,50 @@
     {
       "source": "priyanshu-os",
       "target": "evaluation"
+    },
+    {
+      "source": "mood-curator",
+      "target": "python"
+    },
+    {
+      "source": "mood-curator",
+      "target": "tool-calling"
+    },
+    {
+      "source": "mood-curator",
+      "target": "music"
+    },
+    {
+      "source": "cochlea",
+      "target": "voice"
+    },
+    {
+      "source": "cochlea",
+      "target": "evaluation"
+    },
+    {
+      "source": "cochlea",
+      "target": "python"
+    },
+    {
+      "source": "cochlea",
+      "target": "mcp"
+    },
+    {
+      "source": "mcp",
+      "target": "tool-calling"
+    },
+    {
+      "source": "atlas",
+      "target": "privacy"
+    },
+    {
+      "source": "atlas",
+      "target": "provider-failover"
+    },
+    {
+      "source": "atlas",
+      "target": "typescript"
     }
   ]
 }

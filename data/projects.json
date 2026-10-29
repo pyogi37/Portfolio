@@ -713,6 +713,65 @@
       ]
     },
     {
+      "id": "project:mood-curator",
+      "tier": "experiments",
+      "name": "Spotify Mood Curator",
+      "status": "working-mvp",
+      "statusLabel": "Working MVP, open source",
+      "tagline": "A Claude skill and Python CLI that builds mood playlists from real Spotify listening: Claude proposes the songs, the listener's own data labels each one played, saved, known or new, and a verify step checks what was saved against the plan.",
+      "technologies": [
+        "Python",
+        "Spotify Web API",
+        "Claude skills",
+        "pytest"
+      ],
+      "links": {
+        "github": "https://github.com/pyogi37/Spotify-mood-curator"
+      },
+      "dimensions": [
+        "builder",
+        "agents"
+      ]
+    },
+    {
+      "id": "project:cochlea",
+      "tier": "experiments",
+      "name": "Cochlea",
+      "status": "in-progress",
+      "statusLabel": "In progress, repo private for now",
+      "tagline": "A local MCP server that measures a sung take (pitch in cents, drift, vibrato, phrases, key, tempo) so an LLM coaches from cited, time-stamped numbers. Next, not built yet: a coach for beginners who like to sing but know no music theory.",
+      "technologies": [
+        "Python",
+        "MCP",
+        "Demucs",
+        "SwiftF0",
+        "librosa"
+      ],
+      "dimensions": [
+        "agents",
+        "builder",
+        "product"
+      ]
+    },
+    {
+      "id": "project:atlas",
+      "tier": "experiments",
+      "name": "Atlas",
+      "status": "in-progress",
+      "statusLabel": "In progress, architecture only",
+      "tagline": "A personal capture-and-triage pipeline: Telegram into a Cloudflare Worker running a D1 job queue with leases and retries, daily per-provider model budgets reserved atomically, a privacy gate that keeps personal content on no-training providers, and approve-by-tap before anything reaches Notion.",
+      "technologies": [
+        "Cloudflare Workers",
+        "D1",
+        "Telegram Bot API",
+        "Notion API"
+      ],
+      "dimensions": [
+        "builder",
+        "agents"
+      ]
+    },
+    {
       "id": "project:agentic-rag",
       "tier": "experiments",
       "name": "Agentic RAG experiments",
@@ -723,22 +782,6 @@
         "LangGraph",
         "Vector DB",
         "Tool use"
-      ],
-      "dimensions": [
-        "agents"
-      ]
-    },
-    {
-      "id": "project:voice-audio",
-      "tier": "experiments",
-      "name": "Voice and audio experiments",
-      "status": "exploring",
-      "statusLabel": "Exploring",
-      "tagline": "Transcription, synthesis, conversation and signal analysis. The voice layer of this portfolio is the first concrete piece.",
-      "technologies": [
-        "Speech AI",
-        "Web Speech API",
-        "Audio processing"
       ],
       "dimensions": [
         "agents"

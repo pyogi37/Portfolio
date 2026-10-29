@@ -35,7 +35,7 @@
     "SignalRoom, a grounded discovery-to-brief workflow with a published evaluation (working demo, synthetic data only)",
     "ReadTrail, a privacy-first Chrome reading companion (working MVP, built in public)",
     "This portfolio: a voice-capable AI agent grounded in structured profile data",
-    "Experiments around AI agents, tool use, RAG and voice interfaces"
+    "Experiments: Cochlea, a vocal-analysis MCP server heading toward a coach for beginner singers (in progress); Spotify Mood Curator (working MVP); Atlas, a personal capture pipeline (in progress)"
   ],
   "skills": {
     "solutioning": [
@@ -125,6 +125,10 @@
         {
           "text": "Kept the portfolio's agent answering when a provider withdrew the free model it ran on, by routing across four OpenAI-compatible providers with a circuit breaker and a prompt sized to each one's token budget.",
           "ref": "project:priyanshu-os"
+        },
+        {
+          "text": "Spotify Mood Curator: Claude proposes songs, the listener's own Spotify data labels them, and a verify step checks what was saved against the plan. Two live CLI runs saved 25 of 25 and 30 of 30 songs in planned order with no duplicates.",
+          "ref": "project:mood-curator"
         }
       ]
     },
@@ -160,6 +164,10 @@
         {
           "text": "SignalRoom: a LangGraph workflow where code verifies every model quote against a numbered transcript line, numbers are classified by provenance, and human approval is a real interrupt rather than a button.",
           "ref": "project:signalroom"
+        },
+        {
+          "text": "Cochlea: a local MCP server that measures a sung take so an LLM coaches from cited numbers. Its pitch tracker was picked on a benchmark (SwiftF0, 95.2% within 50 cents vs pYIN's 92.7% on vocadito), and a planted-defect eval finds 7 of 7.",
+          "ref": "project:cochlea"
         }
       ]
     },
