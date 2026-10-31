@@ -337,7 +337,7 @@
       "architecture": {
         "stack": [
           "Next.js 15 (App Router) and TypeScript, Tailwind v4, self-hosted OFL fonts",
-          "Four OpenAI-compatible providers tried in order (Cerebras, Gemini, OpenRouter, Groq), with a five-minute circuit breaker and a per-attempt timeout",
+          "Up to four OpenAI-compatible providers tried in order, now Gemini, OpenRouter and Groq (Cerebras led until its free tier ended in 2026), with a five-minute circuit breaker and a per-attempt timeout",
           "Per-provider prompt sizing: a provider with a smaller token allowance is sent a smaller knowledge base",
           "Structured JSON output for UI actions, validated against known section, dimension and project ids before anything runs",
           "In-memory rate limiting on both model routes, with the daily provider budget split between them",

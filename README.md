@@ -47,12 +47,12 @@ Three things happen in code rather than in the prompt, because a prompt is a req
 
 ## Table 2 · The provider chain
 
-Free tiers fail on their own schedule, and one of them withdrew the model this site ran on. So there are four, tried in order, and a provider that just failed is skipped for five minutes.[^2]
+Free tiers fail on their own schedule, and one of them withdrew the model this site ran on. So there are up to four slots, tried in order, and a provider that just failed is skipped for five minutes.[^2] Another one has since gone: Cerebras ended its free tier in 2026, so its slot is empty and the chain starts at Gemini. Slots allow gaps.
 
 | Slot | Provider | Knowledge base | Note |
 |---|---|---|---|
-| `LLM_*` | Cerebras | full | usually under a second, and the usual answer |
-| `LLM_*_2` | Gemini | full | independent of the rest |
+| `LLM_*` | *(empty)* | | was Cerebras, until its free tier ended; a 402 Payment Required is the symptom |
+| `LLM_*_2` | Gemini | full | the usual answer now |
 | `LLM_*_3` | OpenRouter | full | many models behind one key |
 | `LLM_*_4` | Groq | **lean** | 8k tokens a minute, so it gets a prompt built to fit |
 
