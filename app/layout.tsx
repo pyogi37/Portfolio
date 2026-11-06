@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import { data } from "@/lib/data";
 import { AgentProvider } from "@/components/agent/AgentProvider";
@@ -62,6 +63,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <OffDuty />
           </AgentProvider>
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );
